@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <title>SWFObject 2 dynamic publishing example page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <script type="text/javascript" src="swfobject.js"></script>
+       
+    </head>
+    <body>
+        <div name='mediaspace' id='mediaspace'></div>
+            <script type="text/javascript">
+                var s1 = new SWFObject('hdplayer.swf','player','700','400','9',"#333333");
+                s1.addParam('autoplay', 'true');
+                s1.addParam('allowfullscreen', 'true'); 
+                s1.addParam('allowscriptaccess', 'always');
+                s1.addParam('wmode', 'transparent');
+                //s1.addVariable('preroll_ads', 'true');
+               // s1.addVariable('prerollad', 'http://www.fmodia.com.br/hdflvplayer/gamafilho.flv');
+               // s1.addVariable('pre-rolltargeturl', 'http://www.fmodia.com.br/');
+                //s1.addVariable('mid-roll_ads', 'true');
+               // s1.addVariable('file', 'http://www.fmodia.com.br/hdflvplayer/natiruts-supernova.flv');
+               // s1.addVariable('streamer', 'http://www.fmodia.com.br/hdflvplayer/natiruts-supernova.flv');
+                s1.write('mediaspace');
+            </script>
+
+    </body>
+</html>
+

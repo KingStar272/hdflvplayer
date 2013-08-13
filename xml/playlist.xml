@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<playlist autoplay="true" random="false">
+  <mainvideo url="http://www.youtube.com/watch?v=OfD4z3Qt3ic"
+             hdpath=""
+             id="100"
+             thu_image="images/twilight.jpg"
+             Preview="images/twilight.jpg"
+             preroll="false"
+             midroll="false"
+             postroll="false"
+             preroll_id ="1"
+	     postroll_id =""
+             allow_download="true"
+             copylink=""
+             streamer="lighttpd"
+             isLive="false" > 
+             <title><![CDATA[Welcome]]></title> 
+             <!--Optional--> 
+             <tagline targeturl=""></tagline>        
+  </mainvideo>
+  <mainvideo url="http://www.youtube.com/watch?v=D8AvEstX_3E"
+             hdpath=""
+             id="100"
+             thu_image="images/twilight.jpg"
+             Preview="images/twilight.jpg"
+             preroll="false"
+             midroll="false"
+             postroll="false"
+             preroll_id ="1"
+	     postroll_id =""
+             allow_download="true"
+             copylink=""
+             streamer=""
+             isLive="false" >
+             <title><![CDATA[Welcome]]></title>
+             <!--Optional-->
+             <tagline targeturl=""></tagline>
+  </mainvideo>
+  <mainvideo url="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+             hdpath=""
+             id="100"
+             thu_image="images/twilight.jpg"
+             Preview="images/twilight.jpg"
+             preroll="false"
+             midroll="false"
+             postroll="false"
+             preroll_id ="1"
+	     postroll_id =""
+             allow_download="true"
+             copylink=""
+             streamer=""
+             isLive="false" >
+             <title><![CDATA[Welcome]]></title>
+             <!--Optional-->
+             <tagline targeturl=""></tagline>
+  </mainvideo>
+</playlist>
