@@ -11,7 +11,7 @@
 $to = $_POST['to'];
 $from = $_POST['from'];
 $url = $_POST['url'];
-$subject = $_POST['Note'];
+$subject = $_POST['title'];
 
 
 

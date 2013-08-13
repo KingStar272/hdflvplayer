@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ads random="false">
-<ad id="1" url="http://www.youtube.com/watch?v=AqMNWmh_No4"  targeturl="http://www.youtube.com/watch?v=AqMNWmh_No4" clickurl="http://www.platoon.in" impressionurl="http://www.platoon.in">
+<ad id="0" url="http://www.youtube.com/watch?v=GURvHJNmGrc"  targeturl="http://www.youtube.com/watch?v=AqMNWmh_No4" clickurl="http://www.platoon.in" impressionurl="http://www.platoon.in">
 <![CDATA[<span class='heading'>Tagline</span> -  <b>Your short description  goes here for ad.</b> ]]>
 </ad>
+<ad id="2" url="http://iseofirm.net/ptest/standalone/env6/videos/preroll.flv"  targeturl="
+" impressionurl="http://www.platoon.in">
+<![CDATA[<span class='heading'>Tagline</span> -  <b>Vodafone</b> ]]>
+</ad>
+
 </ads>

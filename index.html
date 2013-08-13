@@ -46,42 +46,49 @@
     </div>
  <div id="mediaspace">
      <script type="text/javascript">
-                var s1 = new SWFObject('hdplayer.swf','player','770','430','9',"#333333");
+                var s1 = new SWFObject('hdplayer.swf','player','640','360','9',"#333333");
                 s1.addParam('allowfullscreen','true');
                 s1.addParam('allowscriptaccess','always');
                 s1.addParam('WMode','transparent');
-				s1.addVariable('Flashvars','baseref=www.google.com');
-
+		s1.addVariable('Flashvars','baseref=');
+               // s1.addVariable('file','http://www.youtube.com/watch?v=4EEn9qILaeU');
+               // s1.addVariable('Preview','http://img.youtube.com/vi/4EEn9qILaeU/maxresdefault.jpg');
+               // s1.addVariable('title','TANGLED - Trailer');
+               // s1.addVariable('videotag','Become a fan on Facebook and order here: http://on.fb.me/hKyeqw');
                 s1.write('mediaspace');
             </script>
- </div>
- 
-  
+      </div>
+<div id="htmlplayer">
+<video id="video" src="http://jqueryvideolightbox.com/data/images/happyfit2.mp4" poster="http://4.bp.blogspot.com/-rq7D7cIE1qM/TjASBKV5pAI/AAAAAAAAK4A/oudhO0AXCRc/s640/Happy-Feet-Two-wallpaper-4.jpg" width="600" height="330" autobuffer controls onerror="failed(event)">
+            Html5 Not support This video Format.
+            </video>
+</div>
+<script>
+var txt = navigator.platform ;
 
-         <script>
-           var txt =  navigator.platform ;
+if(txt =='iPod'|| txt =='iPad'|| txt =='iPhone' || txt =='Linux armv7l' || txt =='Linux armv7I')
+{
 
-            if(txt =='iPod'|| txt =='iPad'|| txt =='iPhone' || txt =='Linux armv7I')
-            {
-
-                document.getElementById("htmlplayer").style.display = "block";
-                document.getElementById("mediaspace").style.display = "none";
+document.getElementById("htmlplayer").style.display = "block";
+document.getElementById("mediaspace").style.display = "none";
 
 
-            }
-           else
-            {
-                 document.getElementById("htmlplayer").style.display = "none";
+}
+else
+{
+document.getElementById("htmlplayer").style.display = "none";
 
-            }
-   function failed(e)
-                   {
-	      if(txt =='iPod'|| txt =='iPad'|| txt =='iPhone' || txt =='Linux armv7I')
-                       {
-                           alert('Player doesnot support this video.');
-                       }
-                  }
-        </script>
+}
+function failed(e)
+{
+if(txt =='iPod'|| txt =='iPad'|| txt =='iPhone' || txt =='Linux armv7I')
+{
+alert('Player doesnot support this video.');
+}
+}
+</script>
+
+
 
 	<h3>Support, Documentation, Blog and Forum</h3>
 

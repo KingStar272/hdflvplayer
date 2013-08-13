@@ -1,23 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<playlist autoplay="true" random="false">
-
-<mainvideo url="http://www.youtube.com/watch?v=z-m6Ua9Iqkg"
-                 hdpath="http://www.youtube.com/watch?v=z-m6Ua9Iqkg"
+<playlist autoplay="false" random="false">
+    <mainvideo url="http://www.youtube.com/watch?v=1cRuA64m_lY"
+                 hdpath=""
                  id="100"
                  thu_image=""
                  Preview=""
                  preroll="true"
                  midroll="false"
                  postroll="false"
-                 preroll_id ="1"
+                 preroll_id ="0"
                  postroll_id =""
                  allow_download="true"
                  copylink=""
                  streamer=""
                  isLive="true" >
-                 <title><![CDATA[Old spice 2012]]></title>
+                 <title><![CDATA[UP HD 1080p Trailer]]></title>
                  <!--Optional-->
-                 <tagline targeturl="http://hdflvplayer.net"><![CDATA[<span class='heading'>Tagline</span> - <b>Your short description  goes here for Videos.</b> ]]></tagline>
+                 <tagline targeturl="http://hdflvplayer.net"><![CDATA[<span class='heading'></span> - <b>Tekken 6 - Official Trailer [HD]</b> ]]></tagline>
       </mainvideo>
+
+       <mainvideo url="http://www.youtube.com/watch?v=ey0aA3YY0Mo"
+                 hdpath=""
+                 id="100"
+                 thu_image=""
+                 Preview=""
+                 preroll="true"
+                 midroll="false"
+                 postroll="false"
+                 preroll_id ="0"
+                 postroll_id =""
+                 allow_download="true"
+                 copylink=""
+                 streamer=""
+                 isLive="true" >
+                 <title><![CDATA[The Twilight Saga Breaking Dawn Trailers]]></title>
+                 <!--Optional-->
+                 <tagline targeturl="http://hdflvplayer.net"><![CDATA[<span class='heading'></span> - <b>Tekken 6 - Official Trailer [HD]</b> ]]></tagline>
+    </mainvideo>
+    <mainvideo url="http://www.youtube.com/watch?v=ToALvi6Pr-c"
+                 hdpath=""
+                 id="100"
+                 thu_image=""
+                 Preview=""
+                 preroll="true"
+                 midroll="false"
+                 postroll="false"
+                 preroll_id ="0"
+                 postroll_id =""
+                 allow_download="true"
+                 copylink=""
+                 streamer=""
+                 isLive="true" >
+                 <title><![CDATA[Fly To Your Heart]]></title>
+                 <!--Optional-->
+                 <tagline targeturl="http://hdflvplayer.net"><![CDATA[<span class='heading'></span> - <b>Tekken 6 - Official Trailer [HD]</b> ]]></tagline>
+    </mainvideo>
+    
+
 </playlist>
 

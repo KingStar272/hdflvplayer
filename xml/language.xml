@@ -9,7 +9,9 @@
 
 <hdisoff><![CDATA[Turn Off HD]]></hdisoff>
 
-<zoom><![CDATA[Zoom]]></zoom>
+<ZoomIn><![CDATA[ZoomIn]]></ZoomIn>
+
+<ZoomOut><![CDATA[ZoomOut]]></ZoomOut>
 
 <share><![CDATA[Share]]></share>
 
@@ -33,7 +35,7 @@
 
 <copyembed><![CDATA[Copy Embedcode]]></copyembed>
 
-<facebook><![CDATA[Facebook]]></facebook>
+<facebook><![CDATA[Share on Facebook]]></facebook>
 
 <reddit><![CDATA[reddit]]></reddit>
 
@@ -55,9 +57,13 @@
 
 <fark><![CDATA[fark]]></fark>
 
-<tweet><![CDATA[tweet]]></tweet>
+<tweet><![CDATA[Share on Twitter]]></tweet>
 
 <furl><![CDATA[furl]]></furl>
+
+<Google+><![CDATA[Share on Google+]]></Google+>
+
+<tumblr><![CDATA[Share on tumblr]]></tumblr>
 
 <adindicator><![CDATA[Your selection will follow this sponsors message in - seconds]]></adindicator>
 <!-- Duration in seconds will be displayed in the place of Hypen in the tag.Do not remove the Hypen.-->
