@@ -1,28 +1,96 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-    <head>
-        <title>SWFObject 2 dynamic publishing example page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <script type="text/javascript" src="swfobject.js"></script>
-       
-    </head>
-    <body>
-        <div name='mediaspace' id='mediaspace'></div>
-            <script type="text/javascript">
-                var s1 = new SWFObject('hdplayer.swf','player','700','400','9',"#333333");
-                s1.addParam('autoplay', 'true');
-                s1.addParam('allowfullscreen', 'true'); 
-                s1.addParam('allowscriptaccess', 'always');
-                s1.addParam('wmode', 'transparent');
-                //s1.addVariable('preroll_ads', 'true');
-               // s1.addVariable('prerollad', 'http://www.fmodia.com.br/hdflvplayer/gamafilho.flv');
-               // s1.addVariable('pre-rolltargeturl', 'http://www.fmodia.com.br/');
-                //s1.addVariable('mid-roll_ads', 'true');
-               // s1.addVariable('file', 'http://www.fmodia.com.br/hdflvplayer/natiruts-supernova.flv');
-               // s1.addVariable('streamer', 'http://www.fmodia.com.br/hdflvplayer/natiruts-supernova.flv');
+	<head>
+		<title>High Definition Video Player. Supports both HTML 5 & Flash player</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<script type="text/javascript" src="swfobject.js"></script>
+        <style type="text/css">
+		body { background-color: #fff; padding: 0 20px; color:#000; font: 13px/18px Arial, sans-serif; }
+		a { color: #360; }
+		h3 { padding-top: 20px; }
+		ol { margin:5px 0 15px 16px; padding:0; list-style-type:square; }
+	</style>
+	</head>
+	<body>
+	<h1>About the HD FLV Player</h1>
+	<p>Thank you for downloading the HD FLV Player, Get ready to experience the most exquisite high definition HTML5 and flash player that stuns you with its brilliant assortment of all the necessary advanced features in their best acuity. HD FLV Player is intuitively better than any other high definition video player and you are sure going to love this one which plays your videos in unbelievable HD and crystal sound clarity..! </p>
+
+	<h3>Quickstart</h3>
+	<p>The quickest way to get started is to unzip the file you downloaded and copy the contents into a folder called 'hdflvplayer' at the root of your website.  The end result should be:</p>
+	<ol>
+      <li>{webroot}/hdflvplayer/addons</li>
+	  <li>{webroot}/hdflvplayer/skin</li>
+      <li>{webroot}/hdflvplayer/xml</li>
+      <li>{webroot}/hdflvplayer/email.php</li>
+	  <li>{webroot}/hdflvplayer/hdplayer.swf</li>
+	  <li>{webroot}/hdflvplayer/logging.as</li>
+	  <li>{webroot}/hdflvplayer/readme.html</li>
+	  <li>{webroot}/hdflvplayer/swfobject.js</li>
+      <li>{webroot}/hdflvplayer/video.mp4</li>
+	  <li>{webroot}/hdflvplayer/videourl.php</li>
+      
+	</ol>
+    <p>Copy the following code onto your webpage.  That's it!  You should see a player on your site.</p>
+    <div id="samplecontent">
+    <ol start="1" class="dp-xml" style="list-style:none;font-weight:bold;">
+    <li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;</span>script type="text/javascript" src="swfobject.js"<span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">/script</span><span class="tag">&gt;</span></span></li>
+  <li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">div</span><span>&nbsp;</span><span class="attribute">id</span><span>=</span><span class="attribute-value">"mediaspace"</span><span class="tag">&gt;</span><span class="tag">&lt;</span><span class="tag-name">/div</span><span class="tag">&gt;</span></span></li>
+   <li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">script</span><span>&nbsp;</span><span class="attribute">type</span><span>=</span><span class="attribute-value">"text/javascript"</span><span class="tag">&gt;</span></span></li>
+    <li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag-name">var s1 =</span><span class="attribute">new SWFObject('hdplayer.swf','player','640','360','9');</span></span></li>
+   
+   <li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag-name">s1.</span><span class="attribute">addParam('allowfullscreen','true');</span></span></li>
+    <li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag-name">s1.</span><span class="attribute">addParam('allowscriptaccess','always');</span></span></li>
+     <li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag-name">s1.</span><span class="attribute">addParam('wmode','transparent');</span></span></li>
+        <li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag-name">s1.</span><span class="attribute">write('mediaspace');</span></span></li>
+         <li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;</span><span class="tag-name">/script</span><span class="tag">&gt;</span></span></li></ol>
+    </div>
+ <div id="mediaspace">
+     <script type="text/javascript">
+                var s1 = new SWFObject('hdplayer.swf','player','770','430','9',"#333333");
+                s1.addParam('allowfullscreen','true');
+                s1.addParam('allowscriptaccess','always');
+                s1.addParam('WMode','transparent');
+				s1.addVariable('Flashvars','baseref=www.google.com');
+
                 s1.write('mediaspace');
             </script>
+ </div>
+ 
+  
 
-    </body>
+         <script>
+           var txt =  navigator.platform ;
+
+            if(txt =='iPod'|| txt =='iPad'|| txt =='iPhone' || txt =='Linux armv7I')
+            {
+
+                document.getElementById("htmlplayer").style.display = "block";
+                document.getElementById("mediaspace").style.display = "none";
+
+
+            }
+           else
+            {
+                 document.getElementById("htmlplayer").style.display = "none";
+
+            }
+   function failed(e)
+                   {
+	      if(txt =='iPod'|| txt =='iPad'|| txt =='iPhone' || txt =='Linux armv7I')
+                       {
+                           alert('Player doesnot support this video.');
+                       }
+                  }
+        </script>
+
+	<h3>Support, Documentation, Blog and Forum</h3>
+
+	
+	
+	
+
+	
+
+       	</body>
+        
 </html>
-

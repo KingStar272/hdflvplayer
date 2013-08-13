@@ -5,9 +5,9 @@
 
 <pause><![CDATA[Pause]]></pause>
 
-<hdison><![CDATA[HD is On]]></hdison>
+<hdison><![CDATA[Turn On HD]]></hdison>
 
-<hdisoff><![CDATA[HD is Off]]></hdisoff>
+<hdisoff><![CDATA[Turn Off HD]]></hdisoff>
 
 <zoom><![CDATA[Zoom]]></zoom>
 
@@ -62,10 +62,10 @@
 <adindicator><![CDATA[Your selection will follow this sponsors message in - seconds]]></adindicator>
 <!-- Duration in seconds will be displayed in the place of Hypen in the tag.Do not remove the Hypen.-->
 
-<Skip><![CDATA[Skip this Video]]></Skip>
+<skip><![CDATA[Skip this Video]]></skip>
 
-<Download><![CDATA[Download this Video]]></Download>
+<download><![CDATA[Download this Video]]></download>
 
-<Download><![CDATA[Download this Video]]></Download>
+<volume><![CDATA[volume]]></volume>
 
 </language>

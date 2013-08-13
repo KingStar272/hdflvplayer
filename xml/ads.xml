@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ads random="false">
-
-<ad id="1" url="ads.flv"  targeturl="http://www.platoon.in" clickurl="" impressionurl="">
+<ad id="1" url="http://www.youtube.com/watch?v=AqMNWmh_No4"  targeturl="http://www.youtube.com/watch?v=AqMNWmh_No4" clickurl="http://www.platoon.in" impressionurl="http://www.platoon.in">
 <![CDATA[<span class='heading'>Tagline</span> -  <b>Your short description  goes here for ad.</b> ]]>
 </ad>
-
 </ads>
