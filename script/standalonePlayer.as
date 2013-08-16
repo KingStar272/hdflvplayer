@@ -113,7 +113,10 @@ package script
 				if (config['fullscreenscale'] == undefined)
 				{
 					config['fullscreenscale'] = "2";
-					//if(config['HD_default'] == undefined)config['HD_default'] = "true"
+				}
+				if(config['HD_default'] == undefined)
+				{
+					config['HD_default'] = "true"
 				}
 			}// ==================================== get License key ====================================================
 			license = new License(config,lc.domain);

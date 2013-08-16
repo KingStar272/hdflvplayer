@@ -155,6 +155,7 @@ package script
 				if (config['local'] != 'true' && config['embedplayer'] != "true")
 				{
 					ExternalInterface.call('currentvideo',config['title'],config['vid_id']);
+					ExternalInterface.call('currentVideo',config['vid_id'],config['video_id']);
 				}
 				preview = new Preview(reference,config);
 				preview.loadPreview();
@@ -172,6 +173,7 @@ package script
 					if (config['local'] != 'true' && config['embedplayer'] != "true")
 					{
 						ExternalInterface.call('currentvideo',config['title'],config['vid_id']);
+						ExternalInterface.call('currentVideo',config['vid_id'],config['video_id']);
 					}
 					var getvideo = new findVideoType(reference,config);
 				}

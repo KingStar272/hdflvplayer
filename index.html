@@ -9,7 +9,7 @@
 	<body >
             <div class="wrapper">
                 <h1>
-                    <img src="images/logo.png" width="" height="" />
+                    <img src="images/logo.png" width="207" height="59" />
                 </h1>
                 <p>Thank you for downloading the HD FLV Player, Get ready to experience the most exquisite high definition HTML5 and flash player that stuns you with its brilliant assortment of all the necessary advanced features in their best acuity. HD FLV Player is intuitively better than any other high definition video player and you are sure going to love this one which plays your videos in unbelievable HD and crystal sound clarity..!</p>
 
@@ -19,15 +19,15 @@
                         s1.addParam('allowfullscreen','true');
                         s1.addParam('allowscriptaccess','always');
                         s1.addParam('WMode','transparent');
-                        s1.addVariable('file','http://www.youtube.com/watch?v=PLkVE2URfXo');
-                        s1.addVariable('preview','http://i3.ytimg.com/vi/PLkVE2URfXo/maxresdefault.jpg');
+                        s1.addVariable('file','http://www.youtube.com/watch?v=2zqy21Z29ps');
+                        s1.addVariable('preview','http://hdflvplayer.net/hdflvplayer/images/300preview.jpg');
+                        s1.addVariable('thumb','http://hdflvplayer.net/hdflvplayer/images/300preview.jpg');
                         s1.addVariable('autoplay','false');
-                        s1.addVariable('title','Top 10 Sixes of Sachin Tendulkar');
                         s1.write('mediaspace');
                     </script>
                 </div>
                 <div id="htmlplayer">
-                    <video id="video" src="http://jqueryvideolightbox.com/data/images/happyfit2.mp4" poster="http://4.bp.blogspot.com/-rq7D7cIE1qM/TjASBKV5pAI/AAAAAAAAK4A/oudhO0AXCRc/s640/Happy-Feet-Two-wallpaper-4.jpg" width="600" height="330" autobuffer controls onerror="failed(event)">
+                    <video id="video" src="http://hdflvplayer.net/hdflvplayer/videos/300_Rise_of_an_Empire.mp4" poster="http://hdflvplayer.net/hdflvplayer/images/300preview.jpg" width="600" height="330" autobuffer controls onerror="failed(event)">
                         Html5 Not support This video Format.
                     </video>
                 </div>
@@ -113,31 +113,36 @@
                         </div>
                     </li>
                 </ul>
-
-
-
-
             </div>
-
 <script>
-var txt = navigator.platform ;
-
-if(txt =='iPod'|| txt =='iPad'|| txt =='iPhone' ||  txt =='Linux armv7l' || txt =='Linux armv6l')
+function detectmob() { 
+ if( navigator.userAgent.match(/Android/i)
+ || navigator.userAgent.match(/webOS/i)
+ || navigator.userAgent.match(/iPhone/i)
+ || navigator.userAgent.match(/iPad/i)
+ || navigator.userAgent.match(/iPod/i)
+ || navigator.userAgent.match(/BlackBerry/i)
+ || navigator.userAgent.match(/Windows Phone/i)
+ ){
+    return true;
+  }
+ else {
+    return false;
+  }
+}
+var txt = detectmob() ;
+if(txt == true)
 {
-
 document.getElementById("htmlplayer").style.display = "block";
 document.getElementById("mediaspace").style.display = "none";
-
-
 }
 else
 {
 document.getElementById("htmlplayer").style.display = "none";
-
 }
 function failed(e)
 {
-if(txt =='iPod'|| txt =='iPad'|| txt =='iPhone' || txt =='Linux armv7l' || windo=='Windows Phone' || txt =='Linux armv6l')
+if(txt == true)
 {
 alert('Player doesnot support this video.');
 }

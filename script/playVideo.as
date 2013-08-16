@@ -88,7 +88,7 @@ package script
 			config = cfg;
 			config['ref'] = ref;
 			MessageClass = new Message(config,reference);
-			config['skinMc'].pp.Replay.visible = false;
+			if(config['skinMc'].pp.play_btn.visible == true || config['skinMc'].pp.pause_btn.visible == true)config['skinMc'].pp.Replay.visible = false;
 		}
 		public function playFun()
 		{

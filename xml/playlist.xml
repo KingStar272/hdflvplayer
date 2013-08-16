@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <playlist autoplay="true" random="false">
 <mainvideo
-         video_url="http://www.youtube.com/watch?v=yTj-amDx8ZQ"
-         video_hdpath=""
-         video_id="124"
-         thumb_image=""
-         preview_image=""
-         allow_preroll="true"
-         allow_midroll="true"
-         allow_postroll="false"
-         allow_ima="true"
-         preroll_id ="5"
-         postroll_id ="2"
-         allow_download="true"
-         copylink=""
-         streamer_path=""
-         video_isLive="false" >
-         <title><![CDATA[Live the language - Barcelona]]></title>
-         <!--Optional-->
-         <tagline targeturl=""><![CDATA[<span class='heading'></span>Watch more at http://www.ef.com/livethelanguage]]></tagline>
-</mainvideo>
-<mainvideo
          video_url="http://www.youtube.com/watch?v=p9isboDgxMM"
          video_hdpath=""
          video_id="124"
