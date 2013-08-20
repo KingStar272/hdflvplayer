@@ -245,7 +245,7 @@ package script
 			}
 			if (config['file'] != undefined)
 			{
-				if (config['file'].indexOf('youtube') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1)
+				if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1)
 				{
 					playYoutubeVideo();
 				}
@@ -344,7 +344,7 @@ package script
 				config['YoutubeLoader'].contentLoaderInfo.addEventListener(Event.COMPLETE, DailyMotion_LoaderInit);
 				config['YoutubeLoader'].load(new URLRequest("http://www.dailymotion.com/swf?enableApi=1&chromeless=1&explicit=0&hideInfos=1"));
 			}
-			else if (config['file'].indexOf('youtube') > -1 || config['file'].indexOf('youtu.be') > -1)
+			else if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 			{
 				config['YoutubeLoader'].contentLoaderInfo.addEventListener(Event.COMPLETE, youtube_onLoaderInit);
 				config['YoutubeLoader'].load(new URLRequest("http://www.youtube.com/apiplayer?version=3&enablejsapi=1&modestbranding=1&rel=0&showinfo=0"));
@@ -393,7 +393,7 @@ package script
 		}
 		private function loadVideoByIdFun()
 		{
-			if (config['file'].indexOf('youtube') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1)
+			if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1)
 			{
 				if (config['file'].indexOf('dailymotion') > -1)
 				{
@@ -401,7 +401,7 @@ package script
 					config['dailyBG'].buttonMode = true;
 					config['dailyBG'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
 				}
-				else if (config['file'].indexOf('youtube') > -1 || config['file'].indexOf('youtu.be') > -1)
+				else if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 				{
 					config['dailyBG'].visible = false;
 					if (config['videoType'] == 'hd')
@@ -1088,9 +1088,9 @@ package script
 									var videopause22 = new videoPause(config);
 								}
 							}
-							if (config['file'].indexOf('youtube') > -1 || config['file'].indexOf('viddler') > -1 || config['file'].indexOf('youtu.be') > -1)
+							if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('viddler') > -1 || config['file'].indexOf('youtu.be') > -1)
 							{
-								if (config['file'].indexOf('youtube') > -1)
+								if (config['file'].indexOf('youtube.com') > -1)
 								{
 									if ((config['YTPlayer'].getVideoLoadedFraction() == 0 && config['YTPlayer'].getPlayerState() == 1) || config['YTPlayer'].getPlayerState() == 3)
 									{
@@ -1451,7 +1451,7 @@ package script
 		private function hdEnabledFun()
 		{
 			config['hd'] = "true";
-			if (config['file'] != undefined && config['file'].indexOf('youtube') <= -1 && config['file'].indexOf('youtu.be') <= -1)
+			if (config['file'] != undefined && config['file'].indexOf('youtube.com') <= -1 && config['file'].indexOf('youtu.be') <= -1)
 			{
 				if ((reference.loaderInfo.parameters.file || (config['video_url'][config['vid']]!= undefined && config['video_url'][config['vid']] != "") ) && (reference.loaderInfo.parameters.hdpath || (config['video_hdpath'][config['vid']] != undefined && config['video_hdpath'][config['vid']] != "" )))
 				{

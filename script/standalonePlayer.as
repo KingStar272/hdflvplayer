@@ -24,16 +24,13 @@ package script
 	import com.lorentz.SVG.display.SVGDocument;
 	import com.lorentz.processing.ProcessExecutor;
 	import flash.geom.ColorTransform;
-
-
+	import hdflvplayer;
 
 	public class standalonePlayer extends MovieClip
 	{
 		private var config:Object;
-		private var skinloader:Loader;
 		private var lc:LocalConnection = new LocalConnection();
 		private var domain:String = lc.domain;
-		private var license:License;
 		private var menu:ContextMenu;
 		public var SkinLoad:skinLoad;
 		private var playerUI:playerUi;
@@ -60,9 +57,11 @@ package script
 		private var _urlLoader:URLLoader;
 		private var iconclip:MovieClip;
 		private var iconclipBg:MovieClip;
+		private var hdflv:hdflvplayer;
 
 		public function standalonePlayer()
 		{
+			
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			Security.allowDomain("*");
@@ -119,10 +118,7 @@ package script
 					config['HD_default'] = "true"
 				}
 			}// ==================================== get License key ====================================================
-			license = new License(config,lc.domain);
 			config['logodomain'] = domain;
-			config['license_Player'] = license.getLicense();
-			(config['license_Player'] == 'demo') ? Demo() : Commercial();
 			config['displayState'] = stage["displayState"];
 			if (stage["displayState"] == "normal")
 			{
@@ -145,6 +141,9 @@ package script
 				addChild(playerUI);
 				config['playeruI'] = playerUI;
 				SkinLoad = new skinLoad(this,config);
+				config['SkinLoad'] = SkinLoad;
+				hdflv = new hdflvplayer()
+			    config['license_Player'] = hdflv.HDFLVPlayer(config,lc.domain,this)
 				playerUI.addEventListener('onfullscreen', toggleScreen);
 				playerUI.addEventListener('focus', onFocusFun);
 				playerUI.addEventListener('callscroll', callScroll);
@@ -208,6 +207,7 @@ package script
 					}
 				}
 				videooscale.buttonInVis();
+				setChildIndex(config['logocon'],numChildren-1);
 				//=================================== Listener for find mouse idle and mouse go out frm stage ======================;
 				setTimeout(callplayvideo,1500);
 			}
@@ -331,39 +331,6 @@ package script
 			{
 				config['focus'] = 'Note';
 			}
-		}
-		//=================================== ContextMenu for Commericial player =============================================
-		private function Commercial():void {			
-		  var copyright:ContextMenuItem = new ContextMenuItem('copyright by ' + domain);
-	      menu.customItems.push(copyright);
-	      copyright.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,function() { navigateToURL(new URLRequest("http://"+domain), '_blank');});
-		  menu.hideBuiltInItems();
-	      this.contextMenu = menu;					
-		}
-		//=================================== ContextMenu for Demo player ===================================================
-		private function Demo():void {
-		   var removelogo:ContextMenuItem = new ContextMenuItem("click here to Purchase License");
-		   var copyright:ContextMenuItem;
-		   if(this.root.loaderInfo.parameters['baserefM'])
-		   {
-			   copyright = new ContextMenuItem('copyright by groupclone.net');
-		   }
-		   else{copyright = new ContextMenuItem('copyright by hdflvplayer.net');}
-		   removelogo.separatorBefore = true;
-		   menu.customItems.push(removelogo);
-		   menu.customItems.push(copyright);			
-		   if(this.root.loaderInfo.parameters['baserefM'])
-		   {
-			   removelogo.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,function() { navigateToURL(new URLRequest('http://www.hdflvplayer.net/hd-flv-player-products.php'), '_blank');});
-	           copyright.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,function() { navigateToURL(new URLRequest('http://www.groupclone.net/'), '_blank');});			
-		   }
-		   else
-		   {
-			   removelogo.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,function() { navigateToURL(new URLRequest('http://www.hdflvplayer.net/hd-flv-player-products.php'), '_blank');});
-			   copyright.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,function() { navigateToURL(new URLRequest('http://www.hdflvplayer.net'), '_blank');});			
-		   }
-		   menu.hideBuiltInItems();
-		   this.contextMenu = menu;
 		}
 		private function resizeFun(evt:Event=null):void
 		{

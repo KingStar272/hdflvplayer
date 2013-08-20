@@ -25,6 +25,9 @@ package script
 		{
 			reference = ref;
 			config = Config;
+		}
+		public function skinloaded()
+		{
 			if (config['local'] != 'true')
 			{
 				skiLoader = new Loader();

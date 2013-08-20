@@ -30,7 +30,6 @@ package script
 		public var logocon:MovieClip;
 		private var logowidth:Number;
 		private var logoheight:Number;
-		private var logoLoader:Loader;
 		private var Playbtn:play_btn;
 		private var wid:Number;
 		private var hei:Number;
@@ -217,27 +216,7 @@ package script
 			{
 				changeColor(config['Playbtn'].bg,config['playButtonBgColor']);
 			}
-			if (cfg['license_Player'] == 'demo')
-			{
-				logoMC = new logoMc() ;
-				logocon.addChild(logoMC);
-				logowidth = logocon.width;
-				logoheight = logocon.height;
-				logoMC.tabEnabled = false;
-				logoMC;
-				if (cont.root.loaderInfo.parameters['baserefM'])
-				{
-					logoMC.gotoAndStop(2);
-				}
-				else if (cont.root.loaderInfo.parameters['baserefW'])
-				{
-					logoMC.gotoAndStop(3);
-				}
-			}
-			else
-			{
-				Commercial();
-			}
+			
 			midRoll = new midMC();
 			midRoll.y = config['stageHeight']+ (midRoll.height+50) ;
 			midRoll.visible = false;
@@ -407,38 +386,38 @@ package script
 		{
 			if (config['license_Player'] == 'demo')
 			{
-				logocon.x = 10;
-				logocon.y = hei - (30 + logoheight);
+				logocon.x = 5;
+				logocon.y = config['stageHeight'] - (30 + config['logocon'].height);
 				logocon.alpha = 1;
 			}
 			else
 			{
 				if (config['logoalign'] == "BL")
 				{
-					logocon.x = 10;
-					logocon.y = hei - (30 + logoheight);
+					config['logocon'].x = 5;
+					config['logocon'].y = config['stageHeight'] - (30 + config['logocon'].height);
 				}
 				else if (config['logoalign'] == "BR")
 				{
-					logocon.x = wid - (logowidth + 10);
-					logocon.y = hei - (30 + logoheight);
+					config['logocon'].x = config['stageWidth'] - (config['logocon'].width + 10);
+					config['logocon'].y = config['stageHeight'] - (30 + config['logocon'].height);
 				}
 				else if (config['logoalign'] == 'TL')
 				{
-					logocon.x = 15;
-					logocon.y = 22;
+					config['logocon'].x = 15;
+					config['logocon'].y = 22;
 				}
 				else if (config['logoalign'] == 'TR')
 				{
-					logocon.x = wid - (logowidth + 15);
-					logocon.y = 22;
+					config['logocon'].x = config['stageWidth'] - (config['logocon'].width + 15);
+					config['logocon'].y = 22;
 				}
 				else
 				{
-					logocon.x = wid / 2 - (logowidth / 2);
-					logocon.y = (hei / 2) - (logoheight / 2);
+					config['logocon'].x = config['stageWidth'] / 2 - (config['logocon'].width / 2);
+					config['logocon'].y = (config['stageHeight'] / 2) - (config['logocon'].height / 2);
 				}
-				logocon.alpha = config['logoalpha'] / 100;
+				config['logocon'].alpha = config['logoalpha'] / 100;
 			}
 		}
 		public function changeColor(object:MovieClip, color:Number)
@@ -446,31 +425,6 @@ package script
 			var colorchange:ColorTransform = new ColorTransform();
 			colorchange.color = color;
 			object.transform.colorTransform = colorchange;
-		}
-		//========================================== Load commercial logo ==============================================================================
-		public function Commercial()
-		{
-			if (String(config['logopath']) != "")
-			{
-				logoLoader = new Loader();
-				if (config['logopath'].indexOf('http') > -1)
-				{
-					config['logopath'] = config['logopath'];
-				}
-				else
-				{
-					config['logopath'] = config['baseurl'] + "" + config['logopath'];
-				}
-				logoLoader.load(new URLRequest(config['logopath']));
-				logocon.addChild(logoLoader);
-				logoLoader.contentLoaderInfo.addEventListener(Event.COMPLETE,logoHandler);
-			}
-		}
-		public function logoHandler(eve:Event)
-		{
-			logowidth = logocon.width;
-			logoheight = logocon.height;
-			seiLogpPos();
 		}
 	}
 }

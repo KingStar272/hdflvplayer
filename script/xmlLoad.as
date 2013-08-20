@@ -777,7 +777,7 @@ package script
 					config['video_id'] = video_id;
 
 					thumb_image.push(plistxml.mainvideo[i].@thumb_image);
-					if (thumb_image[i] == "" && video_url[i].indexOf('youtube') > -1 || video_url[i].indexOf('youtu.be') > -1)
+					if (thumb_image[i] == "" && video_url[i].indexOf('youtube.com') > -1 || video_url[i].indexOf('youtu.be') > -1)
 					{
 						thumb_image[i] = "http://i3.ytimg.com/vi/" + getyoutube_ID(video_url[i]) + "/mqdefault.jpg";
 					}
@@ -792,7 +792,7 @@ package script
 					config['thumb_image'] = thumb_image;
 
 					preview_image.push(plistxml.mainvideo[i].@preview_image);
-					if (preview_image[i] == "" && video_url[i].indexOf('youtube') > -1 || video_url[i].indexOf('youtu.be') > -1)
+					if (preview_image[i] == "" && video_url[i].indexOf('youtube.com') > -1 || video_url[i].indexOf('youtu.be') > -1)
 					{
 						preview_image[i] = "http://i3.ytimg.com/vi/" + getyoutube_ID(video_url[i]) + "/maxresdefault.jpg";
 					}
