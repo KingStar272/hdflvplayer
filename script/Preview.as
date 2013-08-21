@@ -96,24 +96,28 @@ package script
 				var otherindex = reference.getChildIndex(config['Playbtn']);
 				reference.setChildIndex(precontainer, otherindex);
 			}
-			if ((config['preview'] ==null || config['preview'] =="" || config['preview'] == undefined) && config['imageDefault'] == true)
+			if(config['preview'] ==null || config['preview'] =="" || config['preview'] == undefined)  config['preview'] = "";
+			if(config['preview'] == "" && config['imageDefault'] == true)
 			{
 				config['preview'] = config['baseurl'] + "images/default_preview.jpg";
 			}
-			if (config['preview'].indexOf('http') > -1)
+			else if(config['preview'] != "")
 			{
-				config['preview'] = config['preview'];
+				if (config['preview'].indexOf('http') > -1)
+				{
+					config['preview'] = config['preview'];
+				}
+				else
+				{
+					config['preview'] = config['baseurl'] + "" + config['preview'];
+				}
+				preimgLoader  = new Loader();
+				preimagePath = new URLRequest(config['preview']);
+				preimgLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE,preimgLoaded);
+				preimgLoader.load(preimagePath);
+				preimgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE,preimgLoaded);
+				preimgLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, imageError);
 			}
-			else
-			{
-				config['preview'] = config['baseurl'] + "" + config['preview'];
-			}
-			preimgLoader  = new Loader();
-			preimagePath = new URLRequest(config['preview']);
-			preimgLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE,preimgLoaded);
-			preimgLoader.load(preimagePath);
-			preimgLoader.contentLoaderInfo.addEventListener(Event.COMPLETE,preimgLoaded);
-			preimgLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, imageError);
 			config['preval'] = true;
 			if (config['mov'] != 2)
 			{

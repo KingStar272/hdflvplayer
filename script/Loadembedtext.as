@@ -92,8 +92,9 @@ package script
 			{
 				embedCode = '<embed id="player" src="' + config['baseurl'] + 'hdplayer.swf" ';
 				embedCode +=  'flashvars="baseref=' + config['baseurl'] + '&playlist_auto=false';
-				embedCode +=  '&preview=' + config['preview'];
-			    embedCode +=  '&streamer=' + config['streamer'];
+				if(config['preview'] != "")embedCode +=  '&preview=' + config['preview'];
+				if(config['streamer'] != "")embedCode +=  '&streamer=' + config['streamer'];
+			    embedCode +=  '&file=' + config['file'];
 				embedCode +=  '&skin=' + config['skin'];
 				if (config['isLive'] == "true")
 				{
@@ -122,7 +123,7 @@ package script
 				{
 					config['title'] = "";
 				}
-				embedCode +=  "&title=" + config['title'];
+				if(config['title'] != "")embedCode +=  "&title=" + config['title'];
 				if (config['showTag'] == "true" && config['tagline'].txt.text != "")
 				{
 					embedCode +=  "&tagline=" + config['tagline'].txt.text;
@@ -131,71 +132,6 @@ package script
 			embedCode +=  "&showPlaylist=false&shareIcon=false&email=false&zoomIcon=false&playlist_autoplay=false";
 			embedCode +=  "&videoID=" + config['vid'];
 			embedCode += "&embedplayer=true"
-			/*if (String(config['stagecolor']) != "")
-			{
-				embedCode +=  "&stagecolor=" + config['stagecolor'];
-			}
-			else
-			{
-				embedCode +=  "&stagecolor=";
-			}
-			if (String(config['skinBgColor']) != "")
-			{
-				embedCode +=  "&skinBgColor=" + config['skinBgColor'];
-			}
-			else
-			{
-				embedCode +=  "&skinBgColor=";
-			}
-			if (String(config['relatedVideoBgColor']) != "")
-			{
-				embedCode +=  "&relatedVideoBgColor=" + config['relatedVideoBgColor'];
-			}
-			else
-			{
-				embedCode +=  "&relatedVideoBgColor=";
-			}
-			if (String(config['textColor']) != "")
-			{
-				embedCode +=  "&textColor=" + config['textColor'];
-			}
-			else
-			{
-				embedCode +=  "&textColor=";
-			}
-			if (String(config['seek_barColor']) != "")
-			{
-				embedCode +=  "&seek_barColor=" + config['seek_barColor'];
-			}
-			else
-			{
-				embedCode +=  "&seek_barColor=";
-			}
-			if (String(config['buffer_barColor']) != "")
-			{
-				embedCode +=  "&buffer_barColor=" + config['buffer_barColor'];
-			}
-			else
-			{
-				embedCode +=  "&buffer_barColor=";
-			}
-			if (String(config['pro_BgColor']) != "")
-			{
-				embedCode +=  "&pro_BgColor=" + config['pro_BgColor'];
-			}
-			else
-			{
-				embedCode +=  "&pro_BgColor=";
-			}
-			if (String(config['skinIconColor']) != "")
-			{
-				embedCode +=  "&skinIconColor=" + config['skinIconColor'];
-			}
-			else
-			{
-				embedCode +=  "&skinIconColor=";
-
-			}*/
 			embedCode +=  '"';
 			return embedCode;
 		}

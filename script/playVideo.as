@@ -243,6 +243,7 @@ package script
 				}
 				buttonVis();
 			}
+			if(String(config['streamer']) == "undefined"){config['streamer'] = "";}
 			if (config['file'] != undefined)
 			{
 				if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1)
@@ -756,7 +757,7 @@ package script
 		//========================================== Connect streaming video to netStream ==============================================================================
 		private function connect()
 		{
-
+            
 			config['shareClip'] = null;
 			config['stream'] = new NetStream(nc);
 			objClient= new Object();

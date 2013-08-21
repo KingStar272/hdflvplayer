@@ -36,6 +36,7 @@ package script
 					config['intP'] = false;
 					var arrss:Array = ExternalInterface.call("window.location.href.toString").split('?videoID=');
 					config['vid'] = arrss[arrss.length - 1];
+					if(config['vid']>=config['plistlength'])config['vid'] = 0
 				}
 				else
 				{
@@ -192,6 +193,7 @@ package script
 			{
 				config['intP'] = false;
 				config['vid'] = reference.root.loaderInfo.parameters['videoID'];
+				if(config['vid']>=config['plistlength'])config['vid'] = 0
 			}
 			else if (config['plistlength'] !=0)
 			{

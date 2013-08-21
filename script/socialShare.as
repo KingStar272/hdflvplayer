@@ -156,7 +156,7 @@ package script
 						}
 						else
 						{
-							galMc.mark.visible = true;/*galMc.mark.gotoAndStop(2);*/
+							galMc.mark.visible = true;
 							galMc.img.alpha = 0.1;
 						}
 						config['autopL'].addEventListener(MouseEvent.MOUSE_OVER,autoPlayOver);
@@ -205,7 +205,6 @@ package script
 				config['tooltipMc'].x = mouseX;
 				config['tooltipMc'].ti.x = 0;
 				config['tooltipMc'].y = config['stageHeight']-(config['skinMc'].skin_bg.height+15);
-				//eve.currentTarget.alpha = 1;
 			}
 			else
 			{
@@ -232,11 +231,7 @@ package script
 		//========================================== hide tooltip  ==============================================================================
 		private function toolTipOff(eve:MouseEvent)
 		{
-			if (eve.currentTarget.id == 15)
-			{
-				//setTimeout(removeautopL,2000)
-			}
-			else
+			if (eve.currentTarget.id != 15)
 			{
 				config['tooltipMc'].visible = false;
 			}
