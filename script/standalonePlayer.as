@@ -494,8 +494,6 @@ package script
 			{
 				playvideo.listeneradd();
 			}
-			/*if(config['bolVolumeScrub'] == true || cntrPressed)
-			{*/
 			config['v'] =  -((config['skinMc'].Volume.vol_bar.vol_cnt.poi.y) / config['skinMc'].Volume.vol_bar.vol_cnt.bg.height );
 			config['skinMc'].Volume.vol_bar.vol_cnt.sli.height =  -  config['skinMc'].Volume.vol_bar.vol_cnt.poi.y;
 			if (config['v'] > 0.5)
@@ -528,7 +526,7 @@ package script
 			if (config['skinMc'].Volume.muteBt.currentFrame == 2)
 			{
 				config['skinMc'].Volume.vol_bar.vol_cnt.poi.y = -6;
-			}//}
+			}
 			if (config['mailB'] == true)
 			{
 				myString = String(config['mailPanel'].form.Note.text);
