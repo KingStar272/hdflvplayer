@@ -68,7 +68,7 @@
     <scroll_BgColor></scroll_BgColor>
 
     
-    <skin>skin/skin_hdflv_white.swf</skin>
+    <skin>src/flash/skin/skin_hdflv_white.swf</skin>
 
     <skin_autohide>true</skin_autohide>
 
@@ -92,13 +92,13 @@
 
     <midroll_ads>true</midroll_ads>
 
-    <shareURL>php/email.php</shareURL>
+    <shareURL>script/email.php</shareURL>
 
     <embed_visible>true</embed_visible>
 
     <Download>true</Download>
 
-    <downloadUrl>php/download.php</downloadUrl>
+    <downloadUrl>script/download.php</downloadUrl>
 
     <adsSkip>true</adsSkip>
 
