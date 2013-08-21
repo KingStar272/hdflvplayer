@@ -62,7 +62,7 @@ package script
 			clikB = false;
 		}
 		//======================= add player clips====================================== ============================================================== 
-		public function addUi(cfg,wid):void
+		public function addUi(cfg):void
 		{
 			backBG = new backBg();
 			cont.addChild(backBG);

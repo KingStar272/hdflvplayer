@@ -81,6 +81,7 @@ package script
 		private function onDataLoaded(event:Event):void
 		{
 			config = event.target.config;
+			config['SkinLoad'] = SkinLoad = new skinLoad(this,config);
 			if (this.root.loaderInfo.url.indexOf('file:///') > -1)
 			{
 				config['local'] = "true";
@@ -136,14 +137,10 @@ package script
 				//====================================== rest plyer size based on xml values ====================================
 				videooscale = new videoScale(config,this);
 				// ===================================== add Player movieclips ==================================================
-				playerUI = new playerUi(this,config);
-				playerUI.addUi(config,stage.stageWidth);
+				config['playeruI']= playerUI = new playerUi(this,config);
 				addChild(playerUI);
-				config['playeruI'] = playerUI;
-				SkinLoad = new skinLoad(this,config);
-				config['SkinLoad'] = SkinLoad;
 				hdflv = new hdflvplayer()
-			    config['license_Player'] = hdflv.HDFLVPlayer(config,lc.domain,this)
+			        config['license_Player'] = hdflv.HDFLVPlayer(config,lc.domain,this)
 				playerUI.addEventListener('onfullscreen', toggleScreen);
 				playerUI.addEventListener('focus', onFocusFun);
 				playerUI.addEventListener('callscroll', callScroll);
