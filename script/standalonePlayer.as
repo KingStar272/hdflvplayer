@@ -81,7 +81,6 @@ package script
 		private function onDataLoaded(event:Event):void
 		{
 			config = event.target.config;
-			config['SkinLoad'] = SkinLoad = new skinLoad(this,config);
 			if (this.root.loaderInfo.url.indexOf('file:///') > -1)
 			{
 				config['local'] = "true";
@@ -139,8 +138,10 @@ package script
 				// ===================================== add Player movieclips ==================================================
 				config['playeruI']= playerUI = new playerUi(this,config);
 				addChild(playerUI);
+				config['playeruI'].addUi(config)
+				config['SkinLoad'] = SkinLoad = new skinLoad(this,config);
 				hdflv = new hdflvplayer()
-			        config['license_Player'] = hdflv.HDFLVPlayer(config,lc.domain,this)
+			    config['license_Player'] = hdflv.HDFLVPlayer(config,lc.domain,this)
 				playerUI.addEventListener('onfullscreen', toggleScreen);
 				playerUI.addEventListener('focus', onFocusFun);
 				playerUI.addEventListener('callscroll', callScroll);
@@ -507,7 +508,6 @@ package script
 				config['skinMc'].Volume.v2.visible = false;
 				config['skinMc'].Volume.muteBt.gotoAndStop(1);
 			}
-
 			if (config['v'] <= 0.1)
 			{
 				config['skinMc'].Volume.muteBt.gotoAndStop(2);
