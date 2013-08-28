@@ -10,10 +10,4 @@ For those in a hurry!
 [website](http://www.hdflvplayer.net/) | [demos](http://www.hdflvplayer.net/hd-flv-player-demo.php) | [docs](http://www.hdflvplayer.net/documentation/)
 
 ##Installing HD FLV Player
- 1.[Download HD Flv player](http://www.hdflvplayer.net/download_count.php?pid=1)  
- 2.Unzip
- 3.Run index.html in your favorite browser.
------
-
-##Setting up
-Follow the instructions provided [here](http://www.hdflvplayer.net/documentation/).
+Follow the instructions provided [here](http://www.hdflvplayer.net/documentation/installing-hd-flv-player-standalone/).
