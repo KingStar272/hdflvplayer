@@ -29,13 +29,13 @@
 
     <sharepanel_down_BgColor></sharepanel_down_BgColor>
 
-    <sharepaneltextColor>0x1d1d1d</sharepaneltextColor>
+    <sharepaneltextColor></sharepaneltextColor>
     
     <sharepanel_textBgColor></sharepanel_textBgColor>
 
-    <sendButtonColor>0x1d1d1d</sendButtonColor>
+    <sendButtonColor></sendButtonColor>
 
-    <sendButtonTextColor>0xFFFFFF</sendButtonTextColor>
+    <sendButtonTextColor></sendButtonTextColor>
 
     <!--(Text color)-->
     <textColor></textColor>

@@ -94,16 +94,20 @@ package actionscript
 			if (String(config['textColor']) != "" && config['textColor'] != undefined)
 			{
 				config['textColor'] = config['textColor'];
+				config['mailPanel'].form.Totxt.textColor = config['textColor'];
+				config['mailPanel'].form.Fromtxt.textColor = config['textColor'];
+				config['mailPanel'].form.Notetxt.textColor = config['textColor'];
+				config['mailPanel'].result.textColor = config['textColor'];
+				config['SocialPanel'].pMc.pageurl.textColor = config['textColor'];
+				config['SocialPanel'].emb.embedurl.textColor = config['textColor'];
+				changeColor(config['SocialPanel'].closebut.iconMc,config['textColor']);
+			    changeColor(config['mailPanel'].closeBut.iconMc,config['textColor']);
 			}
 			else
 			{
 				config['textColor'] = config['skincolor'];
 
 			}
-			config['mailPanel'].form.Totxt.textColor = config['textColor'];
-			config['mailPanel'].form.Fromtxt.textColor = config['textColor'];
-			config['mailPanel'].form.Notetxt.textColor = config['textColor'];
-			config['mailPanel'].result.textColor = config['textColor'];
 			config['skinMc'].indication.textColor = config['textColor'];
 			if (config['showTag'] == "true")
 			{

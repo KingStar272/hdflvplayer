@@ -5,6 +5,7 @@ package actionscript
 	import fl.transitions.*;
 	import fl.transitions.Tween;
 	import fl.transitions.easing.*;
+	
 	public class videoScale
 	{
 		private var wid:Number;
@@ -13,6 +14,7 @@ package actionscript
 		private var reference:Sprite;
 		private var relatedvideo:relatedVideo;
 		private var slideRelatedVideo:sliderelatedVideo;
+		
 
 		public function videoScale(cfg,ref)
 		{
@@ -386,27 +388,27 @@ package actionscript
 					{
 						if (config['thuMc'].sh_hi.show.visible == true)
 						{
-							config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].width/2);
+							config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].midbg.width/2);
 						}
-						else if ((config['midRoll'].x+config['midRoll'].width)>(config['stageWidth']-config['thuMc'].thubg.width))
+						else if ((config['midRoll'].x+config['midRoll'].midbg.width)>(config['stageWidth']-config['thuMc'].thubg.width))
 						{
-							config['midRoll'].x = config['stageWidth']-(config['thuMc'].thubg.width+config['midRoll'].width);
+							config['midRoll'].x = config['stageWidth']-(config['thuMc'].thubg.width+config['midRoll'].midbg.width);
 						}
 						else
 						{
-							config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].width/2);
+							config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].midbg.width/2);
 						}
 					}
 					else
 					{
-						config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].width/2);
+						config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].midbg.width/2);
 					}
 					if (mVis)
 					{
 						config['midRoll'].alpha = 1;
 						config['midRoll'].visible = true;
 						config['adv'].visible = true;
-						config['midRoll'].y = (config['stageHeight']-25) - (config['midRoll'].height+8) ;
+						config['midRoll'].y = (config['stageHeight']-25) - (config['midRoll'].midbg.height+8) ;
 						config['adv'].y = config['stageHeight'] + 50;
 						config['adv'].x = config['stageWidth'];
 					}
@@ -415,7 +417,7 @@ package actionscript
 						config['midRoll'].alpha = 1;
 						config['midRoll'].visible = true;
 						config['adv'].visible = true;
-						config['midRoll'].y = config['skinMc'].y + (config['midRoll'].height+8) ;
+						config['midRoll'].y = config['skinMc'].y + (config['midRoll'].midbg.height+8) ;
 						if (config['currentTime'] > 0)
 						{
 							config['adv'].y = config['skinMc'].y - 8;
@@ -432,7 +434,7 @@ package actionscript
 			{
 				config['midRoll'].alpha = 0;
 				config['midRoll'].visible = false;
-				config['midRoll'].y = config['skinMc'].y + (config['midRoll'].height+8) ;
+				config['midRoll'].y = config['skinMc'].y + (config['midRoll'].midbg.height+8) ;
 				if (config['currentTime'] > 0)
 				{
 					config['adv'].y = config['skinMc'].y - 8;

@@ -15,6 +15,7 @@ package actionscript
 	import flash.net.*;
 	import flash.text.*;
 	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFormat;
 
 	public class midrollAds
 	{
@@ -23,6 +24,7 @@ package actionscript
 		private var index:Number;
 		private var midimpdata:URLLoader;
 		private var midclickdata:URLLoader;
+		private var format:TextFormat;
 
 		public function midrollAds(con,ref)
 		{
@@ -76,17 +78,17 @@ package actionscript
 			config['adv'].x = config['stageWidth'];
 			if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
 			{
-				config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].width/2);
-				if ((config['midRoll'].x+config['midRoll'].width)>(config['stageWidth']-config['thuMc'].thubg.width))
+				config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].midbg.width/2);
+				if ((config['midRoll'].x+config['midRoll'].midbg.width)>(config['stageWidth']-config['thuMc'].thubg.width))
 				{
-					config['midRoll'].x = config['stageWidth']-(config['thuMc'].thubg.width+config['midRoll'].width);
+					config['midRoll'].x = config['stageWidth']-(config['thuMc'].thubg.width+config['midRoll'].midbg.width);
 				}
 			}
 			else
 			{
-				config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].width/2);
+				config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].midbg.width/2);
 			}
-			config['midRoll'].y = (config['stageHeight']-25) - (config['midRoll'].height+8);
+			config['midRoll'].y = (config['stageHeight']-25) - (config['midRoll'].midbg.height+8);
 		}
 		function midrollClosed(eve:MouseEvent)
 		{
@@ -102,7 +104,7 @@ package actionscript
 			config['adv'].y = config['stageHeight'] + 100;
 			config['adv'].x = config['stageWidth'];
 			config['midvis'] = false;
-			config['midRoll'].y =config['stageHeight'] + (config['midRoll'].height+8);
+			config['midRoll'].y =config['stageHeight'] + (config['midRoll'].midbg.height+8);
 			config['midRoll'].alpha = 0;
 		}
 		function midrollOpen(eve:MouseEvent)
@@ -139,6 +141,9 @@ package actionscript
 
 			config['midRoll'].ad.autoSize = TextFieldAutoSize.LEFT;
 			config['midRoll'].ad.htmlText = String(config['midadd'][index]);
+			format= new TextFormat();
+			format.size = config['stageWidth'] / 60;
+			config['midRoll'].ad.setTextFormat(format);
 			if (config['adrotate'] == "true")
 			{
 				config['midinterval'] = setInterval(setdata,2000);

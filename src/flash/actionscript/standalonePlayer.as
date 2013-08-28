@@ -206,6 +206,8 @@ package actionscript
 				}
 				videooscale.buttonInVis();
 				setChildIndex(config['logocon'],numChildren-1);
+				setChildIndex(config['midRoll'],numChildren-1);
+				setChildIndex(config['tooltipMc'],numChildren-1);
 				//=================================== Listener for find mouse idle and mouse go out frm stage ======================;
 				setTimeout(callplayvideo,1500);
 			}

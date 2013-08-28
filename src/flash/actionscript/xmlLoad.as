@@ -361,6 +361,11 @@ package actionscript
 					configPath = wordpressUri();
 					configloadXML(configPath);
 				}
+				else if (reference.root.loaderInfo.parameters['baserefJ'])
+				{
+					configPath = joomlaUri();
+					configloadXML(configPath);
+				}
 				else
 				{
 					configPath = standaloneuri();
@@ -368,6 +373,14 @@ package actionscript
 				}
 			}
 		}
+		//========================================== HD FLV Player ==============================================================================
+		private function standaloneuri()
+		{
+			var basear = config['baseurl'].split("?file=");
+			config['baseurl'] = basear[0];
+			return (reference.root.loaderInfo.parameters['config']) ? (reference.root.loaderInfo.parameters['config']) : (config['baseurl'] + "xml/config.xml");
+		}
+		//========================================== Magento HD FLV Player ==============================================================================
 		private function megentoUri()
 		{
 			var basearM:String = reference.root.loaderInfo.parameters['baserefM'];
@@ -383,6 +396,7 @@ package actionscript
 			basearM +=  "&coid=" + config['ran'];
 			return (reference.root.loaderInfo.parameters['config']) ? (reference.root.loaderInfo.parameters['config']) : basearM;
 		}
+		//==========================================Wordpress HD FLV Player ==============================================================================
 		private function wordpressUri()
 		{
 			var basearW:String;
@@ -394,12 +408,10 @@ package actionscript
 			config['basearW'] = char_arr[0]
 			return (reference.root.loaderInfo.parameters['config']) ? (reference.root.loaderInfo.parameters['config']) : basearW;
 		}
-		//========================================== standalone ==============================================================================
-		private function standaloneuri()
+		//========================================= Joomla HD FLV Player=======================================================================
+		private function joomlaUri()
 		{
-			var basear = config['baseurl'].split("?file=");
-			config['baseurl'] = basear[0];
-			return (reference.root.loaderInfo.parameters['config']) ? (reference.root.loaderInfo.parameters['config']) : (config['baseurl'] + "xml/config.xml");
+			
 		}
 		private function configloadXML(url:String):void
 		{

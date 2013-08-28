@@ -958,9 +958,9 @@ package actionscript
 					config['skinMc'].pro.seek_bar.visible = config['skinMc'].pro.buffer_bar.visible = true;
 					if (config['allowmidroll'] == "true" && config['mov'] == 2 && config['allow_imaAds'] == 'false' && config['midvis'] == true)
 					{
-						if (config['midRoll'].y<(config['stageHeight']-25) - (config['midRoll'].height+20))
+						if (config['midRoll'].y<(config['stageHeight']-25) - (config['midRoll'].midbg.height+20))
 						{
-							(config['stageHeight']-25) - (config['midRoll'].height+8);
+							(config['stageHeight']-25) - (config['midRoll'].midbg.height+8);
 						}
 					}
 					if (config['video'] == "stream")
@@ -1708,7 +1708,7 @@ package actionscript
 				if (config['thuMc'] != undefined)
 				{
 					new Tween(config['thuMc'],"x",null,config['thuMc'].x,config['stageWidth'] + 30,0.3,true);
-					new Tween(config['midRoll'], "x",null,config['midRoll'].x,(config['stageWidth']/2)-(config['midRoll'].width/2), 0.3, true);
+					new Tween(config['midRoll'], "x",null,config['midRoll'].x,(config['stageWidth']/2)-(config['midRoll'].midbg.width/2), 0.3, true);
 				}
 			}
 			if (config['caption_video'][config['vid']] != undefined && config['showTag'] == "true")
@@ -1799,7 +1799,7 @@ package actionscript
 					config['thuMc'].sh_hi.hide.visible = false;
 					new Tween(config['thuMc'],"x",null,config['thuMc'].x,config['stageWidth'],0.3,true);
 				}
-				new Tween(config['midRoll'], "x",null,config['midRoll'].x,(config['stageWidth']/2)-(config['midRoll'].width/2), 0.3, true);
+				new Tween(config['midRoll'], "x",null,config['midRoll'].x,(config['stageWidth']/2)-(config['midRoll'].midbg.width/2), 0.3, true);
 			}
 			if (config['caption_video'][config['vid']] != undefined && config['showTag'] == "true")
 			{

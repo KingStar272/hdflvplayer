@@ -56,7 +56,6 @@ package actionscript
 			config['mailPanel'].form.bt.x = config['mailPanel'].form.send.x;
 			if (String(config['sharepaneltextColor']) != "")
 			{
-				//config['mailPanel'].form.Sendanemail.textColor = config['sharepaneltextColor'] ;
 				config['mailPanel'].form.Totxt.textColor = config['sharepaneltextColor'];
 				config['mailPanel'].form.Fromtxt.textColor = config['sharepaneltextColor'];
 				config['mailPanel'].form.Notetxt.textColor = config['sharepaneltextColor'];

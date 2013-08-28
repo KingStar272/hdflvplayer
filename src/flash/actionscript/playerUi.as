@@ -12,6 +12,7 @@ package actionscript
 	import fl.transitions.Tween;
 	import fl.transitions.easing.*;
 	import flash.system.System;
+	import flash.text.TextFieldAutoSize;
 
 	public class playerUi extends MovieClip
 	{
@@ -221,9 +222,12 @@ package actionscript
 			midRoll.visible = false;
 			cont.addChild(midRoll);
 			config['midRoll'] = midRoll;
-			midRoll.width = cfg['stageWidth'] / 1.5;
-			midRoll.height = cfg['stageHeight'] / 5;
-			midRoll.x = (config['stageWidth']/2)-(config['midRoll'].width/2);
+			midRoll.lnk.width = midRoll.midbg.width = cfg['stageWidth'] / 1.8;
+			midRoll.lnk.height = midRoll.midbg.height = cfg['stageHeight'] / 6.2;
+			midRoll.msk.width = midRoll.midbg.width-25
+			midRoll.msk.height = midRoll.midbg.height
+			midRoll.midnxt.x = midRoll.midprev.x = midRoll.close.x = (cfg['stageWidth'] / 1.8)-12;
+			midRoll.x = (config['stageWidth']/2)-(config['midRoll'].midbg.width/2);
 			midRoll.buttonMode = true;
 
 			midRoll.tabEnabled = false;

@@ -36,7 +36,7 @@ package actionscript
 			config['SocialPanel'].closebut.addEventListener(MouseEvent.MOUSE_DOWN,mailcloseFun);
 			config['SocialPanel'].Sharetheword.autoSize = TextFieldAutoSize.LEFT;
 			config['SocialPanel'].Sharetheword.text = String(config['sharetheword']);
-			config['SocialPanel'].pMc.pageurl.textColor = config['textColor'];
+			
 			config['SocialPanel'].pMc.buttonMode = true;
 			config['SocialPanel'].pMc.pageurl.mouseEnabled = false;
 			config['SocialPanel'].emb.buttonMode = true;
@@ -49,12 +49,9 @@ package actionscript
 			config['SocialPanel'].linktext.text = String(config['link']);
 			config['SocialPanel'].embedtext.autoSize = TextFieldAutoSize.LEFT;
 			config['SocialPanel'].embedtext.text = String(config['embed']);
-			config['SocialPanel'].emb.embedurl.textColor = config['textColor'];
 
 
 			config['SocialPanel'].mouseEnabled = false;
-			changeColor(config['SocialPanel'].closebut.iconMc,config['textColor']);
-			changeColor(config['mailPanel'].closeBut.iconMc,config['textColor']);
 			config['SocialPanel'].scaleX = config['stageHeight'] / 310;
 			config['SocialPanel'].scaleY = config['stageHeight'] / 310;
 			if (String(config['sharepaneltextColor']) != "")

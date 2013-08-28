@@ -74,21 +74,32 @@ package actionscript
 			adsRequestAFG.publisherId=String(config['publisherId']);
 			if(String(config['contentId']) != "") adsRequestAFG.contentId=config['contentId'];
 			adsRequestAFG.channels =[config['channels']]
+			
 			if(String(config['adTagUrl']) == "")
 			{
 			   if(String(config['adType']) == "Overlay")adsRequestAFG.adType = AdsRequestType.GRAPHICAL_OVERLAY;
 			   else if(String(config['adType']) == "Text")adsRequestAFG.adType = AdsRequestType.TEXT;
+			   if(String(config['adType']) == "Overlay" || String(config['adType']) == "Text")
+			   {
+				   adsRequestAFG.adSlotWidth = 468;
+		           adsRequestAFG.adSlotHeight = 60;
+			   }
 			}
 		 }
 		 adsLoader.requestAds(adsRequestAFG)
 		 adsLoader.addEventListener(AdsLoadedEvent.ADS_LOADED, onAdsLoaded); 
-		 adsLoader.addEventListener(AdErrorEvent.AD_ERROR, onAdError); 
+		 adsLoader.addEventListener(AdErrorEvent.AD_ERROR, onAdError);
     }
 	private function onAdStarted(event:AdEvent):void 
 	{
       if(adsManager.type == AdsManagerTypes.VIDEO)
 	  {
 		  var videopause = new videoPause(config)
+		  var playerUI = new playerUi(config['ref'],config)
+			playerUI.addAdsSkip(config)
+			config['SkipIma'].addEventListener(MouseEvent.MOUSE_DOWN,closeAds)
+			config['SkipIma'].buttonMode = true;
+			config['shareClip'].alpha = 0.1
 	  }
     }
     private function onAdsLoaded(adsLoadedEvent:AdsLoadedEvent)
@@ -102,8 +113,9 @@ package actionscript
 			flashAdsManager.load();
 			flashAdsManager.play(visualContainer);
 			config['adsManager'] = adsManager;
+			flashAdsManager.y= 60
 		    displayAdsInformation();
-			setTimeout(displayAdsInformation,2000)
+			//setTimeout(displayAdsInformation,2000)
 		}
 		//==================== Video ads ======================================================
 		else if(adsManager.type == AdsManagerTypes.VIDEO) 
@@ -127,12 +139,6 @@ package actionscript
 			config['adsManager'] = adsManager;
 			config['videoMc'] = video;
 		    displayAdsInformation();
-			var playerUI = new playerUi(config['ref'],config)
-			playerUI.addAdsSkip(config)
-			config['SkipIma'].addEventListener(MouseEvent.MOUSE_DOWN,closeAds)
-			config['SkipIma'].buttonMode = true;
-			config['shareClip'].alpha = 0.1
-
 		}
 		//==================== CUSTOM_CONTENT ads ======================================================
 		else if (adsManager.type == AdsManagerTypes.CUSTOM_CONTENT) 
@@ -213,18 +219,15 @@ package actionscript
 		{
 			for each (var ad:Ad in ads) 
 			{
-				
 				if (ad.type == AdTypes.FLASH) 
 				{
 					config['AdsManagerTypes'] = "flash"
 					var flashAd:FlashAd = ad as FlashAd;
-					trace(flashAd.asset)
 					if (flashAd.asset != null) 
 					{
-						flashAd.asset.y = (config['skinMc'].y - flashAd.asset.height)-10;
+						flashAd.asset.y = (config['stageWidth'] - flashAd.asset.height)-35;
 						flashAd.asset.x = (config['stageWidth']/2)-(flashAd.asset.width/2);
 					} 
-					trace(flashAd.asset.x)
 				}
 				else if (ad.type == AdTypes.VIDEO)
 				{

@@ -194,7 +194,7 @@ package actionscript
 			config['thuMc'].sh_hi.hide.visible = false;
 			if (config['midroll_ads'] == "true" && config['allowmidroll'] == "true" && config['mov'] == 2 && config['imaAds'] == false && config['midvis'])
 			{
-				new Tween(config['midRoll'], "x",null,config['midRoll'].x,(config['stageWidth']/2)-(config['midRoll'].width/2), 0.4, true);
+				new Tween(config['midRoll'], "x",null,config['midRoll'].x,(config['stageWidth']/2)-(config['midRoll'].midbg.width/2), 0.4, true);
 			}
 			if (config['showTag'] == "true")
 			{
@@ -218,9 +218,9 @@ package actionscript
 			config['thuMc'].sh_hi.hide.visible = true;
 			if (config['midroll_ads'] == "true" && config['allowmidroll'] == "true" && config['mov'] == 2 && config['imaAds'] == false && config['midvis'])
 			{
-				if ((config['midRoll'].x+config['midRoll'].width)>(config['stageWidth']-config['thuMc'].thubg.width))
+				if ((config['midRoll'].x+config['midRoll'].midbg.width)>(config['stageWidth']-config['thuMc'].thubg.width))
 				{
-					new Tween(config['midRoll'], "x",null,config['midRoll'].x,config['stageWidth']-(config['thuMc'].thubg.width+config['midRoll'].width), 0.4, true);
+					new Tween(config['midRoll'], "x",null,config['midRoll'].x,config['stageWidth']-(config['thuMc'].thubg.width+config['midRoll'].midbg.width), 0.4, true);
 				}
 			}
 
