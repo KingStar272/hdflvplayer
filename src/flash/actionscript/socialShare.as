@@ -112,7 +112,11 @@ package actionscript
 				var s = Number(config['vid']);
 				config['autopImgArr'] = new Array();
 				config['autopL'].visible = true;
-				for (var f=0; f<3; f++)
+				var otherindex:Number;
+				var td:Number;
+				if(config['plistlength']>=3)td = 3;
+				else td = config['plistlength']
+				for (var f=0; f<td; f++)
 				{
 					galMc = new gal3();
 					config['autopL'].addChild(galMc);
@@ -161,6 +165,12 @@ package actionscript
 						}
 						config['autopL'].addEventListener(MouseEvent.MOUSE_OVER,autoPlayOver);
 					}
+				}
+				if(config['relatedview'] == true)
+				{
+					otherindex = config['ref'].getChildIndex(config['relaMc']);
+					//config['ref'].setChildIndex(config['autopL'], otherindex+1);
+					config['ref'].setChildIndex(config['tooltipMc'], otherindex+1);
 				}
 
 			}
@@ -336,10 +346,19 @@ package actionscript
 			{
 				video_src +=  '&baserefW=' + config['ref'].root.loaderInfo.parameters['baserefW'];
 			}
+			if (config['ref'].root.loaderInfo.parameters['baserefWP'])
+			{
+				video_src +=  '&baserefWP=' + config['ref'].root.loaderInfo.parameters['baserefWP'];
+			}
 			if (config['ref'].root.loaderInfo.parameters['pid'])
 			{
 				video_src +=  '&pid=' + config['ref'].root.loaderInfo.parameters['pid'];
 			}
+			if(config['ref'].root.loaderInfo.parameters['playid']) video_src += "&playid=" + config['ref'].root.loaderInfo.parameters['playid']
+			if(config['ref'].root.loaderInfo.parameters['id']) video_src += "&id=" + config['ref'].root.loaderInfo.parameters['id']
+			if(config['ref'].root.loaderInfo.parameters['mid']) video_src += "&mid=" + config['ref'].root.loaderInfo.parameters['mid']
+			if(config['ref'].root.loaderInfo.parameters['compid']) video_src += "&compid=" + config['ref'].root.loaderInfo.parameters['compid']
+			if(config['ref'].root.loaderInfo.parameters['jlang']) video_src += "&lang="+ config['ref'].root.loaderInfo.parameters['jlang']
 			if (config['ref'].root.loaderInfo.parameters['vid'])
 			{
 				video_src +=  '&vid=' + config['ref'].root.loaderInfo.parameters['vid'];
@@ -349,63 +368,7 @@ package actionscript
 				video_src +=  '&vid=' + config['vid_id'];
 			}
 
-			if (String(config['stagecolor']) != "")
-			{
-				video_src +=  "&stagecolor=" + config['stagecolor'];
-			}
-			else
-			{
-				video_src +=  "&stagecolor=";
-			}
-			if (String(config['relatedVideoBgColor']) != "")
-			{
-				video_src +=  "&relatedVideoBgColor=" + config['relatedVideoBgColor'];
-			}
-			else
-			{
-				video_src +=  "&relatedVideoBgColor=";
-			}
-			if (String(config['textColor']) != "")
-			{
-				video_src +=  "&textColor=" + config['textColor'];
-			}
-			else
-			{
-				video_src +=  "&textColor=";
-			}
-			if (String(config['seek_barColor']) != "")
-			{
-				video_src +=  "&seek_barColor=" + config['seek_barColor'];
-			}
-			else
-			{
-				video_src +=  "&seek_barColor=";
-			}
-			if (String(config['buffer_barColor']) != "")
-			{
-				video_src +=  "&buffer_barColor=" + config['buffer_barColor'];
-			}
-			else
-			{
-				video_src +=  "&buffer_barColor=";
-			}
-			if (String(config['pro_BgColor']) != "")
-			{
-				video_src +=  "&pro_BgColor=" + config['pro_BgColor'];
-			}
-			else
-			{
-				video_src +=  "&pro_BgColor=";
-			}
-			if (String(config['skinIconColor']) != "")
-			{
-				video_src +=  "&skinIconColor=" + config['skinIconColor'];
-			}
-			else
-			{
-				video_src +=  "&skinIconColor=";
-
-			}
+			
 			if (config['showTag'] == "true" && config['tagline'].txt.text != "")
 			{
 				video_src +=  "&tagline=" + config['tagline'].txt.text;
@@ -496,10 +459,11 @@ package actionscript
 				thuimag = config['baseurl'] + "" + thuimag;
 			}
 			thuimag = decodeURI(thuimag);
-			if (config['ref'].root.loaderInfo.parameters['baserefW'])
+			if (config['ref'].root.loaderInfo.parameters['baserefW'] || config['ref'].root.loaderInfo.parameters['baserefWP'])
 			{
 				embedCode = '<embed id="player" src="' + config['basearW'] + 'hdplayer.swf" ';
-				embedCode +=  'flashvars="file=' + config['file'] + '&baserefW=' + config['ref'].root.loaderInfo.parameters['baserefW'] + '&autoplay=false&playlist_auto=false';
+				if (config['ref'].root.loaderInfo.parameters['baserefW'])embedCode +=  'flashvars="file=' + config['file'] + '&baserefW=' + config['ref'].root.loaderInfo.parameters['baserefW'] + '&autoplay=false&playlist_auto=false';
+				else embedCode +=  'flashvars="file=' + config['file'] + '&baserefWP=' + config['ref'].root.loaderInfo.parameters['baserefWP'] + '&autoplay=false&playlist_auto=false';
 				if (config['ref'].root.loaderInfo.parameters['pid'])
 				{
 					embedCode +=  '&pid=' + config['ref'].root.loaderInfo.parameters['pid'];

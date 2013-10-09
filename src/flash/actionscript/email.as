@@ -22,9 +22,11 @@ package actionscript
 		private var requ:URLRequest;
 		private var reference:Sprite;
 		private var urlLoader:URLLoader;
+		private var shareurl:String;
 
 		public function email(cfg,ref)
 		{
+			shareurl = ""
 			config = cfg;
 			reference = ref;
 		}
@@ -54,22 +56,6 @@ package actionscript
 			config['mailPanel'].form.send.x = (config['mailPanel'].form.Note.x+config['mailPanel'].form.Note.width)- (config['mailPanel'].form.send.width+2);
 			config['mailPanel'].form.bt.width = config['mailPanel'].form.send.txt.width + 6;
 			config['mailPanel'].form.bt.x = config['mailPanel'].form.send.x;
-			if (String(config['sharepaneltextColor']) != "")
-			{
-				config['mailPanel'].form.Totxt.textColor = config['sharepaneltextColor'];
-				config['mailPanel'].form.Fromtxt.textColor = config['sharepaneltextColor'];
-				config['mailPanel'].form.Notetxt.textColor = config['sharepaneltextColor'];
-
-				config['mailPanel'].form.from.textColor = config['sharepaneltextColor'];
-				config['mailPanel'].form.to.textColor = config['sharepaneltextColor'];
-				config['mailPanel'].form.Note.textColor = config['sharepaneltextColor'];
-				config['mailPanel'].form.output.textColor = config['sharepaneltextColor'];
-				config['mailPanel'].result.textColor = config['sharepaneltextColor'];
-			}
-			if (String(config['sendButtonTextColor']) != "")
-			{
-				config['mailPanel'].form.send.txt.textColor = config['sendButtonTextColor'];
-			}
 			config['mailPanel'].mouseEnabled = false;
 			config['mailPanel'].closeBut.scaleX = config['mailPanel'].closeBut.scaleY = 1;
 			config['mailPanel'].form.starmcc.visible = false;
@@ -158,17 +144,11 @@ package actionscript
 			}
 			else
 			{
+				shareurl = config['shareURL']
+				config['shareURL'] = shareurl
 				if (config['shareURL'] != "")
 				{
-					if (config['shareURL'].indexOf('http') > -1)
-					{
-						config['shareURL'] = config['shareURL'];
-					}
-					else
-					{
-						config['shareURL'] = config['baseurl'] + "" + config['shareURL'];
-					}
-					config['mailPanel'].result.text = config['email_wait'];
+					if(config['email_wait'] != undefined)config['mailPanel'].result.text = config['email_wait'];
 					variables = new URLVariables();
 					variables.to = config['mailPanel'].form.to.text;
 					variables.from = config['mailPanel'].form.from.text;

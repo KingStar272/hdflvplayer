@@ -3,6 +3,8 @@ package actionscript
 	import flash.display.Sprite;
 	import flash.external.*;
 	import flash.net.*;
+	import fl.transitions.Tween;
+	import fl.transitions.easing.*;
 	public class findVideoType
 	{
 		private var adindex:Number;
@@ -269,13 +271,22 @@ package actionscript
 					navigateToURL(new URLRequest(config['fbpath']), '_self');
 					return;
 				}
-				else var getVidData = new getinitialvidData(reference,config);
+				else 
+				{
+					if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
+					{
+						config['thuMc'].sh_hi.show.visible = false;
+						config['thuMc'].sh_hi.hide.visible = true;
+						new Tween(config['thuMc'],"x",null,config['thuMc'].x,config['stageWidth'] - config['thuMc'].thubg.width,0.3,true)
+					}
+					var getVidData = new getinitialvidData(reference,config);
+				}
 			}
 			else if (config['relatedVideoView'] == 'center')
 			{
 				config['imageCount'] = 0;
 				config['numofimg'] = 0;
-				if (config['embedplayer'] != "true")
+				if (config['embedplayer'] != "true" && config['showPlaylist'] == "true")
 				{
 					var relatedvideo = new relatedVideo(config,reference);
 					relatedvideo.loadrelatedvideos(config);
@@ -288,6 +299,12 @@ package actionscript
 			}
 			else
 			{
+				if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
+				{
+					config['thuMc'].sh_hi.show.visible = false;
+					config['thuMc'].sh_hi.hide.visible = true;
+					new Tween(config['thuMc'],"x",null,config['thuMc'].x,config['stageWidth'] - config['thuMc'].thubg.width,0.3,true)
+				}
 				var getVidData2 = new getinitialvidData(reference,config);
 				config['skinMc'].pp.pause_btn.visible = false;
 				config['skinMc'].pp.play_btn.visible = false;

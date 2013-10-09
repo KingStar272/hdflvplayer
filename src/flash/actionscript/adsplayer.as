@@ -49,6 +49,9 @@ package actionscript
 	private var visualContainer:DisplayObjectContainer;
 	private var flashAdsManager:FlashAdsManager;
 	private var useGUT:Boolean;
+	private var playerUI:playerUi;
+	private var playvideo:playVideo;
+	private var otherindex:Number
 
     public function adsplayer(conFig,ref) 
 	{
@@ -92,15 +95,18 @@ package actionscript
     }
 	private function onAdStarted(event:AdEvent):void 
 	{
-      if(adsManager.type == AdsManagerTypes.VIDEO)
+	  adsManager.removeEventListener(AdEvent.STARTED, onAdStarted);
+      if(adsManager.type == AdsManagerTypes.VIDEO )
 	  {
 		  var videopause = new videoPause(config)
-		  var playerUI = new playerUi(config['ref'],config)
-			playerUI.addAdsSkip(config)
-			config['SkipIma'].addEventListener(MouseEvent.MOUSE_DOWN,closeAds)
-			config['SkipIma'].buttonMode = true;
-			config['shareClip'].alpha = 0.1
-	  }
+		  playerUI = new playerUi(config['ref'],config)
+		  playerUI.addAdsSkip(config)
+		  config['SkipIma'].addEventListener(MouseEvent.MOUSE_DOWN,closeAds)
+		  config['SkipIma'].buttonMode = true;
+		  config['shareClip'].alpha = 0.1
+		  playvideo = new playVideo(config,reference);
+	      playvideo.stageOut()
+      }
     }
     private function onAdsLoaded(adsLoadedEvent:AdsLoadedEvent)
 	{
@@ -115,7 +121,7 @@ package actionscript
 			config['adsManager'] = adsManager;
 			flashAdsManager.y= 60
 		    displayAdsInformation();
-			//setTimeout(displayAdsInformation,2000)
+			setTimeout(displayAdsInformation,2000)
 		}
 		//==================== Video ads ======================================================
 		else if(adsManager.type == AdsManagerTypes.VIDEO) 
@@ -157,15 +163,18 @@ package actionscript
     }
 	private function closeAds(eve:MouseEvent)
 	{
-	  if (config['adsManager'].type == AdsManagerTypes.VIDEO) 
-	  {
-         (config['adsManager'] as VideoAdsManager).clickTrackingElement = null;
-		 reference.removeChild(video);
-		 reference.removeChild(adsMc);
-		 var videoplay = new videoPlay(config)
-		 unloadAd()
-      }
-	  config['imA'] = false
+		config['SkipIma'].alpha = 0
+		if (config['adsManager'].type == AdsManagerTypes.VIDEO) 
+		{
+			(config['adsManager'] as VideoAdsManager).clickTrackingElement = null;
+			reference.removeChild(video);
+			reference.removeChild(adsMc);
+			var videoplay = new videoPlay(config)
+			unloadAd()
+		}
+		config['imA'] = false
+		config['SkipIma'].visible = false;
+		playerUI.removeSkipAds(config)
 	}
 	private function onAdError(adErrorEvent:AdErrorEvent):void 
 	{
@@ -179,36 +188,41 @@ package actionscript
 	  {
          (config['adsManager'] as VideoAdsManager).clickTrackingElement = null;
 		 reference.removeChild(video);
-		 reference.removeChild(adsMc);
+	     reference.removeChild(adsMc);
 		 var videoplay = new videoPlay(config)
 		 unloadAd()
       }
 	  config['imA'] = false
+	  config['SkipIma'].visible = false;
     }
      public function unloadAd()
 	 {
-		 config['shareClip'].alpha = 1
+		config['shareClip'].alpha = 1
 		config['AdsManagerTypes'] = "";
-        if (config['adsManager']) 
-		{
-		  config['adsManager'].removeEventListener(AdEvent.COMPLETE, onVideoAdComplete);
-		  config['adsManager'].removeEventListener(AdEvent.STARTED, onAdStarted);
-          config['adsManager'].unload();
-          config['adsManager'] = null;
-		  if(config['SkipIma'])
-			{
-				var playerUI2 = new playerUi(config['ref'],config)
-				playerUI2.removeSkipAds(config)
-			}
-        }
-		if(config['VidadsMc'])reference.removeChild(config['VidadsMc'])
-		if(config['adsLoader'])
+		if(VidadsMc)reference.removeChild(VidadsMc)
+		if(config['adsLoader'] != undefined)
 		{
 			 config['adsLoader'].removeEventListener(AdsLoadedEvent.ADS_LOADED, onAdsLoaded);
 		     config['adsLoader'].removeEventListener(AdErrorEvent.AD_ERROR, onAdError); 
 			 reference.removeChild(config['adsLoader']);
 		}
+        if(config['adsManager']) 
+		{
+		  config['adsManager'].removeEventListener(AdEvent.COMPLETE, onVideoAdComplete);
+		  config['adsManager'].removeEventListener(AdEvent.STARTED, onAdStarted);
+          config['adsManager'].unload();
+          config['adsManager'] = null;
+        }
 		config['imA'] = false;
+		 if(config['SkipIma'] != undefined)
+		 {
+			config['SkipIma'].visible = false;
+			if(config['SkipIma'])
+			{
+				playerUI.removeSkipAds(config)
+			}
+		 }
+		config['adsLoader'] = undefined;
     }
 	public function displayAdsInformation()
 	{
@@ -225,7 +239,7 @@ package actionscript
 					var flashAd:FlashAd = ad as FlashAd;
 					if (flashAd.asset != null) 
 					{
-						flashAd.asset.y = (config['stageWidth'] - flashAd.asset.height)-35;
+						flashAd.asset.y = (config['stageHeight'] - flashAd.asset.height)-35;
 						flashAd.asset.x = (config['stageWidth']/2)-(flashAd.asset.width/2);
 					} 
 				}
@@ -235,6 +249,8 @@ package actionscript
 			      adsMc.y = config['videoMc'].y = (config['stageHeight']/2)-(config['videoMc'].height/2)
 				  config['VidadsMc'].width = config['stageWidth']
 				  config['VidadsMc'].height = config['stageHeight']
+				  otherindex = reference.getChildIndex(config['logocon']);
+			      reference.setChildIndex(config['videoMc'], otherindex-1);
 				} 
 				else if (ad.type == AdTypes.VAST) 
 				{
@@ -243,6 +259,8 @@ package actionscript
 			      adsMc.y = config['videoMc'].y = (config['stageHeight']/2)-(config['videoMc'].height/2)
 				  config['VidadsMc'].width = config['stageWidth']
 				  config['VidadsMc'].height = config['stageHeight']
+				  otherindex = reference.getChildIndex(config['logocon']);
+			      reference.setChildIndex(config['videoMc'], otherindex-1);
 				} 
 			} 
 		}

@@ -119,14 +119,16 @@ package actionscript
 					xposi = xposi + 10;
 				}
 				config['skinMc'].pro.x = xposi;
-				if (config['progressControl'] == "false")
+				if (config['progressControl'] == "false" || config['isLive'] == "true")
 				{
 					config['skinMc'].pro.visible = false;
 				}
+				else if(config['mov'] == 2) config['skinMc'].pro.visible = true;
 				if (config['timer'] == "false")
 				{
 					config['skinMc'].pro.bar.visible = true;
-					config['skinMc'].pro.progress_bg.width = yposi - (xposi + 18);
+					if(yposi - (xposi + 18)>10){config['skinMc'].pro.progress_bg.width = yposi - (xposi + 18);}
+					else {config['skinMc'].pro.visible = false;}
 					config['skinMc'].pro.bar.x = config['skinMc'].pro.progress_bg.width + 10;
 				}
 				else
@@ -135,7 +137,8 @@ package actionscript
 					{
 						config['skinMc'].ti2.x = config['skinMc'].ti2.x - 4;
 					}
-					config['skinMc'].pro.progress_bg.width  = yposi-(xposi+config['skinMc'].ti2.width-26);
+					if(yposi-(xposi+config['skinMc'].ti2.width-26)>10){config['skinMc'].pro.progress_bg.width  = yposi-(xposi+config['skinMc'].ti2.width-26);}
+					else{ config['skinMc'].pro.visible = false;}
 				}
 				config['ProgbarWidth'] = config['skinMc'].pro.progress_bg.width;
 				config['skinMc'].pro.seek_end.x = config['skinMc'].pro.seek_bar.x + config['skinMc'].pro.seek_bar.width;

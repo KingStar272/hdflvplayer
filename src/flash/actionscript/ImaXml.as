@@ -25,9 +25,10 @@ package actionscript
 				{
 					config['imaAdsXML'] = config['baseurl'] + "" + config['imaAdsXML'];
 				}
+				if(config['pluginType'] == "") {config['imaAdsXML'] = config['imaAdsXML']+"?imaid="+config['ran']}
 				ImaXmlLoader = new URLLoader();
 				ImaXmlLoader.addEventListener(Event.COMPLETE,ImaXmlHandler);
-				ImaXmlLoader.load(new URLRequest(config['imaAdsXML']+"?imaid="+config['ran']));
+				ImaXmlLoader.load(new URLRequest(config['imaAdsXML']));
 			}
 		}
 		private function ImaXmlHandler(evt:Event):void

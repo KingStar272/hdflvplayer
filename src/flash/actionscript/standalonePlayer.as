@@ -81,6 +81,7 @@ package actionscript
 		private function onDataLoaded(event:Event):void
 		{
 			config = event.target.config;
+			config['initWidth'] = stage.stageWidth;
 			if (this.root.loaderInfo.url.indexOf('file:///') > -1)
 			{
 				config['local'] = "true";
@@ -163,13 +164,13 @@ package actionscript
 				ProcessExecutor.instance.initialize(stage);
 				ProcessExecutor.instance.percentFrameProcessingTime = 1;
 				iconArray = [config['shareMc'],config['zoomInMc'],config['zoomOutMc'],config['downloadMc'],config['mailIcon']];
-				iconArray = [config['shareMc'],config['zoomInMc'],config['zoomOutMc'],config['downloadMc'],config['mailIcon']];
 				iconNameArray = ['images/icon/share.svg','images/icon/zoomIn.svg','images/icon/zoomOut.svg','images/icon/download.svg','images/icon/mail.svg'];
 				if (config['local'] != "true")
 				{
 					for (var k=0; k<=4; k++)
 					{
 						svgDocument = new SVGDocument();
+						
 						svgDocument.load(config['pageURL']+"/images/icon/bg.svg");
 						iconclip = new MovieClip();
 						iconclipBg = new MovieClip()
@@ -204,12 +205,14 @@ package actionscript
 						}
 					}
 				}
-				videooscale.buttonInVis();
+				setChildIndex(config['buffer_Mc'],numChildren-1);
 				setChildIndex(config['logocon'],numChildren-1);
 				setChildIndex(config['midRoll'],numChildren-1);
 				setChildIndex(config['tooltipMc'],numChildren-1);
+				videooscale.buttonInVis();
 				//=================================== Listener for find mouse idle and mouse go out frm stage ======================;
-				setTimeout(callplayvideo,1500);
+				//setTimeout(callplayvideo,1500);
+				
 			}
 		}
 

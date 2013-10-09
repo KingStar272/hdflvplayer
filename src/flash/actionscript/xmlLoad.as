@@ -1,6 +1,5 @@
 package actionscript
 {
-
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.display.Sprite;
@@ -62,6 +61,7 @@ package actionscript
 		video_views:Array,
 		tags_vid:Array,
 		member_arr:Array,
+		uid_arr:Array,
 		embedplayer:String,
 		setnum:Number,
 		
@@ -208,7 +208,11 @@ package actionscript
 		QualityArray:Array,
 		autopL:MovieClip,
 		autopImgArr:Array,
-		emailB:Boolean
+		emailB:Boolean,
+		pluginType:String,
+		uid:Number,
+		member:String,
+		initWidth:Number
 		};
 		public static var reference:Sprite;
 		private var obj:Object;
@@ -243,6 +247,7 @@ package actionscript
 		private var tags_vid:Array;
 		private var duration_arr:Array;
 		private var member_arr:Array;
+		private var uid_arr:Array;
 		private var plistDoc:XMLDocument;
 		private var caption_video:Array;
 		private var errorMc:errorpopup;
@@ -250,6 +255,7 @@ package actionscript
 		private var playlistid:String;
 		private var char_arr:Array;
 		private var fbpath_arr:Array;
+		private var backBG:backBg;
 
 
 		public function xmlLoad(ref:Sprite,wid,hei):void
@@ -280,9 +286,11 @@ package actionscript
 			video_views = new Array();
 			tags_vid = new Array();
 			member_arr = new Array();
+			uid_arr = new Array();
 			duration_arr = new Array();
 			caption_video = new Array();
 			fbpath_arr = new Array();
+			config['keyframes'] = new Object()
 			config['vidarr'] = new Array();
 			config['QualityArray'] = new Array()
 			config['inc'] = 0;
@@ -324,7 +332,6 @@ package actionscript
 			reference = ref;
 			config['stageWidth'] = wid;
 			config['stageHeight'] = hei;
-			var configPath:String;
 			config['preval'] = false;
 			config['ini'] = true;
 			config['stremPlayed'] = true;
@@ -349,36 +356,57 @@ package actionscript
 			errorMc.visible = false;
 			ref.addChild(errorMc);
 			config['errorMc'] = errorMc;
+			
+			buffer_Mc = new Buffer_mc();
+			reference.addChild(buffer_Mc);
+			config['buffer_Mc'] = buffer_Mc;
+			buffer_Mc.tabEnabled = false;
+			buffer_Mc.x = wid / 2;
+			buffer_Mc.y = (hei - 25) / 2;
 			if (reference.root.loaderInfo.url.indexOf('file:///') <= -1)
 			{
-				if (reference.root.loaderInfo.parameters['baserefM'])
-				{
-					configPath = megentoUri();
-					configloadXML(configPath);
-				}
-				else if (reference.root.loaderInfo.parameters['baserefW'])
-				{
-					configPath = wordpressUri();
-					configloadXML(configPath);
-				}
-				else if (reference.root.loaderInfo.parameters['baserefJ'])
-				{
-					configPath = joomlaUri();
-					configloadXML(configPath);
-				}
-				else
-				{
-					configPath = standaloneuri();
-					configloadXML(configPath+"?coid="+config['ran']);
-				}
+				configloadXML(generateConfigURI())
+			}
+			else
+			{
+				backBG = new backBg();
+				reference.addChild(backBG);
+				config['backBg'] = backBG;
+				backBG.width = config['stageWidth']
+				backBG.height = config['stageHeight']
+				MessageClass = new Message(config,reference);
+				MessageClass.show("There is no videos in this player");
 			}
 		}
+		function generateConfigURI()
+		{
+			config['pluginType'] = getPluginType()
+			switch(config['pluginType'])
+			{
+				case 'joomla': return joomlaUri(); break;
+				case 'joomlaHDV': return joomlaHDVUri(); break;
+				case 'wordpress': return wordpressUri(); break;
+				case 'zencart': return zencartUri(); break;
+				case 'megento': return megentoUri(); break;
+				default: return standaloneUri(); 
+			}	
+		}
+		function getPluginType()
+		{
+			if(reference.root.loaderInfo.parameters['baserefJ']) return 'joomla';
+			else if(reference.root.loaderInfo.parameters['baserefJHDV']) return 'joomlaHDV';
+			else if(reference.root.loaderInfo.parameters['baserefW']) return 'wordpress';
+			else if(reference.root.loaderInfo.parameters['baserefWP']) return 'wordpress';
+			else if(reference.root.loaderInfo.parameters['baserefZ']) return 'zencart';
+			else if(reference.root.loaderInfo.parameters['baserefM']) return 'megento'
+			else return '';
+		}
 		//========================================== HD FLV Player ==============================================================================
-		private function standaloneuri()
+		private function standaloneUri()
 		{
 			var basear = config['baseurl'].split("?file=");
 			config['baseurl'] = basear[0];
-			return (reference.root.loaderInfo.parameters['config']) ? (reference.root.loaderInfo.parameters['config']) : (config['baseurl'] + "xml/config.xml");
+			return (reference.root.loaderInfo.parameters['config']) ? (reference.root.loaderInfo.parameters['config']) : (config['baseurl'] + "xml/config.xml?coid="+config['ran']);
 		}
 		//========================================== Magento HD FLV Player ==============================================================================
 		private function megentoUri()
@@ -411,7 +439,43 @@ package actionscript
 		//========================================= Joomla HD FLV Player=======================================================================
 		private function joomlaUri()
 		{
-			
+			var basearJ:String;
+			if (reference.root.loaderInfo.parameters['config'])
+			{
+				basearJ = reference.root.loaderInfo.parameters['config'];
+			}
+			else
+			{
+				basearJ = reference.root.loaderInfo.parameters['baserefJ']
+				basearJ +=  "/index.php?option=com_hdflvplayer&taskconfig=configxml"
+			}
+			if(reference.root.loaderInfo.parameters['playid']) basearJ += "&playid=" + reference.root.loaderInfo.parameters['playid']
+			if(reference.root.loaderInfo.parameters['id']) basearJ += "&id=" + reference.root.loaderInfo.parameters['id']
+			if(reference.root.loaderInfo.parameters['mid']) basearJ += "&mid=" + reference.root.loaderInfo.parameters['mid']
+			if(reference.root.loaderInfo.parameters['compid']) basearJ += "&compid=" + reference.root.loaderInfo.parameters['compid']
+			if(reference.root.loaderInfo.parameters['jlang']) basearJ += "&lang="+ reference.root.loaderInfo.parameters['jlang']
+			return basearJ;
+		}
+		private function joomlaHDVUri()
+		{
+			var basearJHDVH:String;
+			if(reference.root.loaderInfo.parameters['config'])
+			{
+				basearJHDVH = reference.root.loaderInfo.parameters['config']
+			}
+			else
+			{
+				basearJHDVH = reference.root.loaderInfo.parameters['baserefJHDV']
+				basearJHDVH += "/index.php?option=com_contushdvideoshare&view=configxml";
+			}
+			if(reference.root.loaderInfo.parameters['playid']) basearJHDVH += "&playid=" + reference.root.loaderInfo.parameters['playid']
+			if(reference.root.loaderInfo.parameters['id']) basearJHDVH += "&id=" + reference.root.loaderInfo.parameters['id']
+			if(reference.root.loaderInfo.parameters['mid']) basearJHDVH += "&mid=" + reference.root.loaderInfo.parameters['mid']
+			if(reference.root.loaderInfo.parameters['featured']) basearJHDVH += "&featured=true"
+			if(reference.root.loaderInfo.parameters['catid']) basearJHDVH += "&catid=" + reference.root.loaderInfo.parameters['catid']
+			if(reference.root.loaderInfo.parameters['jlang']) basearJHDVH += "&lang="+ reference.root.loaderInfo.parameters['jlang']
+			if(reference.root.loaderInfo.parameters['adminview']) basearJHDVH += "&adminview="+ reference.root.loaderInfo.parameters['adminview']
+			return basearJHDVH;
 		}
 		private function configloadXML(url:String):void
 		{
@@ -434,6 +498,7 @@ package actionscript
 			{
 				config[prp.name()] = prp.text();
 			}
+			
 			var languagexmlLoad = new languageXml(reference,config);
 			var adsxmlLoad = new adsXml(reference,config);
 			if (config['imaAds'] == "true")
@@ -476,6 +541,7 @@ package actionscript
 			config['imageDefault'] = (reference.root.loaderInfo.parameters['imageDefault']) ? reference.root.loaderInfo.parameters['imageDefault'] : config['imageDefault'];
 			config['timer'] = (reference.root.loaderInfo.parameters['timer']) ? reference.root.loaderInfo.parameters['timer'] : config['timer'];
 			config['playlist_auto'] = (reference.root.loaderInfo.parameters['playlist_auto']) ? reference.root.loaderInfo.parameters['playlist_auto'] : config['playlist_auto'];
+			if(config['plistlength'] <= 1){config['playlist_auto'] = config['showPlaylist'] = "false" }
 			config['zoomIcon'] = (reference.root.loaderInfo.parameters['zoomIcon']) ? reference.root.loaderInfo.parameters['zoomIcon'] : config['zoomIcon'];
 			config['email'] = (reference.root.loaderInfo.parameters['email']) ? reference.root.loaderInfo.parameters['email'] : config['email'];
 			config['shareIcon'] = (reference.root.loaderInfo.parameters['shareIcon']) ? reference.root.loaderInfo.parameters['shareIcon'] : config['shareIcon'];
@@ -674,20 +740,17 @@ package actionscript
 			}
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
+		//========================================== Load Playlist xml ==============================================================================
 		private function loadPlistxml()
 		{
-			if (reference.root.loaderInfo.parameters['baserefM'])
+			if(config['pluginType'] == ""){config['playlistXML'] = config['playlistXML']+"?plid="+config['ran'];}
+			else if (reference.root.loaderInfo.parameters['baserefW'] || reference.root.loaderInfo.parameters['baserefWP'])
 			{
-				config['playlistXML'] = config['playlistXML'];
-			}
-			else if (reference.root.loaderInfo.parameters['baserefW'])
-			{
-				config['playlistXML'] = config['playlistXML'] + "" + wodpressPlaylist();
+				config['playlistXML'] = config['playlistXML'] + "" + wodpressGallery();
 			}
 			else
 			{
 				config['playlistXML'] = config['playlistXML'];
-
 			}
 			config['playlistXML'] = (reference.root.loaderInfo.parameters['playlistXML']) ? reference.root.loaderInfo.parameters['playlistXML'] : config['playlistXML'];
 			if (config['playlistXML'].indexOf('http') > -1)
@@ -701,9 +764,10 @@ package actionscript
 			playlistLoader = new URLLoader();
 			playlistLoader.addEventListener(Event.COMPLETE,playlistXmlHandler);
 			playlistLoader.addEventListener(IOErrorEvent.IO_ERROR, playlistError);
-			playlistLoader.load(new URLRequest(config['playlistXML']+"?plid="+config['ran']));
+			playlistLoader.load(new URLRequest(config['playlistXML']));
 		}
-		private function wodpressPlaylist()
+		//========================================== Generate Wordpress gallery Playlist path ==============================================================================
+		private function wodpressGallery()
 		{
 			if (reference.root.loaderInfo.parameters['pid'])
 			{
@@ -760,9 +824,16 @@ package actionscript
 				config['plistlength'] = 0;
 				if (! reference.root.loaderInfo.parameters['file'] && ! reference.root.loaderInfo.parameters['hdpath'])
 				{
+					backBG = new backBg();
+					reference.addChild(backBG);
+					config['backBg'] = backBG;
+					backBG.width = config['stageWidth']
+					backBG.height = config['stageHeight']
+					
 					MessageClass = new Message(config,reference);
-					MessageClass.show("There is no videos in this playlist");
+					MessageClass.show("There are no videos in this playlist");
 					config['videoAvailable'] = false;
+					
 				}
 				else
 				{
@@ -854,6 +925,8 @@ package actionscript
 					config['video_targeturl'] = video_targeturl;
 					member_arr[i] = plistxml.mainvideo[i]. @ member;
 					config['member_arr'] = member_arr;
+					uid_arr[i] = plistxml.mainvideo[i]. @ uid;
+					config['uid_arr'] = uid_arr;
 					duration_arr[i] = plistxml.mainvideo[i]. @ duration;
 					config['duration_arr'] = duration_arr;
 					disply_copylink[i] = plistxml.mainvideo[i]. @ copylink;

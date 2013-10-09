@@ -192,33 +192,6 @@ package actionscript
 			{
 				Player.dispatchEvent(new Event('onfullscreen'));
 			}
-			if (Player.config['license_Player'] == "demo")
-			{
-				if (reference.root.loaderInfo.parameters['baserefM'])
-				{
-					navigateToURL(new URLRequest('http://www.groupclone.net/'), '_blank');
-				}
-				else if (reference.root.loaderInfo.parameters['baserefW'])
-				{
-					navigateToURL(new URLRequest('http://www.hdflvplayer.net/wordpress-video-gallery/demo/'), '_blank');
-				}
-				else
-				{
-					navigateToURL(new URLRequest('http://www.hdflvplayer.net/'), '_blank');
-				}
-			}
-			else
-			{
-				dom = "http://www." + Player.config['logodomain'];
-				if (Player.config['logo_target'] == "")
-				{
-					navigateToURL(new URLRequest(String(dom)), '_blank');
-				}
-				else
-				{
-					navigateToURL(new URLRequest(Player.config['logo_target']), '_blank');
-				}
-			}
 		}
 		// ============================================ fullscreen and normal screen =================================================================
 		private function onResizeClick(evt:Event):void
@@ -513,7 +486,7 @@ package actionscript
 				Player.config['skinMc'].pro.progress_bg.buttonMode = true;
 				displayFun();
 			}
-			else if (Player.config['streamer'].indexOf("pseudostreaming") > -1 && Player.config['mp4'] == false && Player.config['keyframes'] != undefined)
+			else if (Player.config['streamer'].indexOf("pseudostreaming") > -1)
 			{
 				Player.config['skinMc'].pro.progress_bg.buttonMode = true;
 				displayFun();

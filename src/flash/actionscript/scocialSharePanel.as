@@ -54,14 +54,7 @@ package actionscript
 			config['SocialPanel'].mouseEnabled = false;
 			config['SocialPanel'].scaleX = config['stageHeight'] / 310;
 			config['SocialPanel'].scaleY = config['stageHeight'] / 310;
-			if (String(config['sharepaneltextColor']) != "")
-			{
-				config['SocialPanel'].pMc.pageurl.textColor = config['sharepaneltextColor'];
-				config['SocialPanel'].socialtext.textColor = config['sharepaneltextColor'];
-				config['SocialPanel'].linktext.textColor = config['sharepaneltextColor'];
-				config['SocialPanel'].embedtext.textColor = config['sharepaneltextColor'];
-				config['SocialPanel'].emb.embedurl.textColor = config['sharepaneltextColor'];
-			}
+			
 			if (config['shareB'] == false)
 			{
 				config['SocialPanel'].emb.embedurl.alwaysShowSelection = false;

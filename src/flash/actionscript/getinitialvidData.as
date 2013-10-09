@@ -155,7 +155,6 @@ package actionscript
 			{
 				if (config['local'] != 'true' && config['embedplayer'] != "true")
 				{
-					ExternalInterface.call('currentvideo',config['title'],config['vid_id']);
 					ExternalInterface.call('currentVideo',config['vid_id'],config['video_id']);
 				}
 				preview = new Preview(reference,config);
@@ -163,7 +162,6 @@ package actionscript
 			}
 			else
 			{
-
 				if (config['mov'] == 1 && config['ini'] == false && config['pre_vid'] == config['vid'] && config['update'] == false)
 				{
 					preview = new Preview(reference,config);
@@ -173,7 +171,6 @@ package actionscript
 				{
 					if (config['local'] != 'true' && config['embedplayer'] != "true")
 					{
-						ExternalInterface.call('currentvideo',config['title'],config['vid_id']);
 						ExternalInterface.call('currentVideo',config['vid_id'],config['video_id']);
 					}
 					var getvideo = new findVideoType(reference,config);

@@ -66,9 +66,12 @@ package actionscript
 				config['isLive'] = config['video_isLive'][config['vid']];
 				config['title'] = config['video_title'][config['vid']];
 				config['fbpath'] = config['fbpath_arr'][config['vid']];
+				config['uid'] = config['uid_arr'][config['vid']];
+				config['member'] = config['member_arr'][config['vid']];
 			}
 			else
 			{
+				config['showPlaylist'] = "false"
 				if (config['playeruI'].root.loaderInfo.parameters['pre-roll_ads'] && config['preroll_ads'] == 'true')
 				{
 					config['allowpreroll'] = config['playeruI'].root.loaderInfo.parameters['pre-roll_ads'];

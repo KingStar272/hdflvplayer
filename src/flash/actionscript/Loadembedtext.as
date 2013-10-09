@@ -35,7 +35,8 @@ package actionscript
 				}
 				else
 				{
-					if (ExternalInterface.call("window.location.href.toString") != null)
+					if(config['fbpath'] != "" && config['fbpath'] != undefined)config['SocialPanel'].pMc.pageurl.text = config['fbpath']
+					else if (ExternalInterface.call("window.location.href.toString") != null)
 					{
 						config['SocialPanel'].pMc.pageurl.text = ExternalInterface.call("window.location.href.toString");
 					}
@@ -43,7 +44,6 @@ package actionscript
 					{
 						config['SocialPanel'].pMc.pageurl.text = String(config['pageURL']);
 					}
-
 				}
 				if (config['SocialPanel'].pMc.pageurl.text.indexOf('?videoID=') > -1)
 				{
@@ -71,10 +71,11 @@ package actionscript
 		function generateEmbed()
 		{
 			var embedCode:String;
-			if (reference.root.loaderInfo.parameters['baserefW'])
+			if (reference.root.loaderInfo.parameters['baserefW'] || reference.root.loaderInfo.parameters['baserefWP'])
 			{
 				embedCode = '<embed id="player" src="' + config['basearW'] + 'hdplayer.swf" ';
-				embedCode +=  'flashvars="baserefW=' + reference.root.loaderInfo.parameters['baserefW'] + '&playlist_auto=false';
+				if(reference.root.loaderInfo.parameters['baserefW'])embedCode +=  'flashvars="baserefW=' + reference.root.loaderInfo.parameters['baserefW'] + '&playlist_auto=false';
+				else embedCode +=  'flashvars="baserefWP=' + reference.root.loaderInfo.parameters['baserefWP'] + '&playlist_auto=false';
 				if (config['ref'].root.loaderInfo.parameters['pid'])
 				{
 					embedCode +=  '&pid=' + config['ref'].root.loaderInfo.parameters['pid'];
@@ -87,6 +88,16 @@ package actionscript
 				{
 					embedCode +=  '&vid=' + config['vid_id'];
 				}
+			}
+			else if (reference.root.loaderInfo.parameters['baserefJ'])
+			{
+				embedCode = '<embed id="player" src="' + reference.root.loaderInfo.parameters['baserefJ'] + '/components/com_hdflvplayer/hdflvplayer/hdplayer.swf" ';
+				embedCode +=  'flashvars="baserefJ=' + reference.root.loaderInfo.parameters['baserefJ'] + '&playlist_auto=false';
+				if(reference.root.loaderInfo.parameters['playid']) embedCode += "&playid=" + reference.root.loaderInfo.parameters['playid']
+				if(reference.root.loaderInfo.parameters['id']) embedCode += "&id=" + reference.root.loaderInfo.parameters['id']
+				if(reference.root.loaderInfo.parameters['mid']) embedCode += "&mid=" + reference.root.loaderInfo.parameters['mid']
+				if(reference.root.loaderInfo.parameters['compid']) embedCode += "&compid=" + reference.root.loaderInfo.parameters['compid']
+				if(reference.root.loaderInfo.parameters['jlang']) embedCode += "&lang="+ reference.root.loaderInfo.parameters['jlang']
 			}
 			else
 			{
@@ -124,10 +135,10 @@ package actionscript
 					config['title'] = "";
 				}
 				if(config['title'] != "")embedCode +=  "&title=" + config['title'];
-				if (config['showTag'] == "true" && config['tagline'].txt.text != "")
+				/*if (config['showTag'] == "true" && config['tagline'].txt.text != "")
 				{
 					embedCode +=  "&tagline=" + config['tagline'].txt.text;
-				}
+				}*/
 			}
 			embedCode +=  "&showPlaylist=false&shareIcon=false&email=false&zoomIcon=false&playlist_autoplay=false";
 			embedCode +=  "&videoID=" + config['vid'];

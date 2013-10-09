@@ -24,9 +24,10 @@ package actionscript
 			{
 				config['languageXML'] = config['baseurl'] + "" + config['languageXML'];
 			}
+			if(config['pluginType'] == "") {config['languageXML'] = config['languageXML']+"?lanid="+config['ran']}
 			languageLoader = new URLLoader();
 			languageLoader.addEventListener(Event.COMPLETE,languageXmlHandler);
-			languageLoader.load(new URLRequest(config['languageXML']+"?lanid="+config['ran']));
+			languageLoader.load(new URLRequest(config['languageXML']));
 		}
 		private function languageXmlHandler(evt:Event):void
 		{

@@ -142,7 +142,7 @@ package actionscript
 			config['midRoll'].ad.autoSize = TextFieldAutoSize.LEFT;
 			config['midRoll'].ad.htmlText = String(config['midadd'][index]);
 			format= new TextFormat();
-			format.size = config['stageWidth'] / 60;
+			format.size = config['initWidth'] / 60;
 			config['midRoll'].ad.setTextFormat(format);
 			if (config['adrotate'] == "true")
 			{

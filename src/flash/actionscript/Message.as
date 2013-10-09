@@ -25,9 +25,10 @@ package actionscript
 		//================================ set alert message box text value ===================================================
 		public function show(msg)
 		{
+			config['errorMc'].buyButton.visible= false
 			config['buffer_Mc'].visible = false;
 			config['errorMc'].visible = true;
-			config['errorMc'].errortxt.autoSize = TextFieldAutoSize.CENTER;
+			config['errorMc'].errortxt.autoSize = TextFieldAutoSize.LEFT;
 			config['errorMc'].errortxt.text = msg;
 			config['errorMc'].x = config['stageWidth'] / 2;
 			config['errorMc'].y = config['stageHeight'] / 2;

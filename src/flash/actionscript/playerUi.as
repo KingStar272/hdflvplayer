@@ -95,13 +95,8 @@ package actionscript
 			logocon.tabEnabled = false;
 			cfg['logocon'] = logocon;
 
-			buffer_Mc = new Buffer_mc();
-			cont.addChild(buffer_Mc);
-			cfg['buffer_Mc'] = buffer_Mc;
-			buffer_Mc.visible = false;
-			buffer_Mc.tabEnabled = false
-			Playbtn.x = buffer_Mc.x = wid / 2;
-			Playbtn.y = buffer_Mc.y = (hei - 25) / 2;
+			Playbtn.x  = wid / 2;
+			Playbtn.y  = (hei - 25) / 2;
 
 			adIndicator = new adindicator();
 			adIndicator.visible = false;
@@ -184,11 +179,13 @@ package actionscript
 			{
 				changeColor(cfg['SocialPanel'].bgg.up_bg,cfg['sharepanel_up_BgColor']);
 				changeColor(cfg['mailPanel'].bgg.up_bg,cfg['sharepanel_up_BgColor']);
+				changeColor(config['errorMc'].bg2,cfg['sharepanel_up_BgColor']);
 			}
 			if (String(config['sharepanel_down_BgColor']) != "" && config['sharepanel_down_BgColor'] != undefined)
 			{
 				changeColor(cfg['SocialPanel'].bgg.down_bg,cfg['sharepanel_down_BgColor']);
 				changeColor(cfg['mailPanel'].bgg.down_bg,cfg['sharepanel_down_BgColor']);
+				changeColor(config['errorMc'].bg,cfg['sharepanel_down_BgColor']);
 			}
 			if (String(config['sharepanel_textBgColor']) != "" && config['sharepanel_textBgColor'] != undefined)
 			{
@@ -200,8 +197,32 @@ package actionscript
 			if (String(config['sendButtonColor']) != "" && config['sendButtonColor'] != undefined)
 			{
 				changeColor(config['mailPanel'].form.send.bg,cfg['sendButtonColor']);
+				changeColor(config['errorMc'].buyButton.bg,cfg['sendButtonColor']);
 			}
-
+            if (String(config['sharepaneltextColor']) != "")
+			{
+				config['SocialPanel'].pMc.pageurl.textColor = config['sharepaneltextColor'];
+				config['SocialPanel'].socialtext.textColor = config['sharepaneltextColor'];
+				config['SocialPanel'].linktext.textColor = config['sharepaneltextColor'];
+				config['SocialPanel'].embedtext.textColor = config['sharepaneltextColor'];
+				config['SocialPanel'].emb.embedurl.textColor = config['sharepaneltextColor'];
+			}
+			if (String(config['sharepaneltextColor']) != "")
+			{
+				config['mailPanel'].form.Totxt.textColor = config['sharepaneltextColor'];
+				config['mailPanel'].form.Fromtxt.textColor = config['sharepaneltextColor'];
+				config['mailPanel'].form.Notetxt.textColor = config['sharepaneltextColor'];
+				config['mailPanel'].form.from.textColor = config['sharepaneltextColor'];
+				config['mailPanel'].form.to.textColor = config['sharepaneltextColor'];
+				config['mailPanel'].form.Note.textColor = config['sharepaneltextColor'];
+				config['mailPanel'].form.output.textColor = config['sharepaneltextColor'];
+				config['mailPanel'].result.textColor = config['sharepaneltextColor'];
+			}
+			if (String(config['sendButtonTextColor']) != "")
+			{
+				config['mailPanel'].form.send.txt.textColor = config['sendButtonTextColor'];
+				config['errorMc'].buyButton.txt.textColor = config['sendButtonTextColor'];
+			}
 			cfg['downloadMc'].visible = cfg['shareMc'].visible = cfg['zoomInMc'].visible = cfg['zoomOutMc'].visible = false;
 
 			if (String(config['playButtonColor']) != "" && config['playButtonColor'] != undefined)
@@ -285,10 +306,12 @@ package actionscript
 		}
 		public function removeSkipAds(cfgg)
 		{
+			config['SkipIma'].visible = false
 			if (cfgg['SkipIma'])
 			{
 				cont.removeChild(cfgg['SkipIma']);
 			}
+			config['adsLoader'] = undefined
 		}//========================================== set position for player movieclips ============================================================== 
 		public function setPos(conf):void
 		{

@@ -34,6 +34,7 @@ package actionscript
 			{
 				config['off'] = 0;
 			}
+			trace()
 			return config['file'];
 		}
 		public function scrubit()

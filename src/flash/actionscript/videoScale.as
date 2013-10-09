@@ -186,7 +186,7 @@ package actionscript
 				}
 			}//========================================== set ads size ==============================================================================
 			config['adIndicator'].bg.width = config['stageWidth'];
-			if (config['adsManager'])
+			if (config['adsManager']) 
 			{
 				var imaAdsload = new adsplayer(config,reference);
 				imaAdsload.displayAdsInformation();

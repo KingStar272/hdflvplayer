@@ -30,6 +30,7 @@ package actionscript
 
 		public function adsXml(reference,Config)
 		{
+			
 			adsUrlArr = new Array();
 			adsTargetArr = new Array();
 			adsClickArr = new Array();
@@ -48,38 +49,47 @@ package actionscript
 			config['postroll_ads'] = (reference.root.loaderInfo.parameters['postroll_ads']) ? reference.root.loaderInfo.parameters['postroll_ads'] : config['postroll_ads'];
 			config['preroll_ads'] = (reference.root.loaderInfo.parameters['preroll_ads']) ? reference.root.loaderInfo.parameters['preroll_ads'] : config['preroll_ads'];
 			config['adXML'] = (reference.root.loaderInfo.parameters['adXML']) ? reference.root.loaderInfo.parameters['adXML'] : config['adXML'];
-			if (config['adXML'].indexOf('http') > -1)
+			if(config['adXML'] != undefined)
 			{
-				config['adXML'] = config['adXML'];
-			}
-			else
-			{
-				config['adXML'] = config['baseurl'] + "" + config['adXML'];
-			}
-			if (config['preroll_ads'] == "true" || config['postroll_ads'] == "true")
-			{
-				//==================== load pre roll and post roll adsxml ======================================================
-				adsLoader = new URLLoader();
-				adsLoader.addEventListener(Event.COMPLETE,adsXmlHandler);
-				adsLoader.addEventListener(IOErrorEvent.IO_ERROR, adxmlError);
-				adsLoader.load(new URLRequest(config['adXML']+"?adsid="+config['ran']));
+				if (config['adXML'].indexOf('http') > -1)
+				{
+					config['adXML'] = config['adXML'];
+				}
+				else
+				{
+					config['adXML'] = config['baseurl'] + "" + config['adXML'];
+				}
+				
+				if(config['pluginType'] == "") {config['adXML'] = config['adXML']+"?lanid="+config['ran']}
+				if (config['preroll_ads'] == "true" || config['postroll_ads'] == "true")
+				{
+					//==================== load pre roll and post roll adsxml ======================================================
+					adsLoader = new URLLoader();
+					adsLoader.addEventListener(Event.COMPLETE,adsXmlHandler);
+					adsLoader.addEventListener(IOErrorEvent.IO_ERROR, adxmlError);
+					adsLoader.load(new URLRequest(config['adXML']));
+				}
 			}
 			config['midrollXML'] = (reference.root.loaderInfo.parameters['midrollXML']) ? reference.root.loaderInfo.parameters['midrollXML'] : config['midrollXML'];
-			if (config['midrollXML'].indexOf('http') > -1)
+			if(config['midrollXML'] != undefined)
 			{
-				config['midrollXML'] = config['midrollXML'];
-			}
-			else
-			{
-				config['midrollXML'] = config['baseurl'] + "" + config['midrollXML'];
-			}
-			if (config['midroll_ads'] == "true")
-			{
-				//==================== load midroll ads xml ======================================================
-				midAdsLoader = new URLLoader();
-				midAdsLoader.addEventListener(Event.COMPLETE,midsXmlHandler);
-				midAdsLoader.addEventListener(IOErrorEvent.IO_ERROR, MidadxmlError);
-				midAdsLoader.load(new URLRequest(config['midrollXML']+"?mdid="+config['ran']));
+				if (config['midrollXML'].indexOf('http') > -1)
+				{
+					config['midrollXML'] = config['midrollXML'];
+				}
+				else
+				{
+					config['midrollXML'] = config['baseurl'] + "" + config['midrollXML'];
+				}
+				if(config['pluginType'] == "") {config['midrollXML'] = config['midrollXML']+"?mdid="+config['ran']}
+				if (config['midroll_ads'] == "true")
+				{
+					//==================== load midroll ads xml ======================================================
+					midAdsLoader = new URLLoader();
+					midAdsLoader.addEventListener(Event.COMPLETE,midsXmlHandler);
+					midAdsLoader.addEventListener(IOErrorEvent.IO_ERROR, MidadxmlError);
+					midAdsLoader.load(new URLRequest(config['midrollXML']));
+				}
 			}
 		}
 		// ===================== ads xml error function ==============================================================
@@ -94,6 +104,7 @@ package actionscript
 		}
 		private function adsXmlHandler(evt:Event):void
 		{
+			trace(evt.currentTarget.data)
 			var adslistXml:XML = XML(evt.currentTarget.data);
 			config['adslistlength'] = adslistXml.children().length();
 			config['adrandom'] = adslistXml.. @ random;
@@ -116,7 +127,7 @@ package actionscript
 				config['adsHitsArr'] = adsHitsArr;
 				adsImpressionHitsArr.push(adslistXml.ad[i].@impressionhits);
 				config['adsImpressionHitsArr'] = adsImpressionHitsArr;
-				adsDesArr.push(adsDoc.firstChild.childNodes[0].childNodes[0].nodeValue);
+				adsDesArr.push(adsDoc.firstChild.childNodes[i].childNodes[0].nodeValue);
 				config['adsDesArr'] = adsDesArr;
 			}
 		}
