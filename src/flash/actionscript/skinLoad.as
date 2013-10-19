@@ -176,6 +176,7 @@ package actionscript
 			}
 			var socialshare = new socialShare(config);
 			changeColor(config['QualityBg'].poi,config['textColor']);
+			changeColor(config['subTiltleBg'].poi,config['textColor']);
 		}
 	}
 }

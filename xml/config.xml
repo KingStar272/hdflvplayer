@@ -5,9 +5,9 @@
 
     <autoplay>false</autoplay>
 
-    <buffer>0</buffer>
+    <buffer>2</buffer>
 
-    <volume>80</volume>
+    <volume>70</volume>
 
     <normalscale>2</normalscale><!--(Aspect ratio=0 ,Original=1  ,Fit to screen=2)-->
 
@@ -21,7 +21,7 @@
 
     <logoalign>TR</logoalign>
 
-    <logo_target>http://www.facebook.com/</logo_target>
+    <logo_target></logo_target>
 
 
     <!--(share pannel color settings)-->
@@ -36,6 +36,14 @@
     <sendButtonColor></sendButtonColor>
 
     <sendButtonTextColor></sendButtonTextColor>
+    
+    <subTitleColor></subTitleColor>
+    
+    <subTitleBgColor></subTitleBgColor>
+    
+    <subTitleFontFamily>Verdana</subTitleFontFamily>
+    
+    <subTitleFontSize>18</subTitleFontSize>
 
     <!--(Text color)-->
     <textColor></textColor>
@@ -68,15 +76,15 @@
     <scroll_BgColor></scroll_BgColor>
 
     
-    <skin>src/flash/skin/skin_hdflv_white.swf</skin>
+    <skin>skin/skin_hdflv_white.swf</skin>
 
-    <skin_autohide>true</skin_autohide>
+    <skin_autohide>false</skin_autohide>
 
     <languageXML>xml/language.xml</languageXML>
 
     <playlistXML>xml/playlist.xml</playlistXML>
 
-    <playlist_open>true</playlist_open>
+    <playlist_open>false</playlist_open>
 
     <showPlaylist>true</showPlaylist>
 
@@ -90,7 +98,7 @@
 
     <midrollXML>xml/midroll.xml</midrollXML>
 
-    <midroll_ads>true</midroll_ads>
+    <midroll_ads>false</midroll_ads>
 
     <shareURL>script/email.php</shareURL>
 
@@ -102,15 +110,15 @@
 
     <adsSkip>true</adsSkip>
 
-    <adsSkipDuration>10</adsSkipDuration>
+    <adsSkipDuration>5</adsSkipDuration>
 
-    <relatedVideoView>side</relatedVideoView><!--(Center of the player 'center')--><!--(Right of the player 'side')-->
+    <relatedVideoView>center</relatedVideoView><!--(Center of the player 'center')--><!--(Right of the player 'side')-->
 
     <imaAds>false</imaAds>
 
     <imaAdsXML>xml/ima.xml</imaAdsXML>
 
-    <trackCode>UA-36364589-1</trackCode>
+    <trackCode></trackCode>
 
     <showTag>true</showTag>
 
@@ -132,6 +140,6 @@
 
     <skinVisible>true</skinVisible>
 
-    <imageDefault>true</imageDefault>
+    <imageDefault>false</imageDefault>
 
 </config>

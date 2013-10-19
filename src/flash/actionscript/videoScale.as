@@ -184,7 +184,10 @@ package actionscript
 				{
 					buttonVis();
 				}
-			}//========================================== set ads size ==============================================================================
+			}
+			config['SubMc'].x = (config['stageWidth']/2)-(config['SubMc'].width/2);
+			config['SubMc'].y = (config['stageHeight']-25) - (config['SubMc'].height+8);
+			//========================================== set ads size ==============================================================================
 			config['adIndicator'].bg.width = config['stageWidth'];
 			if (config['adsManager']) 
 			{
@@ -230,7 +233,7 @@ package actionscript
 		//========================================== set position for share zoom and downloads button ==============================================================================
 		function buttonVis()
 		{
-			if (config['errorMc'].visible != true && config['preval'] == false && config['mov'] == 2)
+			if (config['errorMc'].visible != true && (config['preval'] == false || config['file'].indexOf('.mp3') > -1 || config['file'].indexOf('.m4a') > -1) && config['mov'] == 2)
 			{
 				config['zoomOutMc'].alpha = config['zoomInMc'].alpha = config['shareMc'].alpha = config['mailIcon'].alpha = config['downloadMc'].alpha = 1;
 				var yyposi = 10;
@@ -254,7 +257,7 @@ package actionscript
 				{
 					config['mailIcon'].visible = false;
 				}
-				if (config['zoomIcon'] == "true" && config['shareB'] == false && config['mailB'] == false)
+				if (config['zoomIcon'] == "true" && config['shareB'] == false && config['mailB'] == false && config['preval'] != true)
 				{
 					if (config['inc'] < 3)
 					{

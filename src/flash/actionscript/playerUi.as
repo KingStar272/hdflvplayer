@@ -52,6 +52,7 @@ package actionscript
 		private var MailPanel:mailMc;
 		private var SocialPanel:socialBg;
 		private var buttonS:MovieClip;
+		private var SubMc:subMc;
 
 		public function playerUi(Cont,cfg)
 		{
@@ -146,6 +147,12 @@ package actionscript
 			cont.addChild(buttonS);
 			cfg['mailIcon'] = buttonS;
 			cfg['mailIcon'].visible=false
+			
+			SubMc = new subMc();
+			cont.addChild(SubMc);
+            cfg['SubMc'] = SubMc;
+			cfg['SubMc'].visible =false;
+						
 			
 			MailPanel = new mailMc();
 			cont.addChild(MailPanel);
@@ -277,7 +284,15 @@ package actionscript
 			QualityBg.visible = false;
 			cont.addChild(QualityBg);
 			cfg['QualityBg'] = QualityBg;
-
+			cfg['QualityBg'].name = "QA"
+			
+			QualityBg = new qualityBg();
+			QualityBg.visible = false;
+			cont.addChild(QualityBg);
+			cfg['subTiltleBg'] = QualityBg;
+			cfg['subTiltleBg'].name = "ST"
+			
+			
 			cfg['mailIcon'].scaleX = cfg['zoomInMc'].scaleX = cfg['zoomOutMc'].scaleX = cfg['shareMc'].scaleX = cfg['downloadMc'].scaleX = 1;
 			cfg['mailIcon'].scaleY = cfg['zoomInMc'].scaleY = cfg['zoomOutMc'].scaleY = cfg['downloadMc'].scaleY = cfg['shareMc'].scaleY = 1;
 

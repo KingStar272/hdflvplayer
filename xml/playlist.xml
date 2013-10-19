@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <playlist autoplay="true" random="false">
 <mainvideo
-         video_url="http://www.youtube.com/watch?v=Vpg9yizPP_g"
+         video_url="http://www.joomlarulez.com/images/stories/video/UqmyLsqO-1753142.mp4"
          video_hdpath=""
-         video_id="124"
-         thumb_image=""
-         preview_image=""
+         video_id="1"
+         thumb_image="http://www.sintel.org/wp-content/uploads/2010/06/03.2a_comp_000017.jpg"
+         preview_image="http://www.sintel.org/wp-content/uploads/2010/06/03.2a_comp_000017.jpg"
          allow_preroll="true"
          allow_midroll="true"
          allow_postroll="false"
@@ -15,15 +15,16 @@
          allow_download="true"
          copylink=""
          streamer_path=""
+         subtitle ="English.srt,Russian.srt"
          video_isLive="false" >
          <title><![CDATA[Big Buck Bunny]]></title>
          <!--Optional-->
          <tagline targeturl="http://www.bigbuckbunny.org/"><![CDATA[<span class='heading'></span>Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself.]]></tagline>
 </mainvideo>
 <mainvideo
-         video_url="http://www.youtube.com/watch?v=UJ1MOWg15Ec"
+         video_url="https://www.youtube.com/watch?v=xTmugBKQkx4"
          video_hdpath=""
-         video_id="124"
+         video_id="2"
          thumb_image=""
          preview_image=""
          allow_preroll="true"
@@ -35,6 +36,7 @@
          allow_download="true"
          copylink=""
          streamer_path=""
+         subtitle =""
          video_isLive="false" >
          <title><![CDATA[Samsung Demo HD]]></title>
          <!--Optional-->
@@ -55,6 +57,7 @@
          allow_download="true"
          copylink=""
          streamer_path=""
+         subtitle =""
          video_isLive="false" >
          <title><![CDATA[Pirates of the Caribbean]]></title>
          <!--Optional-->
@@ -75,6 +78,7 @@
          allow_download="false"
          copylink=""
          streamer_path=""
+         subtitle =""
          video_isLive="" >
          <title><![CDATA[Landscapes: Volume]]></title>
          <!--Optional-->
@@ -95,6 +99,7 @@
          allow_download="true"
          copylink=""
          streamer_path=""
+         subtitle =""
          video_isLive="" >
          <title><![CDATA[happy feet 2]]></title>
          <!--Optional-->
@@ -115,6 +120,7 @@
          allow_download="false"
          copylink=""
          streamer_path=""
+         subtitle =""
          video_isLive="" >
          <title><![CDATA[Endless Summer Journey]]></title>
          <!--Optional-->
@@ -135,11 +141,10 @@
          allow_download="true"
          copylink=""
          streamer_path=""
+         subtitle =""
          video_isLive="false" >
          <title><![CDATA[The Twilight Saga Breaking Dawn]]></title>
          <!--Optional-->
          <tagline targeturl="http://trailers.apple.com/trailers/disney/oceans/"><![CDATA[<span class='heading'></span>Twilight Breaking Dawn Part 2 Official Trailer.]]></tagline>
 </mainvideo>
-
-
 </playlist>

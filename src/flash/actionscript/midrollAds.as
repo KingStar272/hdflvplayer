@@ -114,18 +114,22 @@ package actionscript
 		//============================= Change midroll data depends on midroll adrotate and random values =========================================
 		function setdata()
 		{
-			if (config['adrotate'] != "true")
+			
+			if (config['random'] == "true")
 			{
-				if (config['random'] == "true")
-				{
-					index = Math.round(Math.random() * (config['midslistlength']-1));
-				}
+				index = Math.round(Math.random() * (config['midslistlength']-1));
+				midrolldata();
+			}
+			else if (config['adrotate'] == "true")
+			{
+				midrolldata();
+				index++;
 			}
 			else
 			{
-				index++;
+				index = 0;
+				midrolldata();
 			}
-			midrolldata();
 		}
 		function midrolldata()
 		{
@@ -138,7 +142,6 @@ package actionscript
 			{
 				index = config['midslistlength'] - 1;
 			}
-
 			config['midRoll'].ad.autoSize = TextFieldAutoSize.LEFT;
 			config['midRoll'].ad.htmlText = String(config['midadd'][index]);
 			format= new TextFormat();

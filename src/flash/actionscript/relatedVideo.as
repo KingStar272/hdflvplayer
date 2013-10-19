@@ -228,7 +228,7 @@ package actionscript
 			mc.tle.alpha = 1;
 			mc.timer.alpha = 1;
 			mc.view.alpha = 1;
-			new Tween(mc.img,"alpha",Strong.easeOut,mc.img.alpha,0.05,0.5,true);
+			new Tween(mc.img,"alpha",Strong.easeOut,mc.img.alpha,0.2,0.5,true);
 			mc.removeEventListener(MouseEvent.MOUSE_OVER,overFunnn);
 			mc.addEventListener(MouseEvent.MOUSE_OUT,outFunnn);
 		}

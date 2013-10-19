@@ -4,11 +4,10 @@ package actionscript
 	import flash.external.*;
 	public class videoPlay
 	{
-
 		private var Tracker:tracker;
 		public function videoPlay(config)
 		{
-			if (config['preval'] == false || config['file'].indexOf('.mp3') > -1)
+			if (config['preval'] == false || config['file'].indexOf('.mp3') > -1 || config['file'].indexOf('.m4a') > -1)
 			{
 				config['isplayed'] = true;
 				config['Playbtn'].visible = config['skinMc'].pp.play_btn.visible = false;
@@ -20,6 +19,10 @@ package actionscript
 					if (config['file'].indexOf('.mp3') > -1)
 					{
 						config['audioChannel'] = config['audio'].play(config['lastPosition']);
+					}
+					else if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+					{
+						if(config['HLSandHDSstream'])config['HLSandHDSstream'].playFun()
 					}
 					else if (config['isLive'] == 'true')
 					{

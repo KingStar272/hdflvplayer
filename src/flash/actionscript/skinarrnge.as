@@ -78,6 +78,17 @@ package actionscript
 				{
 					config['skinMc'].hd.visible = false;
 				}
+				if (config['cc'] != "false" && config['mov'] == 2)
+				{
+					yposi = yposi - (config['skinMc'].cc.width+11);
+					config['skinMc'].cc.x = yposi;
+					config['skinMc'].cc.visible = true;
+					config['skinMc'].cc.buttonMode = true;
+				}
+				else
+				{
+					config['skinMc'].cc.visible = false;
+				}
 				if (config['playlist_auto'] == "true")
 				{
 					if (config['hd'] != "false" && config['mov'] == 2)

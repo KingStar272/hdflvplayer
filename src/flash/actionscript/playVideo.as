@@ -54,25 +54,34 @@ package actionscript
 		private var seti:Number;
 		private var QText:TextField;
 		private var Qclip:MovieClip;
-		private var QTextArr:Array;
-		private var QClipArr:Array;
+		private var SClipArr:Array;
+		private var STextArr:Array;
 		private var mc:MovieClip;
 		private var mc2:MovieClip;
 		private var c:Number;
 		private var MemberAccess:memberAccess
 		private var keyframes:Object;
 		private var ImAlaoded:Boolean;
+		private var subTitle:loadSubtitle;
+		private var subtitleArr:Array;
+		
 		public function playVideo(cfg,ref)
 		{
 			Security.allowDomain("*");
-			cfg['hd1080'] = '1080p';
-			cfg['hd720'] = '720p';
+			cfg['hd1080'] = '1080p HD';
+			cfg['hd720'] = '720p HD';
 			cfg['large'] = '480p';
 			cfg['medium'] = '360p';
 			cfg['small'] = '240p';
 			cfg['tiny'] = '144p';
 			cfg['LOW'] = 'low';
 			cfg['HIGH'] = 'high';
+			
+			cfg['auto'] = 'Auto';
+			cfg['hd720'] = '720p HD';
+			cfg['hq'] = '480p';
+			cfg['sd'] = '380p';
+			cfg['ld'] = '240p';
 			//========================================== Initialize button visible ==============================================================================
 			cfg['Playbtn'].scaleX = cfg['Playbtn'].scaleY = 1;
 			if (cfg['skinMc'].y > cfg['stageHeight'])
@@ -121,6 +130,7 @@ package actionscript
 			//========================================== play preroll or postroll ads ==============================================================================
 			if (config['mov'] == 1 || config['mov'] == 3)
 			{
+				config['skinMc'].indication.text = ""
 				if (config['showTag'] == "true")
 				{
 					config['tagline'].visible = true;
@@ -170,6 +180,32 @@ package actionscript
 			}
 			else
 			{
+				while (config['subTiltleBg'].con.numChildren > 0)
+				{
+					config['subTiltleBg'].con.removeChildAt(0);
+				}
+				subtitleArr = new Array()
+				if(config['subTitleArr'][config['vid']] != "" && config['subTitleArr'][config['vid']] != undefined)
+				{
+					subtitleArr = config['subTitleArr'][config['vid']].split(',')
+					SClipArr = new Array()
+					STextArr = new Array()
+					panelcreate(config['subTiltleBg'],subtitleArr,SClipArr);
+					subTitle = new loadSubtitle(config,subtitleArr[0])
+					config['cc'] = "true" 
+					var skinArrngea = new skinarrnge(config);
+					for (var f=1; f<=subtitleArr.length; f++)
+					{
+						STextArr[f].alpha = 0.5;
+					}
+					STextArr[1].alpha = 1
+					config['subTiltleBg'].poi.y = SClipArr[1].y + 10;
+				}
+				else
+				{
+					config['cc'] = "false" 
+					var skinArrngea = new skinarrnge(config);
+				}
 				if (config['local'] != 'true' && config['embedplayer'] != "true")
 				{
 					if(reference.root.loaderInfo.parameters['baserefWP'] || reference.root.loaderInfo.parameters['baserefW'])
@@ -279,6 +315,11 @@ package actionscript
 					{
 						playYoutubeVideo();
 					}
+					else if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+					{
+						config['HLSandHDSstream'] = new HLSandHDS(config,reference);
+						config['HLSandHDSstream'].loadHDSHLS()
+					}
 					else
 					{
 						playStreamVideo();
@@ -351,12 +392,13 @@ package actionscript
 			config['skinMc'].indication.setTextFormat(format);
 			if (config['showPlaylistB'] == "true")
 			{
-				config['skinMc'].indication.x = (config['yposi']-30) - (config['skinMc'].indication.width+50);
+				config['skinMc'].indication.x = config['skinMc'].PlayListView.x - (config['skinMc'].indication.width+10);
 			}
 			else
 			{
 				config['skinMc'].indication.x = (config['yposi']-30) - (config['skinMc'].indication.width+10);
 			}
+			listeneradd()
 		}//========================================== load Image for ads preview ==============================================================================
 		function imgLoaded(evt:Event)
 		{
@@ -432,8 +474,7 @@ package actionscript
 		}
 		private function loadVideoByIdFun()
 		{
-			config['YTPlayer'].alpha = 0
-			config['YTPlayer'].setSize(config['stageWidth'], config['stageHeight']);
+			
 			if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1)
 			{
 				if (config['file'].indexOf('dailymotion') > -1)
@@ -445,6 +486,7 @@ package actionscript
 				}
 				else if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 				{
+					config['YTPlayer'].alpha = 0
 					config['dailyBG'].visible = false;
 					if(config['mov']!= 2)config['YTPlayer'].loadVideoById(getyoutube_ID(config['file']), 0, "default");
 					else if (config['videoType'] == 'hd')
@@ -456,7 +498,6 @@ package actionscript
 						config['YTPlayer'].loadVideoById(getyoutube_ID(config['file']), 0, "small");
 					}
 					config['YTPlayer'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
-					seti = setInterval(getQualityPanel,200);
 				}
 				else
 				{
@@ -474,7 +515,7 @@ package actionscript
 					config['dailyBG'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
 					config['buffer_Mc'].visible = false;
 				}
-				
+				 config['YTPlayer'].setSize(config['stageWidth'], config['stageHeight']);
 				var otherindex:Number;
 				if (config['file'].indexOf('dailymotion') > -1)
 				{
@@ -517,14 +558,14 @@ package actionscript
 			}
 			if (config['video'] == "youtube")
 			{
-				if (config['YTPlayer'].getPlayerState() != -1)
+				if (config['YTPlayer'].getPlayerState() != -1 )
 				{
 					clearInterval(seti);
 					config['QualityArray'] = new Array();
 					config['QualityArray'] = config['YTPlayer'].getAvailableQualityLevels();
-					QTextArr = new Array();
-					QClipArr = new Array();
-					panelcreate();
+					config['QTextArr'] = new Array();
+					config['QClipArr'] = new Array();
+					panelcreate(config['QualityBg'],config['QualityArray'],config['QClipArr']);
 				}
 			}
 			else if (config['hd']=="true")
@@ -532,69 +573,157 @@ package actionscript
 				clearInterval(seti);
 				config['QualityArray'] = new Array();
 				config['QualityArray'] = ['HIGH','LOW'];
-				QTextArr = new Array();
-				QClipArr = new Array();
-				panelcreate();
+				config['QTextArr'] = new Array();
+				config['QClipArr'] = new Array();
+				panelcreate(config['QualityBg'],config['QualityArray'],config['QClipArr']);
 			}
 			else
 			{
 				clearInterval(seti);
 			}
 		}
-		public function panelcreate()
+		public function panelcreate(panel:MovieClip,valueArr:Array,QArr:Array)
 		{
-			for (var t=0; t<=config['QualityArray'].length; t++)
+			for (var t=0; t<=valueArr.length; t++)
 			{
 				Qclip = new MovieClip();
-				config['QualityBg'].con.addChild(Qclip);
-				QClipArr.push(Qclip);
+				panel.con.addChild(Qclip);
+				QArr.push(Qclip);
+				if(panel.name == "QA")config['QClipArr'].push(Qclip);
 				QText = new TextField();
 				Qclip.addChild(QText);
 				QText.height = 25;
 				QText.width = 80;
 				QText.name = "QText" + t;
 				Qclip.name = "Qclip" + t;
-				QTextArr.push(QText);
+				QText.mouseEnabled = false;
 				if (t==0)
 				{
 					QText.autoSize = TextFieldAutoSize.CENTER;
-					if (config['Quality'] != undefined)
+					if(panel.name == "QA")
 					{
-						QText.htmlText = "<b> " + config['Quality'] + " </b>";
+						config['QTextArr'].push(QText);
+						if (config['Quality'] != undefined)QText.htmlText = "<b> " + config['Quality'] + " </b>";
+						else QText.htmlText = "<b> " + "Quality" + " </b>";
 					}
 					else
 					{
-						QText.htmlText = "<b> " + "Quality" + " </b>";
+						STextArr.push(QText);
+						if (config['Caption'] != undefined)QText.htmlText = "<b> " + config['Caption'] + " </b>";
+						else QText.htmlText = "<b> " + "Caption" + " </b>";
 					}
 					Qclip.y = t*(QText.height);
 				}
 				else
 				{
-					QText.text = "     " + config[config['QualityArray'][t - 1]];
+					if(panel.name == "QA")
+					{
+						config['QTextArr'].push(QText);
+						if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1)QText.text = "       " + config[valueArr[t - 1]];
+						else QText.text = "     " + valueArr[t - 1];
+						Qclip.addEventListener(MouseEvent.MOUSE_DOWN,ChangevideoQuality);
+					}
+					else
+					{
+						STextArr.push(QText);
+						var asr:Array = new Array()
+						if (valueArr[t - 1].indexOf('http') > -1)
+						{
+							asr = valueArr[t - 1].split('/')
+							var vc:String = asr[asr.length-1]
+							asr = new Array()
+							asr = vc.split('_')
+							vc = asr[1]
+							asr = new Array()
+							asr = vc.split('.')
+						}
+						else asr = valueArr[t - 1].split('.')
+						QText.text = "     " + asr[0]
+						Qclip.addEventListener(MouseEvent.MOUSE_DOWN,Changevideosubtitle);
+					}
 					Qclip.y = t*(QText.height);
 					QText.alpha = 0.5;
 					Qclip.buttonMode = true;
 					QText.mouseEnabled = false;
 					Qclip.addEventListener(MouseEvent.MOUSE_OVER,QclipOverFun);
-					Qclip.addEventListener(MouseEvent.MOUSE_DOWN,ChangevideoQuality);
+					
 				}
-				config['QualityArray'].buttonMode = true;
 				QText.selectable = false;
 				QText.textColor = config['textColor'];
 			}
-			config['QualityBg'].bgMc.bg.height = ((config['QualityArray'].length+1)*25)-5;
-			config['QualityBg'].y= config['skinMc'].y-(config['QualityBg'].height-5);
+			panel.bgMc.bg.height = ((valueArr.length+1)*25);
+			panel.y= config['skinMc'].y-(panel.height-5);
+			if(panel.name == "QA" && config['video'] == "youtube" )
+			{
+				if(config['video'] == "youtube")
+				{
+					for (var tt=0; tt<config['QualityArray'].length; tt++)
+					{
+						if (config['YTPlayer'].getPlaybackQuality() == config['QualityArray'][tt] && config['QClipArr'] != null)
+						{
+							config['QualityBg'].poi.y = ((tt+1)*25)+5;
+							config['QTextArr'][tt + 1].alpha = 1;
+							if (config['YTPlayer'].getPlaybackQuality() == "hd720" || config['YTPlayer'].getPlaybackQuality() == "hd1080" || config['YTPlayer'].getPlaybackQuality() == "highres")
+							{
+								config['skinMc'].hd.hdOffmode.visible = false;
+								config['skinMc'].hd.hdOnmode.visible = true;
+							}
+							else
+							{
+								config['skinMc'].hd.hdOffmode.visible = true;
+								config['skinMc'].hd.hdOnmode.visible = false;
+							}
+							config['QClipArr'] = new Array()
+							break;
+						}
+					}
+				}
+				else
+				{
+					if (config['hd'] == "true" && config['QClipArr'] != null)
+					{
+						if (config['HD_default'] == 'true')
+						{
+							config['QualityBg'].poi.y = config['QClipArr'][1].y + 10;
+							config['QTextArr'][1].alpha = 1;
+							config['skinMc'].hd.hdOffmode.visible = false;
+							config['skinMc'].hd.hdOnmode.visible = true;
+						}
+						else
+						{
+							config['QualityBg'].poi.y = config['QClipArr'][2].y + 10;
+							config['QTextArr'][2].alpha = 1;
+							config['skinMc'].hd.hdOffmode.visible = true;
+							config['skinMc'].hd.hdOnmode.visible = false;
+						}
+					}
+				}
+			}
+		}
+		public function Changevideosubtitle(eve:MouseEvent)
+		{
+			config['QualityBg'].visible = false;
+			config['subTiltleBg'].visible = false;
+			for (var f=1; f<=subtitleArr.length; f++)
+			{
+				STextArr[f].alpha = 0.5;
+			}
+			c = Number(eve.currentTarget.name.substr(5));
+			subTitle = new loadSubtitle(config,subtitleArr[c-1])
+			config['subTiltleBg'].poi.y = SClipArr[c].y + 10;
+			STextArr[c].alpha = 1;
 		}
 		public function ChangevideoQuality(eve:MouseEvent)
 		{
 			config['QualityBg'].visible = false;
+			config['subTiltleBg'].visible = false;
 			for (var f=1; f<=config['QualityArray'].length; f++)
 			{
-				QTextArr[f].alpha = 0.5;
+				config['QTextArr'][f].alpha = 0.5;
 			}
 			if (config['video'] == "youtube")
 			{
-				config['YTPlayer'].seekTo(Math.round(config['currentTime']),true);
+				if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)config['YTPlayer'].seekTo(Math.round(config['currentTime']),true);
 				c = Number(eve.currentTarget.name.substr(5));
 				config['YTPlayer'].setPlaybackQuality(config['QualityArray'][c-1]);
 			}
@@ -629,8 +758,16 @@ package actionscript
 			mc.removeEventListener(MouseEvent.MOUSE_OVER,QclipOverFun);
 			mc.addEventListener(MouseEvent.MOUSE_OUT,QclipOutFun);
 			c = Number(mc.name.substr(5));
-			QTextArr[c].backgroundColor = 0x3E3E3E;
-			QTextArr[c].background = true;
+			if(eve.currentTarget.parent.parent.name == "QA")
+			{
+				config['QTextArr'][c].backgroundColor = 0x3E3E3E;
+				config['QTextArr'][c].background = true;
+			}
+			else
+			{
+				STextArr[c].backgroundColor = 0x3E3E3E;
+				STextArr[c].background = true;
+			}
 		}
 		public function QclipOutFun(eve:MouseEvent)
 		{
@@ -638,7 +775,8 @@ package actionscript
 			mc2.addEventListener(MouseEvent.MOUSE_OVER,QclipOverFun);
 			mc2.removeEventListener(MouseEvent.MOUSE_OUT,QclipOutFun);
 			c = Number(mc.name.substr(5));
-			QTextArr[c].background = false;
+			if(eve.currentTarget.parent.parent.name == "QA")config['QTextArr'][c].background = false;
+			else STextArr[c].background = false;
 		}
 		function onPlayerError(event:Event)
 		{
@@ -678,7 +816,8 @@ package actionscript
 				arrss = st.split('#video=');
 			}
 			st = arrss[1];
-			st = st.substr(0,6);
+			arrss = st.split('_');
+			st = arrss[0]
 			return st;
 		}
 		//========================================== Get youtube video ID ==============================================================================
@@ -686,10 +825,8 @@ package actionscript
 		{
 			if (url.indexOf('youtu.be/') > -1)
 			{
-				trace("cc");
 				var arrsY:Array = url.split('youtu.be/');
 				var strY = arrsY[1];
-
 				return strY;
 			}
 			else
@@ -784,7 +921,6 @@ package actionscript
 				connect();
 			}
 			buttonVis();
-			seti = setInterval(getQualityPanel,200);
 		}
 		private function connectStatusHandler(event:NetStatusEvent)
 		{
@@ -802,11 +938,13 @@ package actionscript
 		private function connect()
 		{
 			config['shareClip'] = null;
-			config['stream'] = new NetStream(nc);
+		    config['stream']  = new NetStream(nc);
 			objClient= new Object();
-			objClient.onMetaData = onMetaData;
 			config['stream'].client = objClient;
-			if (config['file'].indexOf('.mp3') > -1)
+			config['stream'].checkPolicyFile = true;
+			objClient.onMetaData = flvOnMetaData;
+			
+			if (config['file'].indexOf('.mp3') > -1 )
 			{
 				preview = new Preview(config['ref'],config);
 				preview.loadPreview();
@@ -820,19 +958,28 @@ package actionscript
 			}
 			else
 			{
-				myVideo = new Video(config['stageWidth'],config['stageHeight']);
-				config['myVideo'].addChild(myVideo);
-				config['myVideo'] = config['myVideo'];
-				config['shareClip'] = config['myVideo'];
-				config['myVideo'].visible = false;
-				var otherindex = reference.getChildIndex(config['backBg']);
-				reference.setChildIndex(config['myVideo'], otherindex+1);
-				myVideo.attachNetStream(config['stream']);
-				myVideo.smoothing = true;
-				myVideo.deblocking = 1;
-				config['stream'].bufferTime = config['buffer'];
-				config['stream'].play(config['file']);
-				config['myVideo'].buttonMode = true;
+				if (config['file'].indexOf('.m4a') > -1 )
+				{
+					preview = new Preview(config['ref'],config);
+				    preview.loadPreview();
+					config['stream'].bufferTime = config['buffer'];
+					config['stream'].play(config['file']);
+				}
+				else
+				{
+					myVideo = new Video(config['stageWidth'],config['stageHeight']);
+					config['myVideo'].addChild(myVideo);
+					config['shareClip'] = config['myVideo'];
+					config['myVideo'].visible = false;
+					var otherindex = reference.getChildIndex(config['backBg']);
+					reference.setChildIndex(config['myVideo'], otherindex+1);
+					myVideo.attachNetStream(config['stream']);
+					myVideo.smoothing = true;
+					myVideo.deblocking = 1;
+					config['stream'].bufferTime = config['buffer'];
+					config['stream'].play(config['file']);
+					config['myVideo'].buttonMode = true;
+				}
 			}
 			config['shareClip'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
 			config['shareClip'].doubleClickEnabled = true;
@@ -874,53 +1021,57 @@ package actionscript
 			stopVideoPlay();
 		}
 		//========================================== Get video date(onMetaData) ==============================================================================
-		private function onMetaData(obj:Object):void
+		private function flvOnMetaData(obj:Object):void
 		{
-			if(obj.width != undefined)
+			if(obj.width == undefined)
 			{
-			config['skinMc'].pro.buffer_end.visible = config['skinMc'].pro.seek_end.visible = config['skinMc'].pro.seekS.visible = config['skinMc'].pro.bufferS.visible = true;
-			if (config['meta'] == false)
-			{
-				config['meta'] = true;
-				if (obj.seekpoints)
+				obj.width = 300
+				obj.height = 250
+			}
+			//if(obj.width != undefined)
+			//{
+				config['skinMc'].pro.buffer_end.visible = config['skinMc'].pro.seek_end.visible = config['skinMc'].pro.seekS.visible = config['skinMc'].pro.bufferS.visible = true;
+				if (config['meta'] == false)
 				{
-					config['mp4'] = true;
-					keyframes = new Object()
-					if(config['streamer'] != undefined && config['streamer'].indexOf("pseudostreaming") > -1)keyframes = convertSeekpoints(obj.seekpoints);
-					keyframes = obj.keyframes
+					config['meta'] = true;
+					if (obj.seekpoints)
+					{
+						config['mp4'] = true;
+						keyframes = new Object()
+						if(config['streamer'] != undefined && config['streamer'].indexOf("pseudostreaming") > -1)keyframes = convertSeekpoints(obj.seekpoints);
+						keyframes = obj.keyframes
+					}
+					else
+					{
+						config['mp4'] = false;
+						keyframes = new Object()
+						keyframes = obj.keyframes;
+					}
+					config['nDuration'] = Math.ceil(obj.duration);
+					
 				}
-				else
+				config['keyframes'] = keyframes
+				config['currentTime'] = config['stream'].time;
+				if(obj.width != undefined)config['org_width'] = Number(obj.width);
+				if(obj.height != undefined)config['org_height'] = Number(obj.height);
+				config['vidscale'] = Number(obj.width) / Number(obj.height);
+				config['playeruI'].addEventListener(Event.ENTER_FRAME, updateStremDisplay);
+				config['obj'] = obj;
+				if (config['streamer'] != undefined && config['streamer'].indexOf("rtmp") > -1 && config['hdclicked'] == true)
 				{
-					config['mp4'] = false;
-					keyframes = new Object()
-					keyframes = obj.keyframes;
+					config['stream'].seek(config['startSec']);
 				}
-				config['nDuration'] = Math.ceil(obj.duration);
-				
-			}
-			config['keyframes'] = keyframes
-			config['currentTime'] = config['stream'].time;
-			if(obj.width != undefined)config['org_width'] = Number(obj.width);
-			if(obj.height != undefined)config['org_height'] = Number(obj.height);
-			config['vidscale'] = Number(obj.width) / Number(obj.height);
-			config['playeruI'].addEventListener(Event.ENTER_FRAME, updateStremDisplay);
-			config['obj'] = obj;
-			if (config['streamer'] != undefined && config['streamer'].indexOf("rtmp") > -1 && config['hdclicked'] == true)
-			{
-				config['stream'].seek(config['startSec']);
-			}
-			config['hdclicked'] = false;
-			var videoscale = new videoScale(config,reference);
-			videoscale.videoResize();
-			config['stream'].send("@clearDataFrame", "onMetaData");
-			}
+				config['hdclicked'] = false;
+				var videoscale = new videoScale(config,reference);
+				videoscale.videoResize();
+				config['stream'].send("@clearDataFrame", "onMetaData");
+			//}
 		}
 		//========================================== Streaming video status ==============================================================================
 		private function netStatusHandler(event:NetStatusEvent)
 		{
 			if (config['video'] != "")
 			{
-				//ExternalInterface.call('alert',event.info.code)
 				config['buffer_Mc'].alpha = 1;
 				switch (event.info.code)
 				{
@@ -991,7 +1142,7 @@ package actionscript
 					config['currentTime'] = config['YTPlayer'].getCurrentTime();
 					config['nDuration'] = config['YTPlayer'].getDuration();
 				}
-				else
+				else if(config['file'].indexOf('manifest.f4m') <= -1 || config['file'].indexOf('.m3u8') <= -1)
 				{
 					config['currentTime'] = config['stream'].time;
 				}
@@ -1001,6 +1152,7 @@ package actionscript
 				}
 				else
 				{
+					
 					if (config['ref'].mouseY > config['skinMc'].y && config['ref'].mouseY < config['stageHeight'] - 3)
 					{
 						config['skinMc'].pro.pointer.alpha = 1;
@@ -1031,6 +1183,10 @@ package actionscript
 							var seconds:uint = Math.floor(config['audioChannel'].position / 1000) % 60;
 							config['skinMc'].ti.timetex.htmlText= (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "</font> ";
 						}
+						else if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+						{
+							config['currentTime'] = config['HLSandHDSstream'].getcurrentTime();
+						}
 						else if (config['streamer'] != undefined && config['streamer'].indexOf("pseudostreaming") <= -1)
 						{
 							config['currentTime'] = config['stream'].time;
@@ -1039,7 +1195,6 @@ package actionscript
 						{
 							config['currentTime'] = config['off'] + config['stream'].time;
 						}
-
 					}
 					if (config['bolProgressScrub'])
 					{
@@ -1053,13 +1208,14 @@ package actionscript
 							var pcent = (config['skinMc'].pro.pointer.x) / config['ProgbarWidth'];
 							if (config['video'] == "stream")
 							{   
-							    if(config['streamer'] == undefined || config['streamer'] == "")config['stream'].seek(Math.round(pcent*config['nDuration']));
+							    if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1){config['HLSandHDSstream'].HDSandHLSseek(Math.round(pcent*config['nDuration']))}
+							    else if(config['streamer'] == undefined || config['streamer'] == "")config['stream'].seek(Math.round(pcent*config['nDuration']));
 								else if(config['mp4'] == true && config['streamer'] != undefined && config['streamer'].indexOf("rtmp") <= -1)config['stream'].seek(Math.round(pcent*config['nDuration']));
 								else if(config['mp4'] == false && config['streamer'] != undefined && config['streamer'].indexOf("rtmp") > -1)config['stream'].seek(Math.round(pcent*config['nDuration']));
 							}
 							else
 							{
-								config['YTPlayer'].seekTo(Math.round(pcent*config['nDuration']),true);
+								config['YTPlayer'].seekTo(Math.round(pcent*config['nDuration']));
 							}
 							config['skinMc'].pro.seek_bar.width = config['skinMc'].pro.pointer.x - 7;
 							timeDisplay();
@@ -1080,39 +1236,18 @@ package actionscript
 								stopVideoPlay();
 							}
 						}
-						else if (config['stremPlayed'] == false)
+						else if (config['stremPlayed'] == false && config['buffer_Mc'].visible == false)
 						{
 							config['skinMc'].pro.pointer.x = (config['currentTime'] * config['ProgbarWidth'] / config['nDuration']);
 						}
 						config['skinMc'].pro.seek_bar.width = config['skinMc'].pro.pointer.x - 7;
 					}
-					if (config['streamer'] != undefined && config['streamer'].indexOf("rtmp") > -1)
+					if ((config['streamer'] != undefined && config['streamer'].indexOf("rtmp") > -1) || config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
 					{
 						config['skinMc'].pro.buffer_bar.width = config['ProgbarWidth'];
 					}
 					else if (config['video'] == "youtube")
 					{
-						if (QClipArr !=null)
-						{
-							for (var tt=0; tt<config['QualityArray'].length; tt++)
-							{
-								if (config['YTPlayer'].getPlaybackQuality() == config['QualityArray'][tt])
-								{
-									config['QualityBg'].poi.y = QClipArr[tt + 1].y + 10;
-									QTextArr[tt + 1].alpha = 1;
-									if (config['YTPlayer'].getPlaybackQuality() == "hd720" || config['YTPlayer'].getPlaybackQuality() == "hd1080" || config['YTPlayer'].getPlaybackQuality() == "highres")
-									{
-										config['skinMc'].hd.hdOffmode.visible = false;
-										config['skinMc'].hd.hdOnmode.visible = true;
-									}
-									else
-									{
-										config['skinMc'].hd.hdOffmode.visible = true;
-										config['skinMc'].hd.hdOnmode.visible = false;
-									}
-								}
-							}
-						}
 						if (config['bolProgressScrub'] == false)
 						{
 							if (config['YTPlayer'].getPlayerState() != 3)
@@ -1203,23 +1338,6 @@ package actionscript
 					}
 					else
 					{
-						if (config['hd'] == "true")
-						{
-							if (config['HD_default'] == 'true')
-							{
-								config['QualityBg'].poi.y = QClipArr[1].y + 10;
-								QTextArr[1].alpha = 1;
-								config['skinMc'].hd.hdOffmode.visible = false;
-								config['skinMc'].hd.hdOnmode.visible = true;
-							}
-							else
-							{
-								config['QualityBg'].poi.y = QClipArr[2].y + 10;
-								QTextArr[2].alpha = 1;
-								config['skinMc'].hd.hdOffmode.visible = true;
-								config['skinMc'].hd.hdOnmode.visible = false;
-							}
-						}
 						if (config['file'].indexOf('.mp3') > -1)
 						{
 							config['skinMc'].pro.buffer_bar.width = config['audio'].bytesLoaded * config['ProgbarWidth'] / config['audio'].bytesTotal;
@@ -1257,6 +1375,14 @@ package actionscript
 							stopVideoPlay();
 						}
 					}
+					else if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+					{
+						if(config['currentTime']+1 >= config['nDuration'])
+						{
+							config['playeruI'].removeEventListener(Event.ENTER_FRAME, updateStremDisplay);
+							stopVideoPlay()
+						}
+					}
 					if (config['nDuration'] > 2 && config['imaAds'] == "true" && config['imA'] == false && config['allow_imaAds'] == "true" && ImAlaoded == false)
 					{
 						if (config['nDuration'] > 15)
@@ -1277,6 +1403,10 @@ package actionscript
 							var imaAdsload2 = new adsplayer(config,reference);
 							imaAdsload2.loadAd();
 						}
+					}
+					if(config['subTitleArr'][config['vid']] != "" && config['subTitleArr'][config['vid']] != undefined)
+					{
+						subTitle.setSubTitle(subTitle.getSubtitleAt(config['currentTime']))
 					}
 				}
 				config['v'] =  -((config['skinMc'].Volume.vol_bar.vol_cnt.poi.y) / config['skinMc'].Volume.vol_bar.vol_cnt.bg.height);
@@ -1347,6 +1477,10 @@ package actionscript
 			{
 				config['audioChannel'].soundTransform= sndTransform;
 			}
+			else if (config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+			{
+				if(config['currentTime']>1 && config['mov'] == 2)config['HLSandHDSstream'].changeVolume(intVolume)
+			}
 			else
 			{
 				config['stream'].soundTransform= sndTransform;
@@ -1354,6 +1488,11 @@ package actionscript
 		}//========================================== video stopped ==============================================================================
 		public function stopVideoPlay()
 		{
+			config['cc'] = "false" 
+			config['SubMc'].visible = false
+			var skinArrngea = new skinarrnge(config);
+			config['QualityBg'].visible = false;
+			config['subTiltleBg'].visible = false;
 			if(config['adsLoader'] == undefined || config['adType'] == "Text" || config['adType'] == "Overlay")
 			{
 				config['playeruI'].removeEventListener(Event.ENTER_FRAME, updateStremDisplay);
@@ -1386,6 +1525,11 @@ package actionscript
 				config['adIndicator'].y = config['labelBt'].y = config['stageHeight'] + 50;
 				config['adIndicator'].visible = config['labelBt'].visible = false;
 				removeYoutubevidlervideos();
+				if (config['preval'] == true)
+				{
+					preview = new Preview(config['ref'],config);
+					preview.removePreview();
+				}
 				if (config['update'])
 				{
 					if (config['preval'] == true)
@@ -1419,7 +1563,14 @@ package actionscript
 						preview.removePreview();
 					}
 				}
-				if (config['video'] == "stream")
+				if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+				{
+					config['file'] = '';
+					config['stream'] = null;
+					config['video'] = "";
+					config['HLSandHDSstream'].closeFun()
+				}
+				else if (config['video'] == "stream")
 				{
 					config['file'] = '';
 					config['stream'].close();
@@ -1520,6 +1671,7 @@ package actionscript
 		private function closeAdsFun(eve:MouseEvent)
 		{
 			config['QualityBg'].visible = false;
+			config['subTiltleBg'].visible = false;
 			if (config['labelBt'].bg.visible == false)
 			{
 				config['Playbtn'].visible = false;
@@ -1531,7 +1683,7 @@ package actionscript
 		private function hdEnabledFun()
 		{
 			config['hd'] = "true";
-			if (config['file'] != undefined && config['file'].indexOf('youtube.com') <= -1 && config['file'].indexOf('youtu.be') <= -1)
+			if (config['file'] != undefined && config['file'].indexOf('youtube.com') <= -1 && config['file'].indexOf('youtu.be') <= -1 && config['file'].indexOf('dailymotion') <= -1 && config['file'].indexOf('viddler') <= -1)
 			{
 				if ((reference.loaderInfo.parameters.file || (config['video_url'][config['vid']]!= undefined && config['video_url'][config['vid']] != "") ) && (reference.loaderInfo.parameters.hdpath || (config['video_hdpath'][config['vid']] != undefined && config['video_hdpath'][config['vid']] != "" )))
 				{
@@ -1579,8 +1731,8 @@ package actionscript
 		//========================================== Play and Pause ==============================================================================
 		private function PlayPausebtnClicked(eve:MouseEvent)
 		{
-			
 			config['QualityBg'].visible = false;
+			config['subTiltleBg'].visible = false;
 			if (config['relatedview'] != true && config['shareB'] != true && config['errorMc'].visible == false && config['mailB'] != true)
 			{
 				if (config['isplayed'] == false || config['Playbtn'].visible == true)
@@ -1668,6 +1820,7 @@ package actionscript
 		private function FullscreenFun(eve:MouseEvent)
 		{
 			config['QualityBg'].visible = false;
+			config['subTiltleBg'].visible = false;
 			config['playeruI'].dispatchEvent(new Event('onfullscreen'));
 		}
 		//========================================== get  seek point for lighttpd videos ==============================================================================;
@@ -1687,6 +1840,7 @@ package actionscript
 		private function progressbgClicked(eve:MouseEvent)
 		{
 			config['QualityBg'].visible = false;
+			config['subTiltleBg'].visible = false;
 			if (config['video'] == "youtube")
 			{
 				config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, config['skinMc'].pro.progress_bg.width, 0));
@@ -1703,6 +1857,11 @@ package actionscript
 				config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, config['skinMc'].pro.progress_bg.width, 0));
 				config['stremPlayed'] = true;
 				lighttPd.scrubit();
+			}
+			else if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+			{
+				config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, config['skinMc'].pro.progress_bg.width, 0));
+				config['stremPlayed'] = true;
 			}
 		}
 		//========================================== ads money make function  ==============================================================================
@@ -1760,8 +1919,15 @@ package actionscript
 			}
 			if (String(config['downloadUrl']) !="" && String(config['downloadUrl']) !=null && config['file'] !=null)
 			{
-				var urlArray:Array = config['file'].split('/');
-				navigateToURL(new URLRequest(config['downloadUrl']+"?f="+urlArray[urlArray.length-1]) , "_blank");
+				if(config['pluginType'] == "")
+				{
+					navigateToURL(new URLRequest(config['downloadUrl']+"?f="+config['file']) , "_blank");
+				}
+				else
+				{
+					var urlArray:Array = config['file'].split('/');
+					navigateToURL(new URLRequest(config['downloadUrl']+"?f="+urlArray[urlArray.length-1]) , "_blank");
+				}
 			}
 			else
 			{
@@ -1774,6 +1940,7 @@ package actionscript
 			config['tooltipMc'].visible = false;
 			config['setnum'] = 0;
 			config['QualityBg'].visible = false;
+			config['subTiltleBg'].visible = false;
 			if (config['skin_autohide'] == "true" && config['mov'] == 2 && config['stageover'] != true)
 			{
 				config['skinout'] = true;
@@ -1807,7 +1974,7 @@ package actionscript
 			{
 				config['dailyBG'].addEventListener(MouseEvent.MOUSE_MOVE,mouseOverFun);
 			}
-			if (config['shareClip'])
+			if (config['shareClip'] && config['shareClip'].name != undefined)
 			{
 				config['shareClip'].addEventListener(MouseEvent.MOUSE_MOVE,mouseOverFun);
 			}
@@ -1895,6 +2062,7 @@ package actionscript
 		private function gotovideoTarget(eve:MouseEvent)
 		{
 			config['QualityBg'].visible = false;
+			config['subTiltleBg'].visible = false;
 			if (config['mov'] == 2)
 			{
 				if (config['video_targeturl'][config['vid']] != undefined)
@@ -1917,7 +2085,11 @@ package actionscript
 					navigateToURL(new URLRequest(config['adtarget']) , "_blank");
 				}
 			}
-			
+		}
+		public function calledfun()
+		{
+			config['playeruI'].addEventListener(Event.ENTER_FRAME, updateStremDisplay);
+			config['myVideo'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked)
 		}
 		private function adsControl()
 		{
@@ -1938,7 +2110,6 @@ package actionscript
 				config['labelBt'].txt.text = String(config["skip"]);
 				config['skinMc'].indication.text = String(ar[0] + timeEnd + ar[1]);
 			}
-
 			var format:TextFormat = new TextFormat();
 			if (config["displayState"] == "normal")
 			{

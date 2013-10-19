@@ -38,8 +38,16 @@ package actionscript
 			{
 				config['thuMc'].alpha = 1;
 			}
-			var videoscale2 = new videoScale(config,reference);
-			videoscale2.buttonInVis();
+			if(config['mov'] == 1)
+			{
+				var videoscale2 = new videoScale(config,reference);
+				videoscale2.buttonInVis();
+			}
+			else
+			{
+				var videoscale3 = new videoScale(config,reference);
+				videoscale3.buttonVis();
+			}
 			if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
 			{
 				if (config['thuMc'] != undefined)
@@ -101,7 +109,7 @@ package actionscript
 			{
 				config['preview'] = config['baseurl'] + "images/default_preview.jpg";
 			}
-			else if(config['preview'] != "")
+			if(config['preview'] != "")
 			{
 				if (config['preview'].indexOf('http') > -1)
 				{
@@ -177,6 +185,16 @@ package actionscript
 			config['vidscale'] = precontainer.width / precontainer.height;
 			var playerUI = new playerUi(reference,config);
 			playerUI.setPos(config);
+			if(config['mov'] == 1)
+			{
+				var videoscale2 = new videoScale(config,reference);
+				videoscale2.buttonInVis();
+			}
+			else
+			{
+				var videoscale3 = new videoScale(config,reference);
+				videoscale3.buttonVis();
+			}
 		}
 		//========================================== remove preview image ==============================================================================
 		public function removePreview()
@@ -193,6 +211,7 @@ package actionscript
 		}
 		private function removePreviewAndplay(eve:MouseEvent)
 		{
+			trace("cc")
 			if (config['relatedview'])
 			{
 				var relatedvideo = new relatedVideo(config,reference);

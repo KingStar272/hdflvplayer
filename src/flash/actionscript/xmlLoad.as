@@ -212,7 +212,12 @@ package actionscript
 		pluginType:String,
 		uid:Number,
 		member:String,
-		initWidth:Number
+		initWidth:Number,
+		subTitleArr:Array,
+		cc:String,
+		QClipArr:Array,
+		QTextArr:Array,
+		HLSandHDSstream:HLSandHDS
 		};
 		public static var reference:Sprite;
 		private var obj:Object;
@@ -220,79 +225,52 @@ package actionscript
 		private var crossLoader:URLLoader;
 		private var playlistLoader:URLLoader;
 
-		private var video_url:Array;
-		private var video_hdpath:Array;
-		private var video_id:Array;
-		private var thumb_image:Array;
-		private var preview_image:Array;
-		private var allow_preroll:Array;
-		private var allow_postroll:Array;
-		private var allow_ima:Array;
-		private var allow_midroll:Array;
-		private var preroll_id:Array;
-		private var postroll_id:Array;
-		private var disply_copylink:Array;
-		private var streamer_path:Array;
-		private var video_src:Array;
-		private var allow_download:Array;
-		private var video_category:Array;
-		private var video_rating:Array;
-		private var video_isLive:Array;
-		private var video_ratecount:Array;
-		private var date_vid:Array;
-		private var video_title:Array;
-		private var video_description:Array;
-		private var video_targeturl:Array;
-		private var video_views:Array;
-		private var tags_vid:Array;
-		private var duration_arr:Array;
-		private var member_arr:Array;
-		private var uid_arr:Array;
 		private var plistDoc:XMLDocument;
-		private var caption_video:Array;
 		private var errorMc:errorpopup;
 		private var MessageClass:Message;
 		private var playlistid:String;
 		private var char_arr:Array;
-		private var fbpath_arr:Array;
 		private var backBG:backBg;
+		
 
 
 		public function xmlLoad(ref:Sprite,wid,hei):void
 		{
-			video_url = new Array();
-			video_hdpath = new Array();
-			video_id = new Array();
-			thumb_image = new Array();
-			preview_image = new Array();
-			allow_preroll = new Array();
-			allow_postroll = new Array();
-			allow_ima = new Array();
-			allow_midroll = new Array();
-			preroll_id = new Array();
-			postroll_id = new Array();
-			disply_copylink = new Array();
-			streamer_path = new Array();
-			video_src = new Array();
-			allow_download = new Array();
-			video_category = new Array();
-			video_rating = new Array();
-			video_isLive = new Array();
-			video_ratecount = new Array();
-			date_vid = new Array();
-			video_title = new Array();
-			video_description = new Array();
-			video_targeturl = new Array();
-			video_views = new Array();
-			tags_vid = new Array();
-			member_arr = new Array();
-			uid_arr = new Array();
-			duration_arr = new Array();
-			caption_video = new Array();
-			fbpath_arr = new Array();
+			config['video_url'] = new Array();
+			config['video_hdpath'] = new Array();
+			config['video_id'] = new Array();
+			config['thumb_image'] = new Array();
+			config['preview_image'] = new Array();
+			config['allow_preroll'] = new Array();
+			config['allow_postroll'] = new Array();
+			config['allow_ima'] = new Array();
+			config['allow_midroll'] = new Array();
+			config['preroll_id'] = new Array();
+			config['postroll_id'] = new Array();
+			config['disply_copylink'] = new Array();
+			config['streamer_path'] = new Array();
+			config['video_src'] = new Array();
+			config['allow_download'] = new Array();
+			config['video_category'] = new Array();
+			config['video_rating'] = new Array();
+			config['video_isLive'] = new Array();
+			config['video_ratecount'] = new Array();
+			config['date_vid'] = new Array();
+			config['video_title'] = new Array();
+			config['video_description'] = new Array();
+			config['video_targeturl'] = new Array();
+			config['video_views'] = new Array();
+			config['tags_vid'] = new Array();
+			config['member_arr'] = new Array();
+			config['uid_arr'] = new Array();
+			config['duration_arr'] = new Array();
+			config['caption_video'] = new Array();
+			config['fbpath_arr'] = new Array();
 			config['keyframes'] = new Object()
 			config['vidarr'] = new Array();
 			config['QualityArray'] = new Array()
+			config['subTitleArr'] = new Array()
+			config['cc'] = 'false'
 			config['inc'] = 0;
 			config['midvis'] = false;
 			config['skinout'] = false;
@@ -330,6 +308,7 @@ package actionscript
 			config['vid'] = 0;
 			config['ref'] = ref;
 			reference = ref;
+			config['video'] = ""
 			config['stageWidth'] = wid;
 			config['stageHeight'] = hei;
 			config['preval'] = false;
@@ -852,97 +831,66 @@ package actionscript
 				config['plistlength'] = plistxml.children().length();
 				for (var i = 0; i<config['plistlength']; i++)
 				{
-					video_url.push(plistxml.mainvideo[i].@video_url);
-					config['video_url'] = video_url;
-					video_hdpath.push(plistxml.mainvideo[i].@video_hdpath);
-					config['video_hdpath'] = video_hdpath;
-					video_id.push(plistxml.mainvideo[i].@video_id);
-					config['video_id'] = video_id;
-
-					thumb_image.push(plistxml.mainvideo[i].@thumb_image);
-					if (thumb_image[i] == "" && video_url[i].indexOf('youtube.com') > -1 || video_url[i].indexOf('youtu.be') > -1)
+					config['video_url'][i] = plistxml.mainvideo[i].@video_url
+					config['video_hdpath'][i] = plistxml.mainvideo[i].@video_hdpath;
+					config['video_id'][i] = plistxml.mainvideo[i].@video_id;
+					config['thumb_image'][i] = plistxml.mainvideo[i].@thumb_image;
+					if (config['thumb_image'][i] == "" && config['video_url'][i].indexOf('youtube.com') > -1 || config['video_url'][i].indexOf('youtu.be') > -1)
 					{
-						thumb_image[i] = "http://i3.ytimg.com/vi/" + getyoutube_ID(video_url[i]) + "/mqdefault.jpg";
+						config['thumb_image'][i] = "http://i3.ytimg.com/vi/" + getyoutube_ID(config['video_url'][i]) + "/mqdefault.jpg";
 					}
-					else if (thumb_image[i]=="" && video_url[i].indexOf('dailymotion') > -1)
+					else if (config['thumb_image'][i]=="" && config['video_url'][i].indexOf('dailymotion') > -1)
 					{
-						thumb_image[i] = "http://www.dailymotion.com/thumbnail/video/" + getdailymotionId(video_url[i]);
+						config['thumb_image'][i] = "http://www.dailymotion.com/thumbnail/video/" + getdailymotionId(config['video_url'][i]);
 					}
-					else if (thumb_image[i]=="" && video_url[i].indexOf('viddler') > -1)
+					else if (config['thumb_image'][i]=="" && config['video_url'][i].indexOf('viddler') > -1)
 					{
-						thumb_image[i] = "http://cdn-thumbs.viddler.com/thumbnail_2_" + get_viddler__ID(video_url[i]) + "_v1.jpg";
+						config['thumb_image'][i] = "http://cdn-thumbs.viddler.com/thumbnail_2_" + get_viddler__ID(config['video_url'][i]) + "_v1.jpg";
 					}
-					config['thumb_image'] = thumb_image;
-
-					preview_image.push(plistxml.mainvideo[i].@preview_image);
-					if (preview_image[i] == "" && video_url[i].indexOf('youtube.com') > -1 || video_url[i].indexOf('youtu.be') > -1)
+					config['preview_image'][i] = plistxml.mainvideo[i].@preview_image
+					if (config['preview_image'][i] == "" && config['video_url'][i].indexOf('youtube.com') > -1 || config['video_url'][i].indexOf('youtu.be') > -1)
 					{
-						preview_image[i] = "http://i3.ytimg.com/vi/" + getyoutube_ID(video_url[i]) + "/maxresdefault.jpg";
+						config['preview_image'][i] = "http://i3.ytimg.com/vi/" + getyoutube_ID(config['video_url'][i]) + "/maxresdefault.jpg";
 					}
-					else if (preview_image[i]=="" && video_url[i].indexOf('dailymotion') > -1)
+					else if (config['preview_image'][i]=="" && config['video_url'][i].indexOf('dailymotion') > -1)
 					{
-						preview_image[i] = "http://www.dailymotion.com/thumbnail/video/" + getdailymotionId(video_url[i]);
+						config['preview_image'][i] = "http://www.dailymotion.com/thumbnail/video/" + getdailymotionId(config['video_url'][i]);
 					}
-					else if (preview_image[i]=="" && video_url[i].indexOf('viddler') > -1)
+					else if (config['preview_image'][i]=="" && config['video_url'][i].indexOf('viddler') > -1)
 					{
-						preview_image[i] = "http://cdn-thumbs.viddler.com/thumbnail_2_" + get_viddler__ID(video_url[i]) + "_v2.jpg";
+						config['preview_image'][i] = "http://cdn-thumbs.viddler.com/thumbnail_2_" + get_viddler__ID(config['video_url'][i]) + "_v2.jpg";
 					}
-					config['preview_image'] = preview_image;
-
-					allow_preroll.push(plistxml.mainvideo[i].@allow_preroll);
-					config['allow_preroll'] = allow_preroll;
-					allow_midroll.push(plistxml.mainvideo[i].@allow_midroll);
-					config['allow_midroll'] = allow_midroll;
-					allow_postroll.push(plistxml.mainvideo[i].@allow_postroll);
-					config['allow_postroll'] = allow_postroll;
-					allow_ima.push(plistxml.mainvideo[i].@allow_ima);
-					config['allow_ima'] = allow_ima;
-					preroll_id.push(plistxml.mainvideo[i].@preroll_id);
-					config['preroll_id'] = preroll_id;
-					postroll_id.push(plistxml.mainvideo[i].@postroll_id);
-					config['postroll_id'] = postroll_id;
-					video_src.push(plistxml.mainvideo[i].@videosrc);
-					config['video_src'] = video_src;
-					allow_download.push(plistxml.mainvideo[i].@allow_download);
-					config['allow_download'] = allow_download;
-					streamer_path.push(plistxml.mainvideo[i].@streamer_path);
-					config['streamer_path'] = streamer_path;
-					video_category[i] = plistxml.mainvideo[i]. @ video_category;
-					config['video_category'] = video_category;
-					video_rating[i] = plistxml.mainvideo[i]. @ video_rating;
-					config['video_rating'] = video_rating;
-					video_isLive.push(plistxml.mainvideo[i].@video_isLive);
-					config['video_isLive'] = video_isLive;
-					video_views[i] = plistxml.mainvideo[i]. @ views;
-					config['video_views'] = video_views;
-					video_ratecount[i] = plistxml.mainvideo[i]. @ ratecount;
-					config['video_ratecount'] = video_ratecount;
-					date_vid[i] = plistxml.mainvideo[i]. @ date;
-					config['date_vid'] = date_vid;
-					tags_vid[i] = plistxml.mainvideo[i]. @ tags;
-					config['tags_vid'] = tags_vid;
-					video_targeturl[i] = plistxml.mainvideo[i].tagline. @ targeturl;
-					config['video_targeturl'] = video_targeturl;
-					member_arr[i] = plistxml.mainvideo[i]. @ member;
-					config['member_arr'] = member_arr;
-					uid_arr[i] = plistxml.mainvideo[i]. @ uid;
-					config['uid_arr'] = uid_arr;
-					duration_arr[i] = plistxml.mainvideo[i]. @ duration;
-					config['duration_arr'] = duration_arr;
-					disply_copylink[i] = plistxml.mainvideo[i]. @ copylink;
-					config['disply_copylink'] = disply_copylink;
-					video_title[i] = plistDoc.firstChild.childNodes[i].childNodes[0].childNodes[0].nodeValue;
-					config['video_title'] = video_title;
-					fbpath_arr[i] = plistxml.mainvideo[i]. @ fbpath;
-					config['fbpath_arr'] = fbpath_arr;
+                    config['allow_preroll'][i] = plistxml.mainvideo[i].@allow_preroll;
+					config['allow_midroll'][i] = plistxml.mainvideo[i].@allow_midroll;
+					config['allow_postroll'][i] = plistxml.mainvideo[i].@allow_postroll;
+					config['allow_ima'][i] = plistxml.mainvideo[i].@allow_ima;
+					config['preroll_id'][i] = plistxml.mainvideo[i].@preroll_id;
+					config['postroll_id'][i] = plistxml.mainvideo[i].@postroll_id;
+					config['video_src'][i] = plistxml.mainvideo[i].@videosrc;
+					config['allow_download'][i] = plistxml.mainvideo[i].@allow_download;
+					config['streamer_path'][i] = plistxml.mainvideo[i].@streamer_path;
+					config['video_category'][i] = plistxml.mainvideo[i]. @ video_category;
+					config['video_rating'][i] = plistxml.mainvideo[i]. @ video_rating;
+					config['video_isLive'][i] = plistxml.mainvideo[i].@video_isLive;
+					config['video_views'][i] = plistxml.mainvideo[i]. @ views;
+					config['video_ratecount'][i] = plistxml.mainvideo[i]. @ ratecount;
+					config['date_vid'][i] = plistxml.mainvideo[i]. @ date;
+					config['tags_vid'][i] = plistxml.mainvideo[i]. @ tags;
+					config['video_targeturl'][i] = plistxml.mainvideo[i].tagline. @ targeturl;
+					config['member_arr'][i] = plistxml.mainvideo[i]. @ member;
+					config['uid_arr'][i] = plistxml.mainvideo[i]. @ uid;
+					config['duration_arr'][i] = plistxml.mainvideo[i]. @ duration;
+					config['disply_copylink'][i] = plistxml.mainvideo[i]. @ copylink;
+					config['subTitleArr'][i] =  plistxml.mainvideo[i]. @ subtitle;
+					config['video_title'][i] = plistDoc.firstChild.childNodes[i].childNodes[0].childNodes[0].nodeValue;
+					config['fbpath_arr'][i] = plistxml.mainvideo[i]. @ fbpath;
 					if (plistDoc.firstChild.childNodes[i].childNodes[1] != undefined)
 					{
 						for (var jk=0; jk<plistDoc.firstChild.childNodes[i].childNodes[1].childNodes.length; jk++)
 						{
-							caption_video[i] = plistDoc.firstChild.childNodes[i].childNodes[1].childNodes[jk].nodeValue;
+							config['caption_video'][i] = plistDoc.firstChild.childNodes[i].childNodes[1].childNodes[jk].nodeValue;
 						}
 					}
-					config['caption_video'] = caption_video;
 				}
 			}
 			else
@@ -965,7 +913,9 @@ package actionscript
 				arrss = st.split('#video=');
 			}
 			st = arrss[1];
-			st = st.substr(0,6);
+			arrss = new Array()
+			arrss = st.split('_');
+			st = arrss[0]
 			return st;
 		}
 		//========================================== get  youtube ID==============================================================================

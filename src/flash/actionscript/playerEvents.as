@@ -51,6 +51,7 @@ package actionscript
 			Player.config['skinMc'].pp.play_btn.addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
 			Player.config['skinMc'].pp.Replay.addEventListener(MouseEvent.MOUSE_DOWN,replayFun);
 			Player.config['skinMc'].hd.buttonMode = true;
+			Player.config['skinMc'].cc.buttonMode = true;
 
 			Player.config['skinMc'].hd.addEventListener(MouseEvent.MOUSE_DOWN,OpenQualityPanel);
 			config['shareMc'].addEventListener(MouseEvent.MOUSE_DOWN,shareButtonPressed);
@@ -140,10 +141,12 @@ package actionscript
 		{
 			if (Player.config['mov'] == 2 && Player.config['QualityBg'].visible == false)
 			{
+				var playvideow = new playVideo(Player.config,reference);
+			    playvideow.getQualityPanel();
 				Player.config['QualityBg'].visible = true;
-				Player.config['QualityBg'].bgMc.bg.height = ((Player.config['QualityArray'].length+1)*25)-5;
+				//Player.config['QualityBg'].bgMc.bg.height = ((Player.config['QualityArray'].length+1)*25)-5;
 				Player.config['QualityBg'].x= Player.mouseX-(Player.config['QualityBg'].width/2);
-				Player.config['QualityBg'].y= Player.config['skinMc'].y-(Player.config['QualityBg'].height-5);
+				Player.config['QualityBg'].y= Player.config['skinMc'].y-(Player.config['QualityBg'].height+25);
 			}
 			else
 			{
@@ -289,7 +292,8 @@ package actionscript
 			Player.config['autopL'].visible = false;
 			if (Player.config['relatedview'] == false && Player.config['shareB'] == false && Player.config['mailB'] == false)
 			{
-				if (Player.config['preval'] == true)
+				trace(Player.config['preval'])
+				if (Player.config['preval'] == true && Player.config['video'] == "")
 				{
 					if (Player.config['skinMc'].pp.Replay.visible == true)
 					{
@@ -311,6 +315,7 @@ package actionscript
 						Player.config['Playbtn'].visible = true;
 						Player.config['Playbtn'].alpha = 1;
 					}
+					trace(Player.config['video'])
 					var videopause = new videoPause(Player.config);
 					Tracker = new tracker(Player.config,Player.config['ref']);
 					Tracker.eventTracker("Pause_video","Pause","Pause_btn",0);
@@ -353,7 +358,7 @@ package actionscript
 		private function shareButtonPressed(eve:MouseEvent)
 		{
 			Player.config['QualityBg'].visible = false;
-			if (Player.config['preval'] == false && Player.config['mov'] == 2)
+			if ((Player.config['preval'] == false || Player.config['file'].indexOf('.mp3') > -1 || Player.config['file'].indexOf('.m4a') > -1) && Player.config['mov'] == 2)
 			{
 				if (Player.config["displayState"] == "fullScreen")
 				{
@@ -374,7 +379,6 @@ package actionscript
 					var Emails = new email(Player.config,reference);
 					Emails.mailclosed();
 				}
-
 				var urlgets = new Loadembedtext(reference,Player.config);
 				urlgets.pageurlget();
 				urlgets.embedcall();

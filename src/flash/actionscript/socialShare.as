@@ -33,7 +33,7 @@ package actionscript
 			autoOv = false;
 			IconArr = new Array();
 			IconindexArr = new Array();
-			IconArr = [config['SocialPanel'].facebook,config['SocialPanel'].tumblr,config['SocialPanel'].google,config['SocialPanel'].tweet,config['skinMc'].pp.play_btn,config['skinMc'].pp.pause_btn,config['skinMc'].FullScreen,config['skinMc'].hd.hdOffmode,config['skinMc'].hd.hdOnmode,config['skinMc'].Volume,config['shareMc'],config['zoomInMc'],config['zoomOutMc'],config['downloadMc'],config['skinMc'].PlayListView,config['skinMc'].autoPlayButton,config['skinMc'].pp.Replay,config['mailIcon']];
+			IconArr = [config['SocialPanel'].facebook,config['SocialPanel'].tumblr,config['SocialPanel'].google,config['SocialPanel'].tweet,config['skinMc'].pp.play_btn,config['skinMc'].pp.pause_btn,config['skinMc'].FullScreen,config['skinMc'].hd.hdOffmode,config['skinMc'].hd.hdOnmode,config['skinMc'].Volume,config['shareMc'],config['zoomInMc'],config['zoomOutMc'],config['downloadMc'],config['skinMc'].PlayListView,config['skinMc'].autoPlayButton,config['skinMc'].pp.Replay,config['mailIcon'],config['skinMc'].cc];
 			IconindexArr = ["facebook","tumblr","google+","tweet","Play","Pause","FullScreen","hdOnmode","hdOffmode","Volume","share","zoomIn","zoomOut","download","Replay","Mail"]
 			config['SocialPanel'].tweet.buttonMode = config['SocialPanel'].facebook.buttonMode = true;
 			config['SocialPanel'].facebook.addEventListener(MouseEvent.MOUSE_DOWN,facebookFun);
@@ -54,6 +54,7 @@ package actionscript
 		//========================================== show tooltip  ==============================================================================
 		private function toolTipShown(eve:MouseEvent)
 		{
+			config['subTiltleBg'].visible= false;
 			if (config['local'] != 'true')
 			{
 				config['tooltipMc'].visible = true;
@@ -68,7 +69,14 @@ package actionscript
 			{
 				config['QualityBg'].visible = false;
 			}
-			if (eve.currentTarget.id == 17)
+			if(eve.currentTarget.id == 18)
+			{
+				config['subTiltleBg'].visible= true;
+				config['subTiltleBg'].x = eve.currentTarget.x-config['subTiltleBg'].width/2;
+				config['subTiltleBg'].y =  config['skinMc'].y - (config['subTiltleBg'].height);
+				config['tooltipMc'].visible = false;
+			}
+			else if (eve.currentTarget.id == 17)
 			{
 				config['tooltipMc'].tips.text = config['Mail'];
 			}
@@ -346,9 +354,17 @@ package actionscript
 			{
 				video_src +=  '&baserefW=' + config['ref'].root.loaderInfo.parameters['baserefW'];
 			}
-			if (config['ref'].root.loaderInfo.parameters['baserefWP'])
+			else if (config['ref'].root.loaderInfo.parameters['baserefWP'])
 			{
 				video_src +=  '&baserefWP=' + config['ref'].root.loaderInfo.parameters['baserefWP'];
+			}
+			else if (config['ref'].root.loaderInfo.parameters['baserefJHDV'])
+			{
+				video_src +=  '&baserefJHDV=' + config['ref'].root.loaderInfo.parameters['baserefJHDV'];
+			}
+			else if (config['ref'].root.loaderInfo.parameters['baserefJ'])
+			{
+				video_src +=  '&baserefJ=' + config['ref'].root.loaderInfo.parameters['baserefJ'];
 			}
 			if (config['ref'].root.loaderInfo.parameters['pid'])
 			{
@@ -477,6 +493,24 @@ package actionscript
 					embedCode +=  '&vid=' + config['vid_id'];
 				}
 			}
+			else if (config['ref'].root.loaderInfo.parameters['baserefJ'] || config['ref'].root.loaderInfo.parameters['baserefJHDV'])
+			{
+				if(config['ref'].root.loaderInfo.parameters['baserefJHDV'])
+				{
+					embedCode = '<embed id="player" src="' + config['ref'].root.loaderInfo.parameters['baserefJHDV'] + '/components/com_contushdvideoshare/hdflvplayer/hdplayer.swf" ';
+				    embedCode +=  'flashvars="baserefJHDV=' + config['ref'].root.loaderInfo.parameters['baserefJHDV'] + '&playlist_auto=false';
+				}
+				else
+				{
+					embedCode = '<embed id="player" src="' + config['ref'].root.loaderInfo.parameters['baserefJ'] + '/components/com_hdflvplayer/hdflvplayer/hdplayer.swf" ';
+				    embedCode +=  'flashvars="baserefJ=' + config['ref'].root.loaderInfo.parameters['baserefJ'] + '&playlist_auto=false';
+				}
+				if(config['ref'].root.loaderInfo.parameters['playid']) embedCode += "&playid=" + config['ref'].root.loaderInfo.parameters['playid']
+				if(config['ref'].root.loaderInfo.parameters['id']) embedCode += "&id=" + config['ref'].root.loaderInfo.parameters['id']
+				if(config['ref'].root.loaderInfo.parameters['mid']) embedCode += "&mid=" + config['ref'].root.loaderInfo.parameters['mid']
+				if(config['ref'].root.loaderInfo.parameters['compid']) embedCode += "&compid=" + config['ref'].root.loaderInfo.parameters['compid']
+				if(config['ref'].root.loaderInfo.parameters['jlang']) embedCode += "&lang="+ config['ref'].root.loaderInfo.parameters['jlang']
+			}
 			else
 			{
 				embedCode = '<embed id="player" src="' + config['baseurl'] + 'hdplayer.swf" ';
@@ -581,7 +615,8 @@ package actionscript
 		function googlebtFun(evt:MouseEvent)
 		{
 			config['QualityBg'].visible = false;
-			bookmark = "https://plus.google.com/share?url=" + escape(config['SocialPanel'].pMc.pageurl.text) + "&message=" + escape(config['title']);
+			bookmark = "https://plus.google.com/share?url="+escape(config['SocialPanel'].pMc.pageurl.text)
+			//bookmark = "https://plusone.google.com/_/+1/confirm?hl=ru&url=" + escape(config['SocialPanel'].pMc.pageurl.text) + "&message=" + escape(config['title'])+"&content="+escape(config['SocialPanel'].pMc.pageurl.text);
 			navigateToURL(new URLRequest(bookmark) , "_blank");
 		}
 		//========================================== convet text in UTF format  ==============================================================================

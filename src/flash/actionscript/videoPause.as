@@ -8,7 +8,7 @@ package  actionscript
 
 		public function videoPause(config) 
 		{
-			if(config['preval'] == false || config['file'].indexOf('.mp3') > -1)
+			if(config['preval'] == false || config['file'].indexOf('.mp3') > -1 || config['file'].indexOf('.m4a') > -1)
 			{
 				if(config['imA'] == false || config['AdsManagerTypes'] == "flash")
 				{
@@ -22,12 +22,17 @@ package  actionscript
 					config['isplayed'] = false;
 					if(config['video'] == "stream")
 					{
-						if(config['file'].indexOf('.mp3') > -1)
+						if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+						{
+							if(config['HLSandHDSstream'])config['HLSandHDSstream'].pauseFun()
+						}
+						else if(config['file'].indexOf('.mp3') > -1)
 						{
 							config['lastPosition'] = config['audioChannel'].position;
+							trace(config['audioChannel'])
 							config['audioChannel'].stop();
 						}
-						if(config['isLive'] == 'true')
+						else if(config['isLive'] == 'true')
 						{
 							config['stream'].close()
 						}

@@ -89,10 +89,18 @@ package actionscript
 					embedCode +=  '&vid=' + config['vid_id'];
 				}
 			}
-			else if (reference.root.loaderInfo.parameters['baserefJ'])
+			else if (reference.root.loaderInfo.parameters['baserefJ'] || reference.root.loaderInfo.parameters['baserefJHDV'])
 			{
-				embedCode = '<embed id="player" src="' + reference.root.loaderInfo.parameters['baserefJ'] + '/components/com_hdflvplayer/hdflvplayer/hdplayer.swf" ';
-				embedCode +=  'flashvars="baserefJ=' + reference.root.loaderInfo.parameters['baserefJ'] + '&playlist_auto=false';
+				if(reference.root.loaderInfo.parameters['baserefJHDV'])
+				{
+					embedCode = '<embed id="player" src="' + reference.root.loaderInfo.parameters['baserefJHDV'] + '/components/com_contushdvideoshare/hdflvplayer/hdplayer.swf" ';
+				    embedCode +=  'flashvars="baserefJHDV=' + reference.root.loaderInfo.parameters['baserefJHDV'] + '&playlist_auto=false';
+				}
+				else
+				{
+					embedCode = '<embed id="player" src="' + reference.root.loaderInfo.parameters['baserefJ'] + '/components/com_hdflvplayer/hdflvplayer/hdplayer.swf" ';
+				    embedCode +=  'flashvars="baserefJ=' + reference.root.loaderInfo.parameters['baserefJ'] + '&playlist_auto=false';
+				}
 				if(reference.root.loaderInfo.parameters['playid']) embedCode += "&playid=" + reference.root.loaderInfo.parameters['playid']
 				if(reference.root.loaderInfo.parameters['id']) embedCode += "&id=" + reference.root.loaderInfo.parameters['id']
 				if(reference.root.loaderInfo.parameters['mid']) embedCode += "&mid=" + reference.root.loaderInfo.parameters['mid']
@@ -135,11 +143,12 @@ package actionscript
 					config['title'] = "";
 				}
 				if(config['title'] != "")embedCode +=  "&title=" + config['title'];
-				/*if (config['showTag'] == "true" && config['tagline'].txt.text != "")
+				if (config['showTag'] == "true" && config['tagline'].txt.text != "")
 				{
 					embedCode +=  "&tagline=" + config['tagline'].txt.text;
-				}*/
+				}
 			}
+			if(reference.root.loaderInfo.parameters['mtype']) embedCode += "&mtype=" + reference.root.loaderInfo.parameters['mtype']
 			embedCode +=  "&showPlaylist=false&shareIcon=false&email=false&zoomIcon=false&playlist_autoplay=false";
 			embedCode +=  "&videoID=" + config['vid'];
 			embedCode += "&embedplayer=true"
