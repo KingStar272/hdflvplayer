@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -217,6 +217,7 @@ package actionscript
 		cc:String,
 		QClipArr:Array,
 		QTextArr:Array,
+		resi:Boolean,
 		HLSandHDSstream:HLSandHDS
 		};
 		public static var reference:Sprite;
@@ -314,6 +315,7 @@ package actionscript
 			config['preval'] = false;
 			config['ini'] = true;
 			config['stremPlayed'] = true;
+			config['resi'] = false;
 			config['ran'] = Math.round(Math.random()*10000000)
 			config['baseurl'] = reference.root.loaderInfo.url.replace('hdplayer.swf','');
 			config['embedplayer'] = reference.root.loaderInfo.parameters['embedplayer'];
@@ -336,23 +338,26 @@ package actionscript
 			ref.addChild(errorMc);
 			config['errorMc'] = errorMc;
 			
+			backBG = new backBg();
+			reference.addChild(backBG);
+			config['backBg'] = backBG;
+			backBG.width = config['stageWidth']
+			backBG.height = config['stageHeight']
+			
 			buffer_Mc = new Buffer_mc();
 			reference.addChild(buffer_Mc);
 			config['buffer_Mc'] = buffer_Mc;
+			buffer_Mc.visible=false
 			buffer_Mc.tabEnabled = false;
 			buffer_Mc.x = wid / 2;
 			buffer_Mc.y = (hei - 25) / 2;
+			//configloadXML(generateConfigURI())
 			if (reference.root.loaderInfo.url.indexOf('file:///') <= -1)
 			{
 				configloadXML(generateConfigURI())
 			}
-			else
+			else if(!reference.root.loaderInfo.parameters['file'] && !reference.root.loaderInfo.parameters['hdpath'])
 			{
-				backBG = new backBg();
-				reference.addChild(backBG);
-				config['backBg'] = backBG;
-				backBG.width = config['stageWidth']
-				backBG.height = config['stageHeight']
 				MessageClass = new Message(config,reference);
 				MessageClass.show("There is no videos in this player");
 			}
@@ -459,6 +464,8 @@ package actionscript
 		private function configloadXML(url:String):void
 		{
 			Security.allowDomain("*");
+			XML.ignoreComments = false;
+            XML.ignoreProcessingInstructions = false;
 			configLoader = new URLLoader();
 			configLoader.addEventListener(Event.COMPLETE,configXmlHandler);
 			configLoader.addEventListener(IOErrorEvent.IO_ERROR, configError);
@@ -472,19 +479,31 @@ package actionscript
 		}
 		private function configXmlHandler(evt:Event):void
 		{
+			XML.ignoreComments = false;
+            XML.ignoreProcessingInstructions = false;
 			var configxml:XML = XML(evt.target.data);
 			for each (var prp:XML in configxml.children())
 			{
 				config[prp.name()] = prp.text();
 			}
-			
 			var languagexmlLoad = new languageXml(reference,config);
+		    if (!reference.root.loaderInfo.parameters['file'] && !reference.root.loaderInfo.parameters['hdpath'])
+			{
+				loadPlistxml();
+			}
+			else
+			{
+				config['videoAvailable'] = true;
+				config['plistlength'] = 0;
+				loadFlashvars();
+			}
 			var adsxmlLoad = new adsXml(reference,config);
+			
 			if (config['imaAds'] == "true")
 			{
 				var ImaXmlLoad = new ImaXml(reference,config);
 			}
-			loadPlistxml();
+			
 		}
 		//========================================== get values fron flashvar ==============================================================================
 		public function loadFlashvars():void
@@ -527,6 +546,7 @@ package actionscript
 			config['fullscreen'] = (reference.root.loaderInfo.parameters['fullscreen']) ? reference.root.loaderInfo.parameters['fullscreen'] : config['fullscreen'];
 			config['volumecontrol'] = (reference.root.loaderInfo.parameters['volumecontrol']) ? reference.root.loaderInfo.parameters['volumecontrol'] : config['volumecontrol'];
 			config['progressControl'] = (reference.root.loaderInfo.parameters['progressControl']) ? reference.root.loaderInfo.parameters['progressControl'] : config['progressControl'];
+			config['skinVisible'] = (reference.root.loaderInfo.parameters['skinVisible']) ? reference.root.loaderInfo.parameters['skinVisible'] : config['skinVisible'];
 
 			config['file'] = (reference.root.loaderInfo.parameters['file']) ? reference.root.loaderInfo.parameters['file'] : config['video_url'][0];
 			config['preview'] = (reference.root.loaderInfo.parameters['preview']) ? reference.root.loaderInfo.parameters['preview'] : config['preview_image'][0];
@@ -723,7 +743,11 @@ package actionscript
 		private function loadPlistxml()
 		{
 			if(config['pluginType'] == ""){config['playlistXML'] = config['playlistXML']+"?plid="+config['ran'];}
-			else if (reference.root.loaderInfo.parameters['baserefW'] || reference.root.loaderInfo.parameters['baserefWP'])
+			else if (reference.root.loaderInfo.parameters['baserefWP'])
+			{
+				config['playlistXML'] = config['playlistXML'] + "" + wodpressplayer();
+			}
+			else if (reference.root.loaderInfo.parameters['baserefW'])
 			{
 				config['playlistXML'] = config['playlistXML'] + "" + wodpressGallery();
 			}
@@ -747,6 +771,50 @@ package actionscript
 		}
 		//========================================== Generate Wordpress gallery Playlist path ==============================================================================
 		private function wodpressGallery()
+		{
+			if (reference.root.loaderInfo.parameters['pid'])
+			{
+				playlistid = "?pid=" + reference.root.loaderInfo.parameters['pid'];
+				if (reference.root.loaderInfo.parameters['vid'])
+				{
+					playlistid +=  "&vid=" + reference.root.loaderInfo.parameters['vid'];
+				}
+				if (reference.root.loaderInfo.parameters['tagname'])
+				{
+					playlistid +=  "&tagname=" + reference.root.loaderInfo.parameters['tagname'];
+				}
+			}
+			else if (reference.root.loaderInfo.parameters['vid'])
+			{
+				playlistid = "?vid=" + reference.root.loaderInfo.parameters['vid'];
+				if (reference.root.loaderInfo.parameters['tagname'])
+				{
+					playlistid +=  "&tagname=" + reference.root.loaderInfo.parameters['tagname'];
+				}
+				if (reference.root.loaderInfo.parameters['page_id'])
+				{
+					playlistid +=  "&page_id=" + reference.root.loaderInfo.parameters['page_id'];
+				}
+			}
+			else if (reference.root.loaderInfo.parameters['tagname'])
+			{
+				playlistid = "?tagname=" + reference.root.loaderInfo.parameters['tagname'];
+			}
+			else if (reference.root.loaderInfo.parameters['featured'])
+			{
+				playlistid = "?featured=" + reference.root.loaderInfo.parameters['featured'];
+			}
+			if (reference.root.loaderInfo.parameters['numberofvideos'])
+			{
+				playlistid = playlistid + "&numberofvideos=" + reference.root.loaderInfo.parameters['numberofvideos'];
+			}
+			if (reference.root.loaderInfo.parameters['type'])
+			{
+				playlistid = playlistid + "&type=" + reference.root.loaderInfo.parameters['type'];
+			}
+			return playlistid;
+		}
+		private function wodpressplayer()
 		{
 			if (reference.root.loaderInfo.parameters['pid'])
 			{
@@ -803,25 +871,20 @@ package actionscript
 				config['plistlength'] = 0;
 				if (! reference.root.loaderInfo.parameters['file'] && ! reference.root.loaderInfo.parameters['hdpath'])
 				{
-					backBG = new backBg();
-					reference.addChild(backBG);
-					config['backBg'] = backBG;
-					backBG.width = config['stageWidth']
-					backBG.height = config['stageHeight']
 					
 					MessageClass = new Message(config,reference);
 					MessageClass.show("There are no videos in this playlist");
 					config['videoAvailable'] = false;
-					
 				}
 				else
 				{
 					config['videoAvailable'] = true;
 				}
-
 			}
 			else if (!reference.root.loaderInfo.parameters['file'] && !reference.root.loaderInfo.parameters['hdpath'])
 			{
+				XML.ignoreComments = false;
+                XML.ignoreProcessingInstructions = false;
 				config['videoAvailable'] = true;
 				plistDoc = new XMLDocument();
 				plistDoc.ignoreWhite = true;
@@ -889,6 +952,8 @@ package actionscript
 						for (var jk=0; jk<plistDoc.firstChild.childNodes[i].childNodes[1].childNodes.length; jk++)
 						{
 							config['caption_video'][i] = plistDoc.firstChild.childNodes[i].childNodes[1].childNodes[jk].nodeValue;
+							var singleSpace:RegExp = /\s{2,}/g;
+							config['caption_video'][i] = String(config['caption_video'][i]).replace(singleSpace,"");
 						}
 					}
 				}

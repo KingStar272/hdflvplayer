@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 
 	import flash.events.*;
@@ -62,7 +62,6 @@ package actionscript
 			config['zoomInMc'].addEventListener(MouseEvent.MOUSE_DOWN,zoominFun);
 			config['zoomOutMc'].addEventListener(MouseEvent.MOUSE_DOWN,zoomoutFun);
 			config['mailIcon'].addEventListener(MouseEvent.MOUSE_DOWN,openMailPanel);
-
 			Player.config['downloadMc'].addEventListener(MouseEvent.MOUSE_DOWN,DownLoadVideoFun);
 			Player.config['skinMc'].Volume.mut.addEventListener(MouseEvent.MOUSE_DOWN,muteBtClicked);
 			Player.config['skinMc'].Volume.vol_bar.vol_cnt.bg.buttonMode = Player.config['skinMc'].Volume.vol_bar.vol_cnt.sli.buttonMode = Player.config['skinMc'].Volume.vol_bar.vol_cnt.poi.buttonMode = true;
@@ -97,9 +96,8 @@ package actionscript
 			config['Lbt'].addEventListener(MouseEvent.MOUSE_DOWN,lbtFunction);
 			Player.config['skinMc'].Volume.addEventListener(MouseEvent.MOUSE_OVER,showVolume);
 			Player.config['skinMc'].Volume.addEventListener(MouseEvent.MOUSE_OUT,OutVolume);
-			Player.config['skinMc'].autoPlayButton.addEventListener(MouseEvent.MOUSE_DOWN,channgePlaylistAutoplay);
-			Player.config['autopL'].addEventListener(MouseEvent.MOUSE_DOWN,channgePlaylistAutoplay);
-			Player.config['autopL'].buttonMode = true;
+			//Player.config['skinMc'].autoPlayButton.addEventListener(MouseEvent.MOUSE_DOWN,openPlalistpanelbutton);
+			
 			ButtonArray = new Array();
 			ButtonArray = [Player.config['shareMc'],Player.config['downloadMc'],Player.config['Rbt'],Player.config['Lbt'],Player.config['zoomInMc'],Player.config['zoomOutMc'],Player.config['mailIcon']];
 			for (var i=0; i<ButtonArray.length; i++)
@@ -662,29 +660,7 @@ package actionscript
 			relatedvideo.removerelated();
 			relatedvideo.loadrelatedvideos(Player.config);
 		}
-		// ==================================== change playlist auto play value from user ============================================================;
-		function channgePlaylistAutoplay(eve:MouseEvent)
-		{
-			Player.config['QualityBg'].visible = false;
-			if (Player.config['playlist_autoplay'] == "true")
-			{
-				for (var g=1; g<Player.config['autopImgArr'].length; g++)
-				{
-					Player.config['autopImgArr'][g].img.alpha = 0.1;
-				}
-				Player.config['playlist_autoplay'] = "false";
-				Player.config['tooltipMc'].tips.text = Player.config['autoplayOn'];
-			}
-			else
-			{
-				for (var g1=1; g1<Player.config['autopImgArr'].length; g1++)
-				{
-					Player.config['autopImgArr'][g1].img.alpha = 1;
-				}
-				Player.config['playlist_autoplay'] = "true";
-				Player.config['tooltipMc'].tips.text = Player.config['autoplayOff'];
-			}
-		}
+		
 		//============================================== video downloads =============================================================================
 		function DownLoadVideoFun(eve:MouseEvent)
 		{

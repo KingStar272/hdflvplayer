@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.Sprite;
 	import flash.display.*;
@@ -14,6 +14,7 @@ package actionscript
 	import fl.transitions.easing.*;
 	import flash.utils.*;
 	import flash.net.*;
+	import flash.geom.Rectangle;
 
 	public class socialShare extends Sprite
 	{
@@ -26,6 +27,7 @@ package actionscript
 		private var galMc:gal3;
 		private var nopreviewMc:nopreview;
 		private var autoOv:Boolean;
+		private var onOff:onOffSwitch;
 		//========================================== share video in social networks ==============================================================================
 		public function socialShare(conFig)
 		{
@@ -109,17 +111,33 @@ package actionscript
 			else if (eve.currentTarget.id == 15)
 			{
 				autoOv = false;
-				if (config['playlist_autoplay'] == "true")
-				{
-					config['tooltipMc'].tips.text = config['autoplayOff'];
-				}
-				else
-				{
-					config['tooltipMc'].tips.text = config['autoplayOn'];
-				}
+				config['tooltipMc'].visible = false;
+				
 				var s = Number(config['vid']);
 				config['autopImgArr'] = new Array();
 				config['autopL'].visible = true;
+				onOff = new onOffSwitch()
+				config['autopL'].addChild(onOff)
+				config['onOff'] = onOff;
+				config['onOff'].toolTip.tips.autoSize = TextFieldAutoSize.CENTER;
+			    config['onOff'].toolTip.tips.textColor = config['textColor'];
+				config['onOff'].onBt.addEventListener(MouseEvent.MOUSE_DOWN,channgePlaylistAutoplay);
+				config['onOff'].offBt.addEventListener(MouseEvent.MOUSE_DOWN,channgePlaylistAutoplay);
+			    config['onOff'].offBt.buttonMode = true;
+				config['onOff'].onBt.buttonMode = true;
+				if (config['playlist_autoplay'] == "true")
+				{
+					config['onOff'].toolTip.tips.text = config['autoplayOff'];
+					config['onOff'].onBt.gotoAndStop(1);
+				    config['onOff'].offBt.gotoAndStop(2);
+				}
+				else
+				{
+					config['onOff'].toolTip.tips.text = config['autoplayOn'];
+					config['onOff'].onBt.gotoAndStop(2);
+				    config['onOff'].offBt.gotoAndStop(1);
+				}
+				config['onOff'].toolTip.tipm.width = config['onOff'].toolTip.tips.width + 12;
 				var otherindex:Number;
 				var td:Number;
 				if(config['plistlength']>=3)td = 3;
@@ -132,7 +150,7 @@ package actionscript
 					galMc.mark.visible = false;
 					galMc.x= f*(galMc.width-2);
 					config['autopL'].x = eve.currentTarget.x - galMc.width;
-					config['autopL'].y = config['skinMc'].skin_bg.y - (config['autopL'].height);
+					config['autopL'].y = config['skinMc'].skin_bg.y - (config['autopL'].height-48);
 					if (config['autopL'].x > config['stageWidth'] - config['autopL'].width)
 					{
 						config['autopL'].x = config['stageWidth'] - config['autopL'].width;
@@ -246,6 +264,36 @@ package actionscript
 			eve.updateAfterEvent();
 
 		}
+		// ==================================== change playlist auto play value from user ============================================================;
+		function channgePlaylistAutoplay(eve:MouseEvent)
+		{
+			if(eve.currentTarget.currentFrame == 2)
+			{
+				config['QualityBg'].visible = false;
+				if (config['playlist_autoplay'] == "true")
+				{
+					for (var g=1; g<config['autopImgArr'].length; g++)
+					{
+						config['autopImgArr'][g].img.alpha = 0.1;
+					}
+					config['playlist_autoplay'] = "false";
+					config['onOff'].onBt.gotoAndStop(2);
+					config['onOff'].offBt.gotoAndStop(1);
+					config['onOff'].toolTip.tips.text = config['autoplayOn'];
+				}
+				else
+				{
+					for (var g1=1; g1<config['autopImgArr'].length; g1++)
+					{
+						config['autopImgArr'][g1].img.alpha = 1;
+					}
+					config['onOff'].onBt.gotoAndStop(1);
+					config['onOff'].offBt.gotoAndStop(2);
+					config['playlist_autoplay'] = "true";
+					config['onOff'].toolTip.tips.text = config['autoplayOff'];
+				}
+			}
+		}
 		//========================================== hide tooltip  ==============================================================================
 		private function toolTipOff(eve:MouseEvent)
 		{
@@ -334,6 +382,7 @@ package actionscript
 			{
 				thuimage = config['baseurl'] + "" + thuimage;
 			}
+			if(thuimage.indexOf('i3.ytimg.com/vi') > -1)thuimage = "http://i3.ytimg.com/vi/" + getyoutube_ID(config['file']) + "/hqdefault.jpg";
 			thuimage = decodeURI(thuimage);
 			if (config['streamer'] != undefined && config['streamer'].indexOf("rtmp") > -1 && config['file'].indexOf(":") > -1)
 			{
@@ -342,7 +391,7 @@ package actionscript
 			}
 			var video_src:String = "";
 			video_src = config['baseurl'] + 'hdplayer.swf?file=' + config['file'];
-			video_src +=  '&embedplayer=true&HD_default=true&showPlaylist=false&zoomIcon=false&email=false&playlist_auto=false';
+			video_src +=  '&embedplayer=true&HD_default=true&showPlaylit=false&zoomIcon=false&email=false&playlist_auto=false';
 			video_src +=  '&skin_autohide=' + config['skin_autohide'];
 			video_src +=  '&preview=' + primage;
 			video_src +=  '&thumb=' + thuimage;
@@ -410,6 +459,31 @@ package actionscript
 			}
 			bookmark = "http://www.facebook.com/sharer.php?s=100&p[title]=" + escape(utftextFun(config['title'])) + "&p[summary]=" + escape(utftextFun(video_des)) + "&p[medium]=" + escape('103') + "&p[video][src]=" + escape(utftextFun(video_src)) + "&p[url]=" + escape(utftextFun(config['SocialPanel'].pMc.pageurl.text)) + "&p[images][0]=" + escape(thuimage);
 			navigateToURL(new URLRequest(bookmark) , "_blank");
+		}
+		private function getyoutube_ID(url:String):String
+		{
+			if (url.indexOf('youtu.be/') > -1)
+			{
+				var arrsY:Array = url.split('youtu.be/');
+				var strY = arrsY[1];
+				return strY;
+			}
+			else
+			{
+				url = url.replace('v/','v=');
+				var arrss:Array = url.split('v=');
+				var str = arrss[1];
+				arrss=new Array();
+				arrss = str.split('&');
+				str = arrss[0];
+				arrss=new Array();
+				arrss = str.split('feature');
+				str = arrss[0];
+				arrss=new Array();
+				arrss = str.split('?');
+				str = arrss[0];
+				return str;
+			}
 		}
 		function tweetFun(evt:MouseEvent)
 		{

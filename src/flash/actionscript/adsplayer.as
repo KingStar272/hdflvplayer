@@ -1,4 +1,4 @@
-package actionscript 
+﻿package actionscript 
 {
   import com.google.ads.instream.api.Ad;
   import com.google.ads.instream.api.AdErrorEvent;

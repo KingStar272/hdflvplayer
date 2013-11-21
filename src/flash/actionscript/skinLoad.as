@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 
 	import flash.display.*;
@@ -20,6 +20,7 @@ package actionscript
 		private var MessageClass:Message;
 		private var skinMc_S:Skinmc;
 		private var slideRelatedVideo:sliderelatedVideo;
+		
 
 		public function skinLoad(ref,Config)
 		{
@@ -85,7 +86,8 @@ package actionscript
 			config['skinMc'].ti2.timetex.autoSize = TextFieldAutoSize.RIGHT;
 			config['skinMc'].ti.timetex.htmlText = "00:00";
 			config['skinMc'].ti2.timetex.autoSize = TextFieldAutoSize.RIGHT;
-			config['skinMc'].ti2.timetex.htmlText = "00:00";
+			if(config['pluginType'] == "")config['skinMc'].ti2.timetex.htmlText = "/ 00:00";
+			else config['skinMc'].ti2.timetex.htmlText = "00:00";
 			config['skinMc'].ti2.timetex.x = 3;
 			config['skinMc'].ti2.bar.x = config['skinMc'].ti2.timetex.width + 8;
 
@@ -136,6 +138,7 @@ package actionscript
 				changeColor(config['skinMc'].Volume.v1,config['skinIconColor']);
 				changeColor(config['skinMc'].Volume.v2,config['skinIconColor']);
 				changeColor(config['skinMc'].hd.hdOffmode,config['skinIconColor']);
+				changeColor(config['skinMc'].cc,config['skinIconColor']);
 				config['skinMc'].hd.hdOffmode.alpha = 0.8
 				changeColor(config['skinMc'].hd.hdOnmode,config['skinIconColor']);
 				config['skinMc'].ti.timetex.textColor = config['skinIconColor'];

@@ -1,4 +1,4 @@
-package  actionscript
+﻿package  actionscript
 {
 	import flash.external.*;
 	import fl.transitions.Tween;
@@ -22,7 +22,7 @@ package  actionscript
 					config['isplayed'] = false;
 					if(config['video'] == "stream")
 					{
-						if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+						if(config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
 						{
 							if(config['HLSandHDSstream'])config['HLSandHDSstream'].pauseFun()
 						}

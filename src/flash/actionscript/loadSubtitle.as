@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -8,7 +8,7 @@ package actionscript
 	import flash.text.*;
 	import flash.events.MouseEvent;
 	import flash.net.navigateToURL;
-        import flash.net.URLRequest;
+    import flash.net.URLRequest;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 
@@ -37,7 +37,7 @@ package actionscript
 			if (String(config['subTitleFontSize']) != "" && config['subTitleFontSize'] != undefined)config['subTitleFontSize'] = config['subTitleFontSize'];
 			else config['subTitleFontSize'] = config['stageWidth'] / 40;
 			
-			txt.defaultTextFormat = new TextFormat(config['subTitleFont'],config['subTitleFontSize']);
+			txt.defaultTextFormat = new TextFormat(config['subTitleFontFamily'],config['subTitleFontSize']);
 			if (String(config['subTitleColor']) != "" && config['subTitleColor'] != undefined)txt.textColor = config['subTitleColor'];
 			else txt.textColor = config['textColor'];
 			if (String(config['subTitleBgColor']) != "" && config['subTitleBgColor'] != undefined)

@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.*;
 	import flash.events.*;
@@ -85,7 +85,6 @@ package actionscript
 			if (this.root.loaderInfo.url.indexOf('file:///') > -1)
 			{
 				config['local'] = "true";
-
 				if (config['fullscreen'] == undefined)
 				{
 					config['fullscreen'] = "true";
@@ -163,14 +162,17 @@ package actionscript
 				}
 				ProcessExecutor.instance.initialize(stage);
 				ProcessExecutor.instance.percentFrameProcessingTime = 1;
-				iconArray = [config['shareMc'],config['zoomInMc'],config['zoomOutMc'],config['downloadMc'],config['mailIcon']];
-				iconNameArray = ['images/icon/share.svg','images/icon/zoomIn.svg','images/icon/zoomOut.svg','images/icon/download.svg','images/icon/mail.svg'];
+				iconArray = new Array()
+				if(config['shareIcon'] == "true"){iconArray.push(config['shareMc']);iconNameArray.push('images/icon/share.svg')}
+				if(config['zoomIcon'] == "true"){iconArray.push(config['zoomInMc']);iconNameArray.push('images/icon/zoomIn.svg')}
+				if(config['zoomIcon'] == "true"){iconArray.push(config['zoomOutMc']);iconNameArray.push('images/icon/zoomOut.svg')}
+				if(config['Download'] == "true"){iconArray.push(config['downloadMc']);iconNameArray.push('images/icon/download.svg')}
+				if(config['email'] == "true"){iconArray.push(config['mailIcon']);iconNameArray.push('images/icon/mail.svg')}
 				if (config['local'] != "true")
 				{
-					for (var k=0; k<=4; k++)
+					for (var k=0; k<iconArray.length; k++)
 					{
 						svgDocument = new SVGDocument();
-						
 						svgDocument.load(config['pageURL']+"/images/icon/bg.svg");
 						iconclip = new MovieClip();
 						iconclipBg = new MovieClip()
@@ -181,12 +183,12 @@ package actionscript
 						svgDocument.load(config['pageURL']+"/"+iconNameArray[k]);
 						iconclip.addChild(svgDocument);
 						svgDocument.x = 5;
-						if (k==4)
+						if (iconNameArray[k] == 'images/icon/mail.svg')
 						{
 							svgDocument.y = 10;
 							svgDocument.x = 6;
 						}
-						else if (k==3)
+						else if (iconNameArray[k] == 'images/icon/download.svg')
 						{
 							svgDocument.y = 9;
 							svgDocument.x = 8;
@@ -211,16 +213,8 @@ package actionscript
 				setChildIndex(config['tooltipMc'],numChildren-1);
 				videooscale.buttonInVis();
 				//=================================== Listener for find mouse idle and mouse go out frm stage ======================;
-				//setTimeout(callplayvideo,1500);
-				
+				this.addEventListener(Event.ENTER_FRAME, checkMovement);
 			}
-		}
-
-		private function callplayvideo()
-		{
-			this.addEventListener(Event.ENTER_FRAME, checkMovement);
-			videooscale.buttonVis();
-			playvideo = new playVideo(config,this);
 		}
 		private function mouseleaveFun(eve:Event)
 		{
@@ -235,12 +229,12 @@ package actionscript
 				{
 					if (config['thuMc'].sh_hi.show.visible == true)
 					{
-						seti = setInterval(callout,1500);
+						seti = setInterval(callout,100);
 					}
 				}
 				else
 				{
-					seti = setInterval(callout,1500);
+					seti = setInterval(callout,100);
 				}
 			}
 		}
@@ -296,10 +290,18 @@ package actionscript
 			if (stage.displayState == StageDisplayState.NORMAL)
 			{
 				stage.displayState = StageDisplayState.FULL_SCREEN;
+				config['skinMc'].FullScreen.icon.i1.gotoAndStop(2)
+				config['skinMc'].FullScreen.icon.i2.gotoAndStop(2)
+				config['skinMc'].FullScreen.icon.i3.gotoAndStop(2)
+				config['skinMc'].FullScreen.icon.i4.gotoAndStop(2)
 			}
 			else
 			{
 				stage.displayState = StageDisplayState.NORMAL;
+				config['skinMc'].FullScreen.icon.i1.gotoAndStop(1)
+				config['skinMc'].FullScreen.icon.i2.gotoAndStop(1)
+				config['skinMc'].FullScreen.icon.i3.gotoAndStop(1)
+				config['skinMc'].FullScreen.icon.i4.gotoAndStop(1)
 			}
 			config['displayState'] = stage["displayState"];
 			if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
@@ -335,11 +337,16 @@ package actionscript
 				config['focus'] = 'Note';
 			}
 		}
+		function goresifalse()
+		{
+			config['resi'] =  false;
+		}
 		private function resizeFun(evt:Event=null):void
 		{
 			config['stageWidth'] = stage.stageWidth;
 			config['stageHeight'] = stage.stageHeight;
-
+            config['resi'] = true;
+			setTimeout(goresifalse,2000)
 			if (config['video'] == "youtube")
 			{
 				config['YTPlayer'].scaleX = config['YTPlayer'].scaleY = 1;
@@ -407,7 +414,6 @@ package actionscript
 			config['skinMc'].alpha = 1;
 			config['skinMc'].visible = true;
 			config['skinMc'].y = config['stageHeight']-(config['skinMc'].skin_bg.height);
-
 		}
 		// ====================================== find mouse in Idle ========================================== 
 		function checkMovement(e:Event):void
@@ -476,23 +482,22 @@ package actionscript
 			{
 				config['setnum'] = 0;
 			}
-			if (config['setnum'] == 250)
+			if (config['setnum'] == 50)
 			{
-
 				config['setnum'] = 0;
-				if (config['mov'] == 2 || config['preval'] == true && config['reclick'] == false)
+				if ((config['mov'] == 2 || config['preval'] == true) && config['reclick'] == false)
 				{
 					config['stageover'] = false;
 					if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
 					{
 						if (config['thuMc'].sh_hi.show.visible == true)
 						{
-							seti = setInterval(callout,1500);
+							seti = setInterval(callout,100);
 						}
 					}
 					else
 					{
-						seti = setInterval(callout,1500);
+						seti = setInterval(callout,100);
 					}
 				}
 			}

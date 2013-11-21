@@ -18,14 +18,15 @@
                         var s1 = new SWFObject('hdplayer.swf','player','700','400','9',"#333333");
                         s1.addParam('allowfullscreen','true');
                         s1.addParam('allowscriptaccess','always');
-                        s1.addParam('WMode','transparent');
+                        s1.addParam('WMode','direct');
                         s1.addVariable('file','http://www.youtube.com/watch?v=jIXh2RysX6A');
-                        s1.addVariable('preview','http://i1.ytimg.com/vi/0Uf1J4eEsyk/maxresdefault.jpg');
+                        s1.addVariable('preview','http://i1.ytimg.com/vi/PA3d-vDTEIs/maxresdefault.jpg');
                         s1.addVariable('thumb','http://i1.ytimg.com/vi/OPUi98aolUY/mqdefault.jpg');
                         s1.addVariable('autoplay','false');
                         s1.write('mediaspace');
                     </script>
                 </div>
+               
                 <div id="htmlplayer">
                     <video id="video" src="http://hdflvplayer.net/hdflvplayer/videos/300_Rise_of_an_Empire.mp4" poster="http://hdflvplayer.net/hdflvplayer/images/300preview.jpg" width="600" height="330" autobuffer controls onerror="failed(event)">
                         Html5 Not support This video Format.

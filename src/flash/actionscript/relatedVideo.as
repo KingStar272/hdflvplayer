@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.Sprite;
 	import flash.display.*;
@@ -36,6 +36,7 @@ package actionscript
 		//========================================== load related video in center of the player ==============================================================================
 		public function loadrelatedvideos(confi)
 		{
+			config['mailcloseBt'].buttonMode = true
 			config['mailcloseBt'].bg.gotoAndStop(2);
 			config['mailcloseBt'].addEventListener(MouseEvent.CLICK,closerelatedFun);
 			config['midRoll'].alpha = 0;
@@ -59,7 +60,8 @@ package actionscript
 					galMc.tle.htmlText = String(tex);
 					if (config['video_views'][i] != undefined)
 					{
-						galMc.view.text = String("View: "+config['video_views'][i]);
+						if(config['video_views'][i]>1) galMc.view.text = String("Views: "+config['video_views'][i]);
+						else galMc.view.text = String("View: "+config['video_views'][i]);
 					}
 					if (config['duration_arr'][i] != undefined)
 					{
@@ -85,8 +87,8 @@ package actionscript
 						xposs = 0;
 						yposs++;
 					}
-					galMc.x=(galMc.width-1) * xposs;
-					galMc.y =(galMc.height-2) * yposs;
+					galMc.x=(galMc.width) * xposs;
+					galMc.y =(galMc.height) * yposs;
 					relaMc.addChild(galMc);
 					xposs++;
 					config['imageCount']++;
@@ -228,6 +230,7 @@ package actionscript
 			mc.tle.alpha = 1;
 			mc.timer.alpha = 1;
 			mc.view.alpha = 1;
+			mc.overbg.gotoAndStop(2)
 			new Tween(mc.img,"alpha",Strong.easeOut,mc.img.alpha,0.2,0.5,true);
 			mc.removeEventListener(MouseEvent.MOUSE_OVER,overFunnn);
 			mc.addEventListener(MouseEvent.MOUSE_OUT,outFunnn);
@@ -237,7 +240,8 @@ package actionscript
 			mc2 = eve.currentTarget as MovieClip;
 			mc2.tle.alpha = 0;
 			mc2.timer.alpha = 0;
-			mc.view.alpha = 0;
+			mc2.view.alpha = 0;
+			mc2.overbg.gotoAndStop(1)
 			new Tween(mc2.img,"alpha",Strong.easeOut,mc2.img.alpha,1,0.5,true);
 			mc2.addEventListener(MouseEvent.MOUSE_OVER,overFunnn);
 		}

@@ -3,7 +3,7 @@
     
     <stagecolor>0x000000</stagecolor> <!--(stage background color)-->
 
-    <autoplay>false</autoplay>
+    <autoplay>true</autoplay>
 
     <buffer>2</buffer>
 
@@ -41,7 +41,7 @@
     
     <subTitleBgColor></subTitleBgColor>
     
-    <subTitleFontFamily>Verdana</subTitleFontFamily>
+    <subTitleFontFamily></subTitleFontFamily>
     
     <subTitleFontSize>18</subTitleFontSize>
 
@@ -112,7 +112,7 @@
 
     <adsSkipDuration>5</adsSkipDuration>
 
-    <relatedVideoView>center</relatedVideoView><!--(Center of the player 'center')--><!--(Right of the player 'side')-->
+    <relatedVideoView>side</relatedVideoView><!--(Center of the player 'center')--><!--(Right of the player 'side')-->
 
     <imaAds>false</imaAds>
 

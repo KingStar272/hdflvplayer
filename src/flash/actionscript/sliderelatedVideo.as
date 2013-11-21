@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.Sprite;
 	import flash.display.*;
@@ -131,9 +131,9 @@ package actionscript
 				{
 					ADV = new adV();
 					config['thuMc'].thu_container.addChild(ADV);
-					ADV.y = config['vidarr'][i].height + config['vidarr'][i].y + 10;
+					ADV.y = config['vidarr'][i].height + config['vidarr'][i].y + 20;
 					ADV.alpha = 0;
-					ADV.visible =false
+					//ADV.visible =false
 				}
 			}
 			config['thuMc'].sh_hi.show.buttonMode = true;

@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 
 	import flash.events.Event;
@@ -13,6 +13,7 @@ package actionscript
 		public static var reference:Sprite;
 		private var config:Object;
 		private var embedText:String;
+		private var irameText:String;
 
 		public function Loadembedtext(ref:Sprite,cfg:Object):void
 		{
@@ -20,6 +21,7 @@ package actionscript
 			reference = ref;
 			pageurlget();
 			embedcall();
+			iframecall()
 		}
 		function pageurlget()
 		{
@@ -45,14 +47,17 @@ package actionscript
 						config['SocialPanel'].pMc.pageurl.text = String(config['pageURL']);
 					}
 				}
-				if (config['SocialPanel'].pMc.pageurl.text.indexOf('?videoID=') > -1)
+				if(config['pluginType'] == "")
 				{
-					var arrss:Array = config['SocialPanel'].pMc.pageurl.text.split('?videoID=');
-					config['SocialPanel'].pMc.pageurl.text = arrss[0] + "?videoID=" + config['vid'];
-				}
-				else
-				{
-					config['SocialPanel'].pMc.pageurl.text = config['SocialPanel'].pMc.pageurl.text + "?videoID=" + config['vid'];
+					if (config['SocialPanel'].pMc.pageurl.text.indexOf('?videoID=') > -1)
+					{
+						var arrss:Array = config['SocialPanel'].pMc.pageurl.text.split('?videoID=');
+						config['SocialPanel'].pMc.pageurl.text = arrss[0] + "?videoID=" + config['vid'];
+					}
+					else
+					{
+						config['SocialPanel'].pMc.pageurl.text = config['SocialPanel'].pMc.pageurl.text + "?videoID=" + config['vid'];
+					}
 				}
 			}
 		}
@@ -154,6 +159,31 @@ package actionscript
 			embedCode += "&embedplayer=true"
 			embedCode +=  '"';
 			return embedCode;
+		}
+		function iframecall()
+		{
+			irameText = '<iframe frameborder="0"';
+			irameText +=  ' width= "' +config['stageWidth']+ '" height="' +config['stageHeight']+ '" scrolling="no"';
+			if (reference.root.loaderInfo.parameters['baserefJ'] || reference.root.loaderInfo.parameters['baserefJHDV'])
+			{
+			irameText +=  ' src="' + reference.root.loaderInfo.parameters['baserefJ'] + '/components/com_hdflvplayer/hdflvplayer/hdplayer.swf';
+			irameText +=  '?baserefJ='+ reference.root.loaderInfo.parameters['baserefJ'] + '&playlist_auto=false';
+			}
+			else
+			{
+				irameText +=  ' src="' + config['baseurl'] + 'hdplayer.swf?playlist_auto=false';
+			}
+			if(reference.root.loaderInfo.parameters['playid']) irameText += "&playid=" + reference.root.loaderInfo.parameters['playid']
+			if(reference.root.loaderInfo.parameters['id']) irameText += "&id=" + reference.root.loaderInfo.parameters['id']
+			if(reference.root.loaderInfo.parameters['mid']) irameText += "&mid=" + reference.root.loaderInfo.parameters['mid']
+			if(reference.root.loaderInfo.parameters['compid']) irameText += "&compid=" + reference.root.loaderInfo.parameters['compid']
+			if(reference.root.loaderInfo.parameters['jlang']) irameText += "&lang="+ reference.root.loaderInfo.parameters['jlang']
+			if(reference.root.loaderInfo.parameters['mtype']) irameText += "&mtype=" + reference.root.loaderInfo.parameters['mtype']
+			irameText +=  "&showPlaylist=false&shareIcon=false&email=false&zoomIcon=false&playlist_autoplay=false";
+			irameText +=  "&videoID=" + config['vid'];
+			irameText += "&embedplayer=true"
+			irameText += '"></iframe>'
+			config['SocialPanel'].ifra.embedurl.text = String(irameText);
 		}
 	}
 }

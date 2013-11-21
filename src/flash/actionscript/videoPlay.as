@@ -20,7 +20,7 @@ package actionscript
 					{
 						config['audioChannel'] = config['audio'].play(config['lastPosition']);
 					}
-					else if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+					else if(config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
 					{
 						if(config['HLSandHDSstream'])config['HLSandHDSstream'].playFun()
 					}

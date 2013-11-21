@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ima>
     <!--video ads-->
-    <adSlotWidth>600</adSlotWidth>
-    <adSlotHeight>400</adSlotHeight>
-    <adTagUrl></adTagUrl>
+    <adSlotWidth>500</adSlotWidth>
+    <adSlotHeight>300</adSlotHeight>
+    <adTagUrl>http://ad.doubleclick.net/pfadx/N270.126913.6102203221521/B3876671.22;dcadv=2215309;sz=0x0;ord=%5btimestamp%5d;dcmt=text/xml</adTagUrl>
 
     <!--text ads size(468,60)-->
     <publisherId>ca-video-pub-3760238376457613</publisherId>

@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.external.*;
 	public class getvideoData
@@ -16,7 +16,8 @@ package actionscript
 
 				if (config['Download'] == 'true')
 				{
-					config['PDownload'] = config['allow_download'][config['vid']];
+					if(config['playeruI'].root.loaderInfo.parameters['allow_download'] == 'true')config['PDownload'] = 'true'
+					else config['PDownload'] = config['allow_download'][config['vid']];
 				}
 				else
 				{

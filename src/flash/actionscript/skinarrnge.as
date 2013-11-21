@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.StageQuality;
 	import flash.external.*;
@@ -33,14 +33,17 @@ package actionscript
 				{
 					config['showPlaylistB'] = "false";
 				}
-				if (config['timer'] != "false")
+				if(config['pluginType'] != "")
 				{
-					config['skinMc'].ti.x = xposi;
-					xposi = xposi + config['skinMc'].ti.width + 8;
-				}
-				else
-				{
-					config['skinMc'].ti.visible = false;
+					if (config['timer'] != "false")
+					{
+						config['skinMc'].ti.x = xposi;
+						xposi = xposi + config['skinMc'].ti.width + 8;
+					}
+					else
+					{
+						config['skinMc'].ti.visible = false;
+					}
 				}
 				if (config['fullscreen'] != "false")
 				{
@@ -117,13 +120,33 @@ package actionscript
 	
 				if (config['timer'] != "false")
 				{
-					config['skinMc'].ti2.x=yposi-(config['skinMc'].ti2.width-1);
+					config['skinMc'].ti2.alpha =0.5
+					config['skinMc'].ti2.x=yposi-(config['skinMc'].ti2.width+2);
 					yposi = yposi - config['skinMc'].ti2.width;
 					xposi = xposi + 5;
+					if(config['pluginType'] == "")
+					{
+						config['skinMc'].ti.x = yposi-(config['skinMc'].ti.width+1);;
+						yposi = yposi - config['skinMc'].ti.width;
+						xposi = xposi + 5;
+					}
 				}
 				else
 				{
+					config['skinMc'].ti.visible = false;
 					config['skinMc'].ti2.visible = false;
+				}
+				if(config['isLive'] == "true")
+				{
+					if (config['timer'] != "false")
+					{
+						config['skinMc'].ti.x = xposi;
+						xposi = xposi + config['skinMc'].ti.width + 8;
+					}
+					else
+					{
+						config['skinMc'].ti.visible = false;
+					}
 				}
 				if (config['timer'] == "false")
 				{

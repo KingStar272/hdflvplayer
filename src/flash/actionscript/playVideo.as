@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.Loader;
 	import flash.display.Sprite;
@@ -64,6 +64,7 @@ package actionscript
 		private var ImAlaoded:Boolean;
 		private var subTitle:loadSubtitle;
 		private var subtitleArr:Array;
+		private var cls:Number;
 		
 		public function playVideo(cfg,ref)
 		{
@@ -84,16 +85,16 @@ package actionscript
 			cfg['ld'] = '240p';
 			//========================================== Initialize button visible ==============================================================================
 			cfg['Playbtn'].scaleX = cfg['Playbtn'].scaleY = 1;
-			if (cfg['skinMc'].y > cfg['stageHeight'])
+			/*if (cfg['skinMc'].y > cfg['stageHeight'])
 			{
 				cfg['Playbtn'].x = cfg['buffer_Mc'].x = cfg['stageWidth'] / 2;
 				cfg['Playbtn'].y = cfg['buffer_Mc'].y = cfg['stageHeight'] / 2;
 			}
 			else
-			{
+			{*/
 				cfg['Playbtn'].x = cfg['buffer_Mc'].x = cfg['stageWidth'] / 2;
 				cfg['Playbtn'].y = cfg['buffer_Mc'].y = (cfg['stageHeight']-25)/2;
-			}
+			//}
 			timeEnd = 1;
 			pas = true;
 			reference = ref;
@@ -241,7 +242,12 @@ package actionscript
 						config['tagline'].visible = true;
 						config['tagline'].txt.text = "";
 						config['tagline'].txt.autoSize = TextFieldAutoSize.LEFT;
-						config['tagline'].txt.htmlText = config['caption_video'][config['vid']];
+						
+						var myString:String = config['caption_video'][config['vid']];
+						var removeHtmlRegExp:RegExp = new RegExp("<[^<]+?>", "gi");
+						myString = myString.replace(removeHtmlRegExp, "");
+						
+						config['tagline'].txt.htmlText = myString;
 						config['tagline'].txt.textColor = config['textColor'];
 						config['tagline'].dot.textColor = config['textColor'];
 					}
@@ -311,11 +317,11 @@ package actionscript
 				if(String(config['streamer']) == "undefined"){config['streamer'] = "";}
 				if (config['file'] != undefined)
 				{
-					if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1)
+					if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1 || config['file'].indexOf('vimeo.com') > -1)
 					{
 						playYoutubeVideo();
 					}
-					else if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+					else if(config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1 )
 					{
 						config['HLSandHDSstream'] = new HLSandHDS(config,reference);
 						config['HLSandHDSstream'].loadHDSHLS()
@@ -411,24 +417,27 @@ package actionscript
 		{
 			hdEnabledFun();
 			config['YoutubeLoader'] = new Loader();
-			Security.allowDomain(config['file']);
-			if (config['file'].indexOf('dailymotion') > -1)
-			{
-				config['YoutubeLoader'].contentLoaderInfo.addEventListener(Event.COMPLETE, DailyMotion_LoaderInit);
-				config['YoutubeLoader'].load(new URLRequest("http://www.dailymotion.com/swf?enableApi=1&chromeless=1&explicit=0&hideInfos=1"));
-			}
-			else if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
+			if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 			{
 				config['YoutubeLoader'].contentLoaderInfo.addEventListener(Event.COMPLETE, youtube_onLoaderInit);
 				config['YoutubeLoader'].contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, loadError);
 				config['buffer_Mc'].visible = true;
 				config['buffer_Mc'].alpha =1
-				config['YoutubeLoader'].load(new URLRequest("http://www.youtube.com/apiplayer?version=3&enablejsapi=1&modestbranding=1&rel=0&showinfo=0"));
+				config['YoutubeLoader'].load(new URLRequest("http://www.youtube.com/apiplayer?version=3"));
 			}
-			else
+			else if (config['file'].indexOf('dailymotion') > -1)
+			{
+				config['YoutubeLoader'].contentLoaderInfo.addEventListener(Event.COMPLETE, DailyMotion_LoaderInit);
+				config['YoutubeLoader'].load(new URLRequest("http://www.dailymotion.com/swf?enableApi=1&chromeless=1&explicit=0&hideInfos=1"));
+			}
+			else if (config['file'].indexOf('viddler') > -1)
 			{
 				config['YoutubeLoader'].contentLoaderInfo.addEventListener(Event.COMPLETE, viddler_onLoaderInit);
 				config['YoutubeLoader'].load(new URLRequest("http://www.viddler.com/chromeless/"));
+			}
+			else
+			{
+				//loadVideoByIdFun()
 			}
 		}
 		private function loadError(eve:IOErrorEvent)
@@ -474,8 +483,7 @@ package actionscript
 		}
 		private function loadVideoByIdFun()
 		{
-			
-			if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1)
+			if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1 || config['file'].indexOf('vimeo.com') > -1)
 			{
 				if (config['file'].indexOf('dailymotion') > -1)
 				{
@@ -499,6 +507,17 @@ package actionscript
 					}
 					config['YTPlayer'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
 				}
+				else if(config['file'].indexOf('vimeo.com') > -1)
+				{
+					/*config['YTPlayer'] = new VimeoPlayer("79541124", config['stageWidth'], config['stageHeight'])
+					reference.addChild(config['YTPlayer']);
+					config['dailyBG'].buttonMode = true;
+					config['dailyBG'].visible=true
+					config['dailyBG'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
+					config['dailyBG'].width = config['stageWidth']
+				    config['dailyBG'].height = config['stageHeight']
+					config['YTPlayer'].mouseEnabled = false;*/
+				}
 				else
 				{
 					config['dailyBG'].visible = true;
@@ -515,17 +534,24 @@ package actionscript
 					config['dailyBG'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
 					config['buffer_Mc'].visible = false;
 				}
-				 config['YTPlayer'].setSize(config['stageWidth'], config['stageHeight']);
 				var otherindex:Number;
 				if (config['file'].indexOf('dailymotion') > -1)
 				{
-					otherindex = reference.getChildIndex(config['backBg']);
+					otherindex = reference.getChildIndex(config['dailyBG']);
 				}
 				else
 				{
 					otherindex = reference.getChildIndex(config['backBg']);
 				}
-				reference.setChildIndex(config['YoutubeLoader'], otherindex+1);
+			    if(config['file'].indexOf('vimeo.com') > -1)
+				{
+					reference.setChildIndex(config['YTPlayer'], otherindex+1);
+				}
+				else 
+				{
+					config['YTPlayer'].setSize(config['stageWidth'], config['stageHeight'])
+					reference.setChildIndex(config['YoutubeLoader'], otherindex+1);
+				}
 				
 				config['YTPlayer'].buttonMode = true;
 				
@@ -558,7 +584,7 @@ package actionscript
 			}
 			if (config['video'] == "youtube")
 			{
-				if (config['YTPlayer'].getPlayerState() != -1 )
+				if (config['YTPlayer'].getPlayerState() != -1)
 				{
 					clearInterval(seti);
 					config['QualityArray'] = new Array();
@@ -610,7 +636,7 @@ package actionscript
 					{
 						STextArr.push(QText);
 						if (config['Caption'] != undefined)QText.htmlText = "<b> " + config['Caption'] + " </b>";
-						else QText.htmlText = "<b> " + "Caption" + " </b>";
+						else QText.htmlText = "<b> " + "Captions" + " </b>";
 					}
 					Qclip.y = t*(QText.height);
 				}
@@ -663,16 +689,6 @@ package actionscript
 						{
 							config['QualityBg'].poi.y = ((tt+1)*25)+5;
 							config['QTextArr'][tt + 1].alpha = 1;
-							if (config['YTPlayer'].getPlaybackQuality() == "hd720" || config['YTPlayer'].getPlaybackQuality() == "hd1080" || config['YTPlayer'].getPlaybackQuality() == "highres")
-							{
-								config['skinMc'].hd.hdOffmode.visible = false;
-								config['skinMc'].hd.hdOnmode.visible = true;
-							}
-							else
-							{
-								config['skinMc'].hd.hdOffmode.visible = true;
-								config['skinMc'].hd.hdOnmode.visible = false;
-							}
 							config['QClipArr'] = new Array()
 							break;
 						}
@@ -906,6 +922,7 @@ package actionscript
 					config['streamer'] = unescape(config['streamer']);
 					config['file'] = getrtmpID(config['file']);
 					nc.connect(config['streamer']);
+					nc.call("FCSubscribe",null,config['file']);
 					nc.addEventListener(NetStatusEvent.NET_STATUS,connectStatusHandler);
 				}
 				else if (config['streamer'].indexOf("pseudostreaming") > -1)
@@ -926,6 +943,7 @@ package actionscript
 		{
 			if (event.info.code == 'NetConnection.Connect.Success')
 			{
+				nc.call("FCSubscribe",null,config['file']);
 				connect();
 				nc.removeEventListener(NetStatusEvent.NET_STATUS, connectStatusHandler);
 			}
@@ -943,7 +961,6 @@ package actionscript
 			config['stream'].client = objClient;
 			config['stream'].checkPolicyFile = true;
 			objClient.onMetaData = flvOnMetaData;
-			
 			if (config['file'].indexOf('.mp3') > -1 )
 			{
 				preview = new Preview(config['ref'],config);
@@ -1000,7 +1017,6 @@ package actionscript
 				}
 			}
 			config['stream'].addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
-
 		}
 		private function errorHandler(event:IOErrorEvent):void
 		{
@@ -1097,12 +1113,8 @@ package actionscript
 						break;
 					case "NetStream.Play.Stop" :
 						config['buffer_Mc'].visible = false;
-						if (config['isLive'] != "true")
-						{
-							config['stream'].removeEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
-							config['playeruI'].removeEventListener(Event.ENTER_FRAME, updateStremDisplay);
-							stopVideoPlay();
-						}
+						cls = setInterval(stopvideofun,500)
+						
 						break;
 					case "NetStream.Play.StreamNotFound" :
 						if (config['mov'] != 2)
@@ -1126,9 +1138,21 @@ package actionscript
 				}
 			}
 		}
+		function stopvideofun()
+		{
+			if (config['isLive'] != "true" && config['currentTime']+1 >= config['nDuration'])
+			{
+				clearInterval(cls)
+				config['stream'].removeEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+				config['playeruI'].removeEventListener(Event.ENTER_FRAME, updateStremDisplay);
+				stopVideoPlay();
+			}
+		}
 		//========================================== video controls in enterframe ==============================================================================
 		private function updateStremDisplay(eve:Event)
 		{
+			if(config['file'].indexOf('viddler') > -1){config['backBg'].alpha = 0;config['dailyBG'].width = config['stageWidth'];config['dailyBG'].height=config['stageHeight']}
+			else config['backBg'].alpha = 1
 			if(config['skinMc'].pro.seek_bar.width >  config['ProgbarWidth'])config['skinMc'].pro.seek_bar.width = config['ProgbarWidth']-30
 			if (config['video'] != "")
 			{
@@ -1142,7 +1166,7 @@ package actionscript
 					config['currentTime'] = config['YTPlayer'].getCurrentTime();
 					config['nDuration'] = config['YTPlayer'].getDuration();
 				}
-				else if(config['file'].indexOf('manifest.f4m') <= -1 || config['file'].indexOf('.m3u8') <= -1)
+				else if(config['file'].indexOf('.f4m') <= -1 && config['file'].indexOf('.m3u8') <= -1)
 				{
 					config['currentTime'] = config['stream'].time;
 				}
@@ -1183,7 +1207,7 @@ package actionscript
 							var seconds:uint = Math.floor(config['audioChannel'].position / 1000) % 60;
 							config['skinMc'].ti.timetex.htmlText= (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "</font> ";
 						}
-						else if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+						else if(config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
 						{
 							config['currentTime'] = config['HLSandHDSstream'].getcurrentTime();
 						}
@@ -1208,7 +1232,7 @@ package actionscript
 							var pcent = (config['skinMc'].pro.pointer.x) / config['ProgbarWidth'];
 							if (config['video'] == "stream")
 							{   
-							    if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1){config['HLSandHDSstream'].HDSandHLSseek(Math.round(pcent*config['nDuration']))}
+							    if(config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1){config['HLSandHDSstream'].HDSandHLSseek(Math.round(pcent*config['nDuration']))}
 							    else if(config['streamer'] == undefined || config['streamer'] == "")config['stream'].seek(Math.round(pcent*config['nDuration']));
 								else if(config['mp4'] == true && config['streamer'] != undefined && config['streamer'].indexOf("rtmp") <= -1)config['stream'].seek(Math.round(pcent*config['nDuration']));
 								else if(config['mp4'] == false && config['streamer'] != undefined && config['streamer'].indexOf("rtmp") > -1)config['stream'].seek(Math.round(pcent*config['nDuration']));
@@ -1226,11 +1250,12 @@ package actionscript
 					{
 						if (config['file'].indexOf('.mp3') > -1)
 						{
-							var estimatedLength:int =  
-							Math.ceil(config['audio'].length / (config['audio'].bytesLoaded / config['audio'].bytesTotal));
-							var playbackPercent:uint =  
-							Math.round(100 * (config['audioChannel'].position / estimatedLength));
+							var estimatedLength:int = Math.ceil(config['audio'].length / (config['audio'].bytesLoaded / config['audio'].bytesTotal));
+							
+							var playbackPercent:uint =  Math.round(100 * (config['audioChannel'].position / estimatedLength));
+							
 							config['skinMc'].pro.pointer.x = playbackPercent*(config['ProgbarWidth']/100);
+								
 							if (playbackPercent == 100)
 							{
 								stopVideoPlay();
@@ -1238,15 +1263,17 @@ package actionscript
 						}
 						else if (config['stremPlayed'] == false && config['buffer_Mc'].visible == false)
 						{
-							config['skinMc'].pro.pointer.x = (config['currentTime'] * config['ProgbarWidth'] / config['nDuration']);
+							if((config['currentTime'] * config['ProgbarWidth'] / config['nDuration'])>config['skinMc'].pro.pointer.x || config['resi'] == true)
+							{
+							config['skinMc'].pro.pointer.x = (config['currentTime'] * config['ProgbarWidth'] / config['nDuration']);}
 						}
 						config['skinMc'].pro.seek_bar.width = config['skinMc'].pro.pointer.x - 7;
 					}
-					if ((config['streamer'] != undefined && config['streamer'].indexOf("rtmp") > -1) || config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+					if ((config['streamer'] != undefined && config['streamer'].indexOf("rtmp") > -1) || config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
 					{
 						config['skinMc'].pro.buffer_bar.width = config['ProgbarWidth'];
 					}
-					else if (config['video'] == "youtube")
+					else if (config['video'] == "youtube" && config['file'].indexOf("vimeo.com") <= -1 )
 					{
 						if (config['bolProgressScrub'] == false)
 						{
@@ -1283,6 +1310,16 @@ package actionscript
 							}
 							if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('viddler') > -1 || config['file'].indexOf('youtu.be') > -1)
 							{
+								if (config['YTPlayer'].getPlaybackQuality() == "hd720" || config['YTPlayer'].getPlaybackQuality() == "hd1080" || config['YTPlayer'].getPlaybackQuality() == "highres")
+								{
+									config['skinMc'].hd.hdOffmode.visible = false;
+									config['skinMc'].hd.hdOnmode.visible = true;
+								}
+								else
+								{
+									config['skinMc'].hd.hdOffmode.visible = true;
+									config['skinMc'].hd.hdOnmode.visible = false;
+								}
 								if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 								{
 									if ((config['YTPlayer'].getVideoLoadedFraction() == 0 && config['YTPlayer'].getPlayerState() == 1) || config['YTPlayer'].getPlayerState() == 3)
@@ -1351,7 +1388,8 @@ package actionscript
 					if (config['file'].indexOf('.mp3') > -1)
 					{
 						config['skinMc'].ti2.timetex.autoSize = TextFieldAutoSize.LEFT;
-						config['skinMc'].ti2.timetex.htmlText= formatTime(config['nDuration']);
+						if(config['pluginType'] == "")config['skinMc'].ti2.timetex.htmlText= "/ "+formatTime(config['nDuration']);
+						else config['skinMc'].ti2.timetex.htmlText= formatTime(config['nDuration']);
 					}
 					else
 					{
@@ -1368,14 +1406,14 @@ package actionscript
 					config['adIndicator'].adseek.width = (config['currentTime'] * config['stageWidth'] / config['nDuration']);
 					config['adIndicator'].bg.width = config['stageWidth'];
 					config['adIndicator'].y = config['stageHeight'];
-					if (config['video'] == "youtube")
+					if (config['video'] == "youtube" && config['file'].indexOf("vimeo.com") <= -1 )
 					{
 						if (config['YTPlayer'].getPlayerState() == 0)
 						{
 							stopVideoPlay();
 						}
 					}
-					else if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+					else if(config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
 					{
 						if(config['currentTime']+1 >= config['nDuration'])
 						{
@@ -1385,11 +1423,10 @@ package actionscript
 					}
 					if (config['nDuration'] > 2 && config['imaAds'] == "true" && config['imA'] == false && config['allow_imaAds'] == "true" && ImAlaoded == false)
 					{
-						if (config['nDuration'] > 15)
+						if (config['nDuration'] > 10)
 						{
-							if (Math.round(config['currentTime']) >= 15)
+							if (Math.round(config['currentTime']) >= 10)
 							{
-								
 								config['imA'] = true;
 								ImAlaoded = true;
 								var imaAdsload = new adsplayer(config,reference);
@@ -1463,7 +1500,8 @@ package actionscript
 			config['skinMc'].ti.timetex.autoSize = TextFieldAutoSize.LEFT;
 			config['skinMc'].ti2.timetex.autoSize = TextFieldAutoSize.LEFT;
 			config['skinMc'].ti.timetex.text= formatTime(config['currentTime']);
-			config['skinMc'].ti2.timetex.text=formatTime(config['nDuration']);
+			if(config['pluginType'] == "")config['skinMc'].ti2.timetex.text="/ "+formatTime(config['nDuration']);
+			else config['skinMc'].ti2.timetex.text=formatTime(config['nDuration']);
 			var skinArrnges = new skinarrnge(config);
 		}
 		private function setVolume(intVolume):void
@@ -1477,7 +1515,7 @@ package actionscript
 			{
 				config['audioChannel'].soundTransform= sndTransform;
 			}
-			else if (config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+			else if (config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
 			{
 				if(config['currentTime']>1 && config['mov'] == 2)config['HLSandHDSstream'].changeVolume(intVolume)
 			}
@@ -1517,7 +1555,8 @@ package actionscript
 				config['skinMc'].ti2.timetex.autoSize = TextFieldAutoSize.LEFT;
 				config['skinMc'].pro.seek_bar.width = config['skinMc'].pro.buffer_bar.width = config['skinMc'].pro.pointer.x = 0;
 				config['skinMc'].ti.timetex.htmlText= "00:00";
-				config['skinMc'].ti2.timetex.htmlText= "00:00";
+				if(config['pluginType'] == "")config['skinMc'].ti2.timetex.htmlText= "/ 00:00";
+				else config['skinMc'].ti2.timetex.htmlText= "00:00";
 				config['skinMc'].ti2.x = config['skinMc'].ti2.bg = 0;
 				clearInterval(config['midinterval']);
 				var midRollAds12 = new midrollAds(config,reference);
@@ -1563,7 +1602,7 @@ package actionscript
 						preview.removePreview();
 					}
 				}
-				if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+				if(config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
 				{
 					config['file'] = '';
 					config['stream'] = null;
@@ -1858,7 +1897,7 @@ package actionscript
 				config['stremPlayed'] = true;
 				lighttPd.scrubit();
 			}
-			else if(config['file'].indexOf('manifest.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+			else if(config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
 			{
 				config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, config['skinMc'].pro.progress_bg.width, 0));
 				config['stremPlayed'] = true;
@@ -2194,6 +2233,34 @@ package actionscript
 			{
 				if(config['YTPlayer'].getPlayerState() == -1){config['YTPlayer'].alpha =0;config['buffer_Mc'].alpha=1;config['buffer_Mc'].visible=true}
 				else {config['YTPlayer'] .alpha = 1;config['buffer_Mc'].alpha=0;config['buffer_Mc'].visible=false}
+			}
+		}
+		function utftextFun(string:String)
+		{
+			if (string!=null)
+			{
+				var utftext = "";
+				for (var n = 0; n < string.length; n++)
+				{
+
+					var c = string.charCodeAt(n);
+					if (c < 128)
+					{
+						utftext +=  String.fromCharCode(c);
+					}
+					else if ((c > 127) && (c < 2048))
+					{
+						utftext += String.fromCharCode((c >> 6) | 192);
+						utftext += String.fromCharCode((c & 63) | 128);
+					}
+					else
+					{
+						utftext += String.fromCharCode((c >> 12) | 224);
+						utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+						utftext += String.fromCharCode((c & 63) | 128);
+					}
+				}
+				return utftext;
 			}
 		}
 	}

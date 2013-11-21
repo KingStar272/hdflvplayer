@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.*;
 	import flash.text.*;
@@ -17,7 +17,6 @@ package actionscript
 	public class playerUi extends MovieClip
 	{
 		//======================= create object and movie clip name for player elements ============================================================== 
-		private var backBG:backBg;
 		private var galMc:gal;
 		private var dailyBG:dailyBg;
 		private var nopreviewMc:nopreview;
@@ -65,15 +64,13 @@ package actionscript
 		//======================= add player clips====================================== ============================================================== 
 		public function addUi(cfg):void
 		{
-			backBG = new backBg();
-			cont.addChild(backBG);
-			cfg['backBg'] = backBG;
+			
 			if (cfg['stagecolor'] == undefined)
 			{
 				cfg['stagecolor'] = "0x000000";
 			}
-			changeColor(backBG,cfg['stagecolor']);
-			backBG.tabEnabled = false;
+			changeColor(cfg['backBg'],cfg['stagecolor']);
+			cfg['backBg'].tabEnabled = false;
 			
 			dailyBG = new dailyBg();
 			cont.addChild(dailyBG);
@@ -182,6 +179,9 @@ package actionscript
 				cfg['SocialPanel'].shadowBg.gotoAndStop(2);
 				cfg['SocialPanel'].embedtext.visible = cfg['SocialPanel'].emb.visible = false;
 			}
+			cfg['SocialPanel'].ifra.visible = cfg['SocialPanel'].iframetext.visible = false
+			//cfg['SocialPanel'].bgg.gotoAndStop(3);
+			//cfg['SocialPanel'].shadowBg.gotoAndStop(3);
 			if (String(config['sharepanel_up_BgColor']) != "" && config['sharepanel_up_BgColor'] != undefined)
 			{
 				changeColor(cfg['SocialPanel'].bgg.up_bg,cfg['sharepanel_up_BgColor']);
@@ -213,6 +213,8 @@ package actionscript
 				config['SocialPanel'].linktext.textColor = config['sharepaneltextColor'];
 				config['SocialPanel'].embedtext.textColor = config['sharepaneltextColor'];
 				config['SocialPanel'].emb.embedurl.textColor = config['sharepaneltextColor'];
+				config['SocialPanel'].iframetext.textColor = config['sharepaneltextColor'];
+				config['SocialPanel'].ifra.embedurl.textColor = config['sharepaneltextColor'];
 			}
 			if (String(config['sharepaneltextColor']) != "")
 			{
@@ -331,13 +333,13 @@ package actionscript
 		public function setPos(conf):void
 		{
 			config = conf;
-			if (backBG != null && Playbtn!= null && logocon != null)
+			if (config['backBg'] != null && Playbtn!= null && logocon != null)
 			{
 				wid = conf['stageWidth'];
 				hei = conf['stageHeight'];
-				backBG.x = backBG.y = 0;
-				conf['dailyBG'].width = backBG.width = wid;
-				backBG.height = hei;
+				config['backBg'].x = config['backBg'].y = 0;
+				conf['dailyBG'].width = config['backBg'].width = wid;
+				config['backBg'].height = hei;
 				conf['dailyBG'].height = hei - 110;
 				seiLogpPos();
 			}

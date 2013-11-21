@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.Sprite;
 	import flash.display.*;
@@ -43,6 +43,9 @@ package actionscript
 			config['SocialPanel'].emb.embedurl.mouseEnabled = false;
 			config['SocialPanel'].pMc.addEventListener(MouseEvent.CLICK,copyLinkCopyFun);
 			config['SocialPanel'].emb.addEventListener(MouseEvent.CLICK,embedcodeCopyFun);
+			config['SocialPanel'].ifra.addEventListener(MouseEvent.CLICK,iframeCopyFun);
+			config['SocialPanel'].ifra.buttonMode = true;
+			config['SocialPanel'].ifra.embedurl.mouseEnabled = false;
 			config['SocialPanel'].socialtext.autoSize = TextFieldAutoSize.LEFT;
 			config['SocialPanel'].socialtext.text = String(config['social']);
 			config['SocialPanel'].linktext.autoSize = TextFieldAutoSize.LEFT;
@@ -100,12 +103,23 @@ package actionscript
 			System.setClipboard(config['SocialPanel'].pMc.pageurl.text);
 			config['SocialPanel'].pMc.pageurl.alwaysShowSelection = true;
 			config['SocialPanel'].emb.embedurl.alwaysShowSelection = false;
+			config['SocialPanel'].ifra.embedurl.alwaysShowSelection = false;
 		}
 		private function embedcodeCopyFun(eve:MouseEvent)
 		{
 			config['SocialPanel'].emb.embedurl.setSelection(0, config['SocialPanel'].emb.embedurl.text.length);
 			System.setClipboard(config['SocialPanel'].emb.embedurl.text);
 			config['SocialPanel'].emb.embedurl.alwaysShowSelection = true;
+			config['SocialPanel'].pMc.pageurl.alwaysShowSelection = false;
+			config['SocialPanel'].ifra.embedurl.alwaysShowSelection = false;
+		}
+		
+		private function iframeCopyFun(eve:MouseEvent)
+		{
+			config['SocialPanel'].ifra.embedurl.setSelection(0, config['SocialPanel'].ifra.embedurl.text.length);
+			System.setClipboard(config['SocialPanel'].ifra.embedurl.text);
+			config['SocialPanel'].ifra.embedurl.alwaysShowSelection = true;
+			config['SocialPanel'].emb.embedurl.alwaysShowSelection = false;
 			config['SocialPanel'].pMc.pageurl.alwaysShowSelection = false;
 		}
 		function mailcloseFun(eve:MouseEvent)

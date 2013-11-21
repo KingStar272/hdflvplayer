@@ -1,4 +1,4 @@
-package actionscript 
+﻿package actionscript 
 {
 	import flash.display.*;
 	import flash.external.*;
@@ -54,11 +54,13 @@ package actionscript
 		}
 		public function loadHDSHLS()
 		{
+			trace(config['file'])
 			playvideo= new playVideo(config,reference);
 			config['buffer_Mc'].visible = true;
 			config['buffer_Mc'].alpha=1
 			if(config['file'].indexOf('.m3u8') > -1)
 			{
+				ExternalInterface.call('alert',config['file'])
 				var mediaFactory:MediaFactory = new MediaFactory();
 				mediaFactory.loadPlugin(new PluginInfoResource(new HLSPluginInfo()));
 				resource = new URLResource( config['file'] );

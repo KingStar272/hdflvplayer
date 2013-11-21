@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.external.*;
 	import flash.display.Sprite;
@@ -29,10 +29,18 @@ package actionscript
 			if (config["displayState"] == "normal")
 			{
 				config['videoscale'] = config['normalscale'];
+				config['skinMc'].FullScreen.icon.i1.gotoAndStop(1)
+				config['skinMc'].FullScreen.icon.i2.gotoAndStop(1)
+				config['skinMc'].FullScreen.icon.i3.gotoAndStop(1)
+				config['skinMc'].FullScreen.icon.i4.gotoAndStop(1)
 			}
 			if (config["displayState"] == "fullScreen")
 			{
 				config['videoscale'] = config['fullscreenscale'];
+				config['skinMc'].FullScreen.icon.i1.gotoAndStop(2)
+				config['skinMc'].FullScreen.icon.i2.gotoAndStop(2)
+				config['skinMc'].FullScreen.icon.i3.gotoAndStop(2)
+				config['skinMc'].FullScreen.icon.i4.gotoAndStop(2)
 			}
 			var vidscal = config['videoscale'];
 			if (config['video'] == "youtube")
@@ -100,8 +108,8 @@ package actionscript
 					}
 					break;
 			}
-			config['dailyBG'].height = hei - 110;
-			config['dailyBG'].width = wid;
+			config['dailyBG'].height =config['stageHeight'] ;
+			config['dailyBG'].width = config['stageWidth'];
 			config['dailyBG'].x = 0;
 			config['dailyBG'].y = 0;
 			config['shareClip'].visible = true;
@@ -233,6 +241,16 @@ package actionscript
 		//========================================== set position for share zoom and downloads button ==============================================================================
 		function buttonVis()
 		{
+			if (config['Download'] == 'true')
+			{
+				if(config['playeruI'].root.loaderInfo.parameters['allow_download'] == 'true')config['PDownload'] = 'true'
+				else config['PDownload'] = config['allow_download'][config['vid']];
+			}
+			else
+			{
+				config['PDownload'] = 'false';
+
+			}
 			if (config['errorMc'].visible != true && (config['preval'] == false || config['file'].indexOf('.mp3') > -1 || config['file'].indexOf('.m4a') > -1) && config['mov'] == 2)
 			{
 				config['zoomOutMc'].alpha = config['zoomInMc'].alpha = config['shareMc'].alpha = config['mailIcon'].alpha = config['downloadMc'].alpha = 1;
