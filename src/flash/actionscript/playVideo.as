@@ -317,7 +317,7 @@
 				if(String(config['streamer']) == "undefined"){config['streamer'] = "";}
 				if (config['file'] != undefined)
 				{
-					if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1 || config['file'].indexOf('vimeo.com') > -1)
+					if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1 )
 					{
 						playYoutubeVideo();
 					}
@@ -483,7 +483,7 @@
 		}
 		private function loadVideoByIdFun()
 		{
-			if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1 || config['file'].indexOf('vimeo.com') > -1)
+			if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1 || config['file'].indexOf('dailymotion') > -1 || config['file'].indexOf('viddler') > -1 )
 			{
 				if (config['file'].indexOf('dailymotion') > -1)
 				{
@@ -506,17 +506,6 @@
 						config['YTPlayer'].loadVideoById(getyoutube_ID(config['file']), 0, "small");
 					}
 					config['YTPlayer'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
-				}
-				else if(config['file'].indexOf('vimeo.com') > -1)
-				{
-					/*config['YTPlayer'] = new VimeoPlayer("79541124", config['stageWidth'], config['stageHeight'])
-					reference.addChild(config['YTPlayer']);
-					config['dailyBG'].buttonMode = true;
-					config['dailyBG'].visible=true
-					config['dailyBG'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
-					config['dailyBG'].width = config['stageWidth']
-				    config['dailyBG'].height = config['stageHeight']
-					config['YTPlayer'].mouseEnabled = false;*/
 				}
 				else
 				{
@@ -543,15 +532,9 @@
 				{
 					otherindex = reference.getChildIndex(config['backBg']);
 				}
-			    if(config['file'].indexOf('vimeo.com') > -1)
-				{
-					reference.setChildIndex(config['YTPlayer'], otherindex+1);
-				}
-				else 
-				{
-					config['YTPlayer'].setSize(config['stageWidth'], config['stageHeight'])
-					reference.setChildIndex(config['YoutubeLoader'], otherindex+1);
-				}
+				config['YTPlayer'].setSize(config['stageWidth'], config['stageHeight'])
+				reference.setChildIndex(config['YoutubeLoader'], otherindex+1);
+			   
 				
 				config['YTPlayer'].buttonMode = true;
 				
@@ -679,7 +662,7 @@
 			}
 			panel.bgMc.bg.height = ((valueArr.length+1)*25);
 			panel.y= config['skinMc'].y-(panel.height-5);
-			if(panel.name == "QA" && config['video'] == "youtube" )
+			if(panel.name == "QA")
 			{
 				if(config['video'] == "youtube")
 				{
@@ -700,14 +683,14 @@
 					{
 						if (config['HD_default'] == 'true')
 						{
-							config['QualityBg'].poi.y = config['QClipArr'][1].y + 10;
+							config['QualityBg'].poi.y = config['QClipArr'][1].y + 30;
 							config['QTextArr'][1].alpha = 1;
 							config['skinMc'].hd.hdOffmode.visible = false;
 							config['skinMc'].hd.hdOnmode.visible = true;
 						}
 						else
 						{
-							config['QualityBg'].poi.y = config['QClipArr'][2].y + 10;
+							config['QualityBg'].poi.y = config['QClipArr'][2].y + 30;
 							config['QTextArr'][2].alpha = 1;
 							config['skinMc'].hd.hdOffmode.visible = true;
 							config['skinMc'].hd.hdOnmode.visible = false;
@@ -1125,6 +1108,7 @@
 						{
 							buttonInVis();
 							MessageClass.show(config['video_access_denied']);
+							config['stream'].removeEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
 						}
 						break;
 					case "NetStream.Play.FileStructureInvalid" :
@@ -1159,7 +1143,11 @@
 				if ((config['Playbtn'].visible == true && config['currentTime'] !=0 ) || config['relatedview'] == true || config['shareB'] == true )
 				{
 					config['buffer_Mc'].alpha = 0;
-					var videopause = new videoPause(config);
+					if (config['video'] == "stream")var videopause = new videoPause(config);
+					else if(config['video'] == "youtube")
+					{
+						if(config['YTPlayer'].getPlayerState() == 1)var videopauses = new videoPause(config);
+					}
 				}
 				if (config['video'] == "youtube")
 				{
@@ -1273,7 +1261,7 @@
 					{
 						config['skinMc'].pro.buffer_bar.width = config['ProgbarWidth'];
 					}
-					else if (config['video'] == "youtube" && config['file'].indexOf("vimeo.com") <= -1 )
+					else if (config['video'] == "youtube")
 					{
 						if (config['bolProgressScrub'] == false)
 						{
@@ -1406,7 +1394,7 @@
 					config['adIndicator'].adseek.width = (config['currentTime'] * config['stageWidth'] / config['nDuration']);
 					config['adIndicator'].bg.width = config['stageWidth'];
 					config['adIndicator'].y = config['stageHeight'];
-					if (config['video'] == "youtube" && config['file'].indexOf("vimeo.com") <= -1 )
+					if (config['video'] == "youtube")
 					{
 						if (config['YTPlayer'].getPlayerState() == 0)
 						{
@@ -1621,11 +1609,12 @@
 				}
 				else if (config['video'] == "youtube")
 				{
-					if (config['file'].indexOf('viddler') <= -1)
-					{
+					//if (config['file'].indexOf('viddler') <= -1)
+					////{
 						config['YTPlayer'].stopVideo();
-					}
+					//}
 					reference.removeChild(config['YoutubeLoader']);
+					config['YoutubeLoader'] = null;
 					config['video'] = "";
 				}
 			}
@@ -1767,84 +1756,89 @@
 				return "00:00";
 			}
 		}
+		function settrue()
+		{
+			config['pl'] = false
+		}
 		//========================================== Play and Pause ==============================================================================
 		private function PlayPausebtnClicked(eve:MouseEvent)
 		{
-			config['QualityBg'].visible = false;
-			config['subTiltleBg'].visible = false;
-			if (config['relatedview'] != true && config['shareB'] != true && config['errorMc'].visible == false && config['mailB'] != true)
+			if(config['pl'] == false)
 			{
-				if (config['isplayed'] == false || config['Playbtn'].visible == true)
+				if(config['file'].indexOf('viddler') > -1)config['pl'] = true
+				setTimeout(settrue,400)
+				config['QualityBg'].visible = false;
+				config['subTiltleBg'].visible = false;
+				if (config['relatedview'] != true && config['shareB'] != true && config['errorMc'].visible == false && config['mailB'] != true)
 				{
-					var videoplay = new videoPlay(config);
-				}
-				else
-				{
-					config['Playbtn'].alpha = 1;
-					if (config['video'] == "youtube")
+					if (config['isplayed'] == false && config['Playbtn'].visible == true && config['skinMc'].pp.play_btn.visible == true)
 					{
-						if (reference.mouseY < config['stageHeight'] - 100)
-						{
-							var videopause2 = new videoPause(config);
-						}
+						var videoplay = new videoPlay(config);
 					}
 					else
 					{
-						var videopause = new videoPause(config);
+						config['Playbtn'].alpha = 1;
+						if (config['video'] == "youtube")
+						{
+							if (reference.mouseY < config['stageHeight'] - 100)
+							{
+								var videopause2s = new videoPause(config);
+							}
+						}
+						else
+						{
+							var videopause = new videoPause(config);
+						}
+						if (config['mov'] == 2)
+						{
+							Tracker = new tracker(config,config['ref']);
+							Tracker.eventTracker("Pause_video","Pause","Pause_btn",0);
+						}
+						else if (config['currentTime']>1)
+						{
+							adclick();
+						}
 					}
-					if (config['mov'] == 2)
+					if (config['video'] == "youtube")
 					{
-						Tracker = new tracker(config,config['ref']);
-						Tracker.eventTracker("Pause_video","Pause","Pause_btn",0);
+						if (pas==false)
+						{
+							fullscrfun();
+						}
+						setTimeout(callfull,160);
+						pas = false;
 					}
-					else if (config['currentTime']>1)
-					{
-						adclick();
-					}
-				}
-				if (config['video'] == "youtube")
-				{
-					if (pas==false)
-					{
-						fullscrfun();
-					}
-					setTimeout(callfull,160);
-					pas = false;
-				}
-			}
-			else
-			{
-				if (config['shareB'] == true)
-				{
-					var share = new scocialSharePanel(config,reference);
-					share.mailclosed();
-				}
-				if (config['relatedview'] == true)
-				{
-					relatedvideo = new relatedVideo(config,reference);
-					relatedvideo.removerelated();
-					if (config['pauseState'] == true)
-					{
-						var videoplay2 = new videoPlay(config);
-					}
-				}
-				if (config['mailB'] == true)
-				{
-					var Email = new email(config,reference);
-					Email.mailclosed();
-				}
-				if (config['pauseState'] == true)
-				{
-					var videoplays = new videoPlay(config);
 				}
 				else
 				{
-					config['Playbtn'].alpha = 1;
-				}
-				if (config['mov'] == 2)
-				{
-					config['Playbtn'].alpha = 1;
-					buttonVis();
+					if (config['shareB'] == true)
+					{
+						var share = new scocialSharePanel(config,reference);
+						share.mailclosed();
+					}
+					if (config['relatedview'] == true)
+					{
+						relatedvideo = new relatedVideo(config,reference);
+						relatedvideo.removerelated();
+					}
+					if (config['mailB'] == true)
+					{
+						var Email = new email(config,reference);
+						Email.mailclosed();
+					}
+					if (config['pauseState'] == true)
+					{
+						var videoplays = new videoPlay(config);
+					}
+					else
+					{
+						config['Playbtn'].alpha = 1;
+					}
+					if (config['mov'] == 2)
+					{
+						config['Playbtn'].alpha = 1;
+						buttonVis();
+					}
 				}
 			}
 		}

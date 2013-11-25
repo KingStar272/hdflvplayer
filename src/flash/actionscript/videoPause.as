@@ -29,7 +29,6 @@
 						else if(config['file'].indexOf('.mp3') > -1)
 						{
 							config['lastPosition'] = config['audioChannel'].position;
-							trace(config['audioChannel'])
 							config['audioChannel'].stop();
 						}
 						else if(config['isLive'] == 'true')

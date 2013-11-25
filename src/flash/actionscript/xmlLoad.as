@@ -218,7 +218,8 @@
 		QClipArr:Array,
 		QTextArr:Array,
 		resi:Boolean,
-		HLSandHDSstream:HLSandHDS
+		HLSandHDSstream:HLSandHDS,
+		pl:Boolean
 		};
 		public static var reference:Sprite;
 		private var obj:Object;
@@ -281,6 +282,7 @@
 			config['upBool'] = false;
 			config['thub'] = false;
 			config['shareB'] = false;
+			config['pl'] = false;
 			config['relatedview'] = false;
 			config['relaMc'] = new MovieClip();
 			config['rt'] = true;
@@ -351,7 +353,6 @@
 			buffer_Mc.tabEnabled = false;
 			buffer_Mc.x = wid / 2;
 			buffer_Mc.y = (hei - 25) / 2;
-			//configloadXML(generateConfigURI())
 			if (reference.root.loaderInfo.url.indexOf('file:///') <= -1)
 			{
 				configloadXML(generateConfigURI())
@@ -414,7 +415,13 @@
 			var basearW:String;
 			char_arr = new Array()
 			char_arr = reference.root.loaderInfo.url.split("hdflvplayer/hdplayer.swf")
-			basearW = char_arr[0] + "configXML.php";
+			/*if(reference.root.loaderInfo.parameters['baserefW'])
+			{ 
+			    char_arr = new Array()
+				char_arr = reference.root.loaderInfo.url.split("/wp-content")
+				basearW =char_arr[0] + "/wp-admin/admin-ajax.php?action=configXML"
+			}
+			else*/ basearW = char_arr[0] + "configXML.php";
 			char_arr = new Array()
 			char_arr = reference.root.loaderInfo.url.split("hdplayer.swf")
 			config['basearW'] = char_arr[0]
@@ -558,6 +565,7 @@
 			config['allowpreroll'] = (reference.root.loaderInfo.parameters['allowpreroll']) ? reference.root.loaderInfo.parameters['allowpreroll'] : config['allow_preroll'][0];
 			config['allow_imaAds'] = (reference.root.loaderInfo.parameters['allow_imaAds']) ? reference.root.loaderInfo.parameters['allow_imaAds'] : config['allow_ima'][0];
 			config['playlist_autoplay'] = (reference.root.loaderInfo.parameters['playlist_autoplay']) ? reference.root.loaderInfo.parameters['playlist_autoplay'] : config['playlist_autoplay'];
+			config['skin_opacity'] = (reference.root.loaderInfo.parameters['skin_opacity']) ? reference.root.loaderInfo.parameters['skin_opacity'] : config['skin_opacity'];
 			config['hd'] = "false";
 			if (config['pageURL'].indexOf('file:///') > -1)
 			{

@@ -52,6 +52,7 @@
 		private var SocialPanel:socialBg;
 		private var buttonS:MovieClip;
 		private var SubMc:subMc;
+		private var yclip:MovieClip;
 
 		public function playerUi(Cont,cfg)
 		{
@@ -77,6 +78,11 @@
 			cfg['dailyBG'] = dailyBG;
 			cfg['dailyBG'].visible = false;
 			dailyBG.tabEnabled = false;
+			dailyBG.name = "vvv"
+			
+			yclip = new MovieClip()
+			cont.addChild(yclip)
+			cfg['yclip'] = yclip
 			
 			Playbtn = new play_btn();
 			cont.addChild(Playbtn);
@@ -246,7 +252,10 @@
 			{
 				changeColor(config['Playbtn'].bg,config['playButtonBgColor']);
 			}
-			
+			if(config['skin_opacity'] != "" && config['skin_opacity'] != undefined)
+			{
+				//config['Playbtn'].bg.alpha = config['skin_opacity']
+			}
 			midRoll = new midMC();
 			midRoll.y = config['stageHeight']+ (midRoll.height+50) ;
 			midRoll.visible = false;

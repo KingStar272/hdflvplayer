@@ -180,6 +180,10 @@
 			var socialshare = new socialShare(config);
 			changeColor(config['QualityBg'].poi,config['textColor']);
 			changeColor(config['subTiltleBg'].poi,config['textColor']);
+			if(config['skin_opacity'] != "" && config['skin_opacity'] != undefined)
+			{
+				skinMc.skin_bg.alpha = config['skin_opacity']
+			}
 		}
 	}
 }

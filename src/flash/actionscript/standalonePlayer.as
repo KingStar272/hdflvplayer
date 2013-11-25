@@ -205,6 +205,10 @@
 						{
 							changeColor(iconclipBg,config['playerButtonBgColor']);
 						}
+						if(config['skin_opacity'] != "" && config['skin_opacity'] != undefined)
+						{
+							iconclipBg.alpha = config['skin_opacity']
+						}
 					}
 				}
 				setChildIndex(config['buffer_Mc'],numChildren-1);

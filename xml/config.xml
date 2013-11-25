@@ -3,7 +3,7 @@
     
     <stagecolor>0x000000</stagecolor> <!--(stage background color)-->
 
-    <autoplay>true</autoplay>
+    <autoplay>false</autoplay>
 
     <buffer>2</buffer>
 
@@ -92,7 +92,7 @@
 
     <adXML>xml/ads.xml</adXML>
 
-    <preroll_ads>false</preroll_ads>
+    <preroll_ads>true</preroll_ads>
 
     <postroll_ads>false</postroll_ads>
 
@@ -114,7 +114,7 @@
 
     <relatedVideoView>side</relatedVideoView><!--(Center of the player 'center')--><!--(Right of the player 'side')-->
 
-    <imaAds>false</imaAds>
+    <imaAds>true</imaAds>
 
     <imaAdsXML>xml/ima.xml</imaAdsXML>
 
@@ -139,6 +139,8 @@
     <progressControl>true</progressControl>
 
     <skinVisible>true</skinVisible>
+    
+    <skin_opacity></skin_opacity>
 
     <imageDefault>false</imageDefault>
 

@@ -38,6 +38,10 @@
 			config['scrollbarVerticalMc'].visible = false;
 			config['midRoll'].alpha = 0;
 			config['thuMc'].sh_hi.show.visible = config['thuMc'].sh_hi.hide.visible = false;
+			if(config['skin_opacity'] != "" && config['skin_opacity'] != undefined)
+			{
+				config['thuMc'].thubg.alpha = config['thuMc'].sh_hi.bg.alpha = config['skin_opacity']
+			}
 			var getColors = new getColor(config);
 			config['skincolor'] = getColors.getSkinColor()
 			if (String(config['relatedVideoBgColor']) != "")

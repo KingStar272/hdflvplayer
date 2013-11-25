@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 
 	import flash.external.*;
@@ -36,6 +36,7 @@ package actionscript
 				}
 				else
 				{
+					//ExternalInterface.call('alert',"ch")
 					config['YTPlayer'].playVideo();
 				}
 			}
