@@ -43,7 +43,7 @@
 				config['skinMc'].FullScreen.icon.i4.gotoAndStop(2)
 			}
 			var vidscal = config['videoscale'];
-			if (config['video'] == "youtube")
+			if (config['video'] == "youtube" || config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
 			{
 				vidscal = '2';
 			}
@@ -98,9 +98,12 @@
 						config['YTPlayer'].y = 0;
 						config['YTPlayer'].scaleX = config['YTPlayer'].scaleY = 1;
 						config['YTPlayer'].setSize(config['stageWidth'], config['stageHeight']);
+						config['yt_logo'].x= config['stageWidth']
+					    config['yt_logo'].y= config['stageHeight']
 					}
 					else
 					{
+						config['shareClip'].scaleX=1;config['shareClip'].scaleY =1
 						config['shareClip'].width = wid;
 						config['shareClip'].height = hei;
 						config['shareClip'].x = 0;
@@ -275,7 +278,7 @@
 				{
 					config['mailIcon'].visible = false;
 				}
-				if (config['zoomIcon'] == "true" && config['shareB'] == false && config['mailB'] == false && config['preval'] != true)
+				if (config['zoomIcon'] == "true" && config['shareB'] == false && config['mailB'] == false && config['preval'] != true && config['file'].indexOf('viddler') <= -1 )
 				{
 					if (config['inc'] < 3)
 					{

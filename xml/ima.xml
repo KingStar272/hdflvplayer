@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ima>
-    <!--video ads-->
-    <adSlotWidth>500</adSlotWidth>
-    <adSlotHeight>300</adSlotHeight>
-    <adTagUrl>http://demo.tremorvideo.com/proddev/vast/vast1RegularLinear.xml</adTagUrl>
-
-    <!--text ads size(468,60)-->
-    <publisherId>ca-video-pub-3760238376457613</publisherId>
-    <contentId>1</contentId>
-    <!--Text or Overlay-->
-    <adType>Text</adType>
-    <channels>poker</channels>
+    <adTagUrl>http://googleads.g.doubleclick.net/pagead/ads?client=ca-video-pub-1853252565328033&slotname=6220861096&ad_type=standardvideo_text_image_flash&description_url=http%3A%2F%2Fautomotivetalkz.com&max_ad_duration=30000&videoad_start_delay=0&hl=en</adTagUrl>
 </ima>

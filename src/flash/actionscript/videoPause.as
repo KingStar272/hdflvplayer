@@ -10,7 +10,7 @@
 		{
 			if(config['preval'] == false || config['file'].indexOf('.mp3') > -1 || config['file'].indexOf('.m4a') > -1)
 			{
-				if(config['imA'] == false || config['AdsManagerTypes'] == "flash")
+				if(config['IM_a'] == false)
 				{
 					config['Playbtn'].visible = true;
 				}

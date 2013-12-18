@@ -109,6 +109,8 @@
 					config['allow_imaAds'] = 'false';
 				}
 			}
+			if(config['autoplay'] == 'false' && config['mov'] == 1)ExternalInterface.call('videoData',config['vid_id'],config['title']);
+			else if(config['mov'] == 1)ExternalInterface.call('videoData',config['vid_id'],config['title']);
 		}
 		private function shuffle(a,b):int
 		{

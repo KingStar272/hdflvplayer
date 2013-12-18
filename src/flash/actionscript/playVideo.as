@@ -65,6 +65,9 @@
 		private var subTitle:loadSubtitle;
 		private var subtitleArr:Array;
 		private var cls:Number;
+		private var variables:URLVariables;
+		private var requ:URLRequest;
+		private var urlLoader:URLLoader;
 		
 		public function playVideo(cfg,ref)
 		{
@@ -106,7 +109,7 @@
 		public function playFun()
 		{
 			ImAlaoded  = false;
-			config['adsLoader'] = undefined;
+			config['IM_a'] = false
 			config['inc'] = 0;
 			clearInterval(config['midinterval']);
 			config['buffer_Mc'].visible = true;
@@ -313,6 +316,7 @@
 			}
 			else
 			{
+				config['yt_logo'].visible= false;
 				config['errorMc'].visible = false
 				if(String(config['streamer']) == "undefined"){config['streamer'] = "";}
 				if (config['file'] != undefined)
@@ -325,6 +329,7 @@
 					{
 						config['HLSandHDSstream'] = new HLSandHDS(config,reference);
 						config['HLSandHDSstream'].loadHDSHLS()
+						config['playeruI'].removeEventListener(Event.ENTER_FRAME, updateStremDisplay);
 					}
 					else
 					{
@@ -487,6 +492,7 @@
 			{
 				if (config['file'].indexOf('dailymotion') > -1)
 				{
+					config['dailyBG'].visible = true;
 					config['YTPlayer'].loadVideoById(getdailymotionId(config['file']));
 					config['dailyBG'].buttonMode = true;
 					config['dailyBG'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
@@ -506,6 +512,9 @@
 						config['YTPlayer'].loadVideoById(getyoutube_ID(config['file']), 0, "small");
 					}
 					config['YTPlayer'].addEventListener(MouseEvent.MOUSE_DOWN,PlayPausebtnClicked);
+					config['yt_logo'].visible= true;
+					config['yt_logo'].x= config['stageWidth']
+					config['yt_logo'].y= config['stageHeight']
 				}
 				else
 				{
@@ -526,7 +535,7 @@
 				var otherindex:Number;
 				if (config['file'].indexOf('dailymotion') > -1)
 				{
-					otherindex = reference.getChildIndex(config['dailyBG']);
+					otherindex = reference.getChildIndex(config['backBg']);
 				}
 				else
 				{
@@ -1135,12 +1144,12 @@
 		//========================================== video controls in enterframe ==============================================================================
 		private function updateStremDisplay(eve:Event)
 		{
-			if(config['file'].indexOf('viddler') > -1){config['backBg'].alpha = 0;config['dailyBG'].width = config['stageWidth'];config['dailyBG'].height=config['stageHeight']}
+			if(config['file'].indexOf('viddler') > -1 || config['file'].indexOf('.m3u8') > -1){config['backBg'].alpha = 0;config['dailyBG'].width = config['stageWidth'];config['dailyBG'].height=config['stageHeight']}
 			else config['backBg'].alpha = 1
 			if(config['skinMc'].pro.seek_bar.width >  config['ProgbarWidth'])config['skinMc'].pro.seek_bar.width = config['ProgbarWidth']-30
 			if (config['video'] != "")
 			{
-				if ((config['Playbtn'].visible == true && config['currentTime'] !=0 ) || config['relatedview'] == true || config['shareB'] == true )
+				if ((config['Playbtn'].visible == true && config['currentTime'] !=0 ) || config['relatedview'] == true || config['shareB'] == true  || config['IM_a'] == true)
 				{
 					config['buffer_Mc'].alpha = 0;
 					if (config['video'] == "stream")var videopause = new videoPause(config);
@@ -1358,6 +1367,10 @@
 						if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 						{
 							if(config['YTPlayer'].getPlayerState() == -1){config['YTPlayer'].alpha =0;config['buffer_Mc'].alpha=1;config['buffer_Mc'].visible=true}
+							else if(config['imaAds'] == "true")
+							{
+								if(config['currentTime']>=1)config['YTPlayer'] .alpha = 1
+							}
 							else config['YTPlayer'] .alpha = 1
 						}
 					}
@@ -1376,8 +1389,8 @@
 					if (config['file'].indexOf('.mp3') > -1)
 					{
 						config['skinMc'].ti2.timetex.autoSize = TextFieldAutoSize.LEFT;
-						if(config['pluginType'] == "")config['skinMc'].ti2.timetex.htmlText= "/ "+formatTime(config['nDuration']);
-						else config['skinMc'].ti2.timetex.htmlText= formatTime(config['nDuration']);
+						/*if(config['pluginType'] == "")*/config['skinMc'].ti2.timetex.htmlText= "/ "+formatTime(config['nDuration']);
+						/*else config['skinMc'].ti2.timetex.htmlText= formatTime(config['nDuration']);*/
 					}
 					else
 					{
@@ -1488,8 +1501,8 @@
 			config['skinMc'].ti.timetex.autoSize = TextFieldAutoSize.LEFT;
 			config['skinMc'].ti2.timetex.autoSize = TextFieldAutoSize.LEFT;
 			config['skinMc'].ti.timetex.text= formatTime(config['currentTime']);
-			if(config['pluginType'] == "")config['skinMc'].ti2.timetex.text="/ "+formatTime(config['nDuration']);
-			else config['skinMc'].ti2.timetex.text=formatTime(config['nDuration']);
+			/*if(config['pluginType'] == "")*/config['skinMc'].ti2.timetex.text="/ "+formatTime(config['nDuration']);
+			//else config['skinMc'].ti2.timetex.text=formatTime(config['nDuration']);
 			var skinArrnges = new skinarrnge(config);
 		}
 		private function setVolume(intVolume):void
@@ -1519,8 +1532,6 @@
 			var skinArrngea = new skinarrnge(config);
 			config['QualityBg'].visible = false;
 			config['subTiltleBg'].visible = false;
-			if(config['adsLoader'] == undefined || config['adType'] == "Text" || config['adType'] == "Overlay")
-			{
 				config['playeruI'].removeEventListener(Event.ENTER_FRAME, updateStremDisplay);
 				if (config['mov'] == 2 && config['currentTime']>(config['nDuration']-3) && config['embedplayer'] != "true")
 				{
@@ -1530,7 +1541,7 @@
 				config['setnum'] = 0;
 				config['skinMc'].indication.visible = false;
 				config['skinMc'].pro.buffer_end.visible = config['skinMc'].pro.seek_end.visible = config['skinMc'].pro.seekS.visible = config['skinMc'].pro.bufferS.visible = false;
-				if ((config['adType'] == "Text" || config['adType'] == "Overlay") && String(config['adTagUrl']) == "" && config['imaAds'] == "true" && config['allow_imaAds'] == "true")
+				if (config['imaAds'] == "true" && config['allow_imaAds'] == "true")
 				{
 					var imaAdsload = new adsplayer(config,reference);
 					imaAdsload.unloadAd();
@@ -1543,8 +1554,8 @@
 				config['skinMc'].ti2.timetex.autoSize = TextFieldAutoSize.LEFT;
 				config['skinMc'].pro.seek_bar.width = config['skinMc'].pro.buffer_bar.width = config['skinMc'].pro.pointer.x = 0;
 				config['skinMc'].ti.timetex.htmlText= "00:00";
-				if(config['pluginType'] == "")config['skinMc'].ti2.timetex.htmlText= "/ 00:00";
-				else config['skinMc'].ti2.timetex.htmlText= "00:00";
+				/*if(config['pluginType'] == "")*/config['skinMc'].ti2.timetex.htmlText= "/ 00:00";
+				//else config['skinMc'].ti2.timetex.htmlText= "00:00";
 				config['skinMc'].ti2.x = config['skinMc'].ti2.bg = 0;
 				clearInterval(config['midinterval']);
 				var midRollAds12 = new midrollAds(config,reference);
@@ -1574,7 +1585,6 @@
 				{
 					goNextFun();
 				}
-			}
 		}
 		private function removeYoutubevidlervideos()
 		{
@@ -1609,10 +1619,14 @@
 				}
 				else if (config['video'] == "youtube")
 				{
-					//if (config['file'].indexOf('viddler') <= -1)
-					////{
+					if (config['file'].indexOf('viddler') <= -1)
+					{
 						config['YTPlayer'].stopVideo();
-					//}
+					}
+					else if(config['YTPlayer'].getPlayerState() != 0)
+					{
+						config['YTPlayer'].stopVideo();
+					}
 					reference.removeChild(config['YoutubeLoader']);
 					config['YoutubeLoader'] = null;
 					config['video'] = "";
@@ -1959,14 +1973,40 @@
 				else
 				{
 					var urlArray:Array = config['file'].split('/');
-					navigateToURL(new URLRequest(config['downloadUrl']+"?f="+urlArray[urlArray.length-1]) , "_blank");
+					navigateToURL(new URLRequest(config['downloadUrl']+"&f="+urlArray[urlArray.length-1]) , "_blank");
 				}
 			}
 			else
 			{
 				navigateToURL(new URLRequest(config['file']) , "_blank");
 			}
-		}//========================================== Moude go out from stage ==============================================================================
+			
+			/*variables = new URLVariables();
+			variables.url = config['mailPanel'].form.to.text;
+			if(config['pluginType'] == "")
+			{
+				variables.url = config['file']
+			}
+			else
+			{
+				var urlArray:Array = config['file'].split('/');
+				variables.url = urlArray[urlArray.length-1]
+			}
+			requ = new URLRequest();
+			requ = new URLRequest(config['downloadUrl']);
+			requ.method = URLRequestMethod.POST;
+			requ.data = variables;
+			urlLoader = new URLLoader();
+			urlLoader.dataFormat = URLLoaderDataFormat.VARIABLES;
+			urlLoader.addEventListener(Event.COMPLETE, responseReceived);
+			urlLoader.load(requ);*/
+			
+		}
+		/*function responseReceived(evt:Event)
+		{
+			trace("success")
+		}*/
+		//========================================== Mouse go out from stage ==============================================================================
 		public function stageOut()
 		{
 			config['autopL'].visible = false;
@@ -2027,70 +2067,67 @@
 		//========================================== mouse over on stage ==============================================================================;
 		private function mouseOverFun(eve:MouseEvent)
 		{
-			if(config['adsLoader'] == undefined || config['adType'] == "Text" || config['adType'] == "Overlay")
+			if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0 && config['thuMc'] && config['mov'] == 2)
 			{
-				if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0 && config['thuMc'] && config['mov'] == 2)
-				{
-					config['thuMc'].visible = true;
-				}
-				if (config['dailyBG'])
-				{
-					config['dailyBG'].removeEventListener(MouseEvent.MOUSE_MOVE,mouseOverFun);
-				}
-				if (config['shareClip'])
-				{
-					config['shareClip'].removeEventListener(MouseEvent.MOUSE_MOVE,mouseOverFun);
-				}
-				if (config['backBg'])
-				{
-					config['backBg'].removeEventListener(MouseEvent.MOUSE_MOVE,mouseOverFun);
-				}
-				if (config['skinMc'])
-				{
-					config['skinMc'].removeEventListener(MouseEvent.MOUSE_OVER,mouseOverFun);
-				}
-				config['stageover'] = true;
-				config['skinout'] = false;
-				if (config['skinMc'].y < config['stageHeight'] - 50)
-				{
-					config['skinMc'].y = config['stageHeight']-(config['skinMc'].skin_bg.height);
-				}
-				else
-				{
-					new Tween(config['skinMc'] , "y", null , config['skinMc'].y  , config['stageHeight']-(config['skinMc'].skin_bg.height) , 0.3 , true);
-				}
-				if (config['mov'] == 2 && config['errorMc'].visible == false)
-				{
-					new Tween(config['shareMc'],"x",null,config['shareMc'].x,8,0.3,true);
-					new Tween(config['zoomInMc'],"x",null,config['zoomInMc'].x,8,0.3,true);
-					new Tween(config['zoomOutMc'],"x",null,config['zoomOutMc'].x,8,0.3,true);
-					new Tween(config['downloadMc'],"x",null,config['downloadMc'].x,8,0.3,true);
-					new Tween(config['mailIcon'],"x",null,config['mailIcon'].x,8,0.3,true);
-				}
-				else if (config['preval'] == true)
-				{
-					new Tween(config['Playbtn'],"alpha",null,config['Playbtn'].alpha,1,0.2,true);
-					new Tween(config['mailcloseBt'],"alpha",null,config['mailcloseBt'].alpha,1,0.2,true);
-					new Tween(config['Rbt'],"alpha",null,config['Rbt'].alpha,1,0.2,true);
-					new Tween(config['Lbt'],"alpha",null,config['Lbt'].alpha,1,0.2,true);
-				}
-				if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
-				{
-					if (config['thuMc'].x > config['stageWidth'] - 2)
-					{
-						config['thuMc'].sh_hi.show.visible = true;
-						config['thuMc'].sh_hi.hide.visible = false;
-						new Tween(config['thuMc'],"x",null,config['thuMc'].x,config['stageWidth'],0.3,true);
-					}
-					new Tween(config['midRoll'], "x",null,config['midRoll'].x,(config['stageWidth']/2)-(config['midRoll'].midbg.width/2), 0.3, true);
-				}
-				if (config['caption_video'][config['vid']] != undefined && config['showTag'] == "true")
-				{
-					new Tween(config['tagline'],"y",null,config['tagline'].y,0,0.3,true);
-					new Tween(config['tagline'],"alpha",null,config['tagline'].alpha,1,0.3,true);
-				}
-				eve.updateAfterEvent();
+				config['thuMc'].visible = true;
 			}
+			if (config['dailyBG'])
+			{
+				config['dailyBG'].removeEventListener(MouseEvent.MOUSE_MOVE,mouseOverFun);
+			}
+			if (config['shareClip'])
+			{
+				config['shareClip'].removeEventListener(MouseEvent.MOUSE_MOVE,mouseOverFun);
+			}
+			if (config['backBg'])
+			{
+				config['backBg'].removeEventListener(MouseEvent.MOUSE_MOVE,mouseOverFun);
+			}
+			if (config['skinMc'])
+			{
+				config['skinMc'].removeEventListener(MouseEvent.MOUSE_OVER,mouseOverFun);
+			}
+			config['stageover'] = true;
+			config['skinout'] = false;
+			if (config['skinMc'].y < config['stageHeight'] - 50)
+			{
+				config['skinMc'].y = config['stageHeight']-(config['skinMc'].skin_bg.height);
+			}
+			else
+			{
+				new Tween(config['skinMc'] , "y", null , config['skinMc'].y  , config['stageHeight']-(config['skinMc'].skin_bg.height) , 0.3 , true);
+			}
+			if (config['mov'] == 2 && config['errorMc'].visible == false)
+			{
+				new Tween(config['shareMc'],"x",null,config['shareMc'].x,8,0.3,true);
+				new Tween(config['zoomInMc'],"x",null,config['zoomInMc'].x,8,0.3,true);
+				new Tween(config['zoomOutMc'],"x",null,config['zoomOutMc'].x,8,0.3,true);
+				new Tween(config['downloadMc'],"x",null,config['downloadMc'].x,8,0.3,true);
+				new Tween(config['mailIcon'],"x",null,config['mailIcon'].x,8,0.3,true);
+			}
+			else if (config['preval'] == true)
+			{
+				new Tween(config['Playbtn'],"alpha",null,config['Playbtn'].alpha,1,0.2,true);
+				new Tween(config['mailcloseBt'],"alpha",null,config['mailcloseBt'].alpha,1,0.2,true);
+				new Tween(config['Rbt'],"alpha",null,config['Rbt'].alpha,1,0.2,true);
+				new Tween(config['Lbt'],"alpha",null,config['Lbt'].alpha,1,0.2,true);
+			}
+			if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
+			{
+				if (config['thuMc'].x > config['stageWidth'] - 2)
+				{
+					config['thuMc'].sh_hi.show.visible = true;
+					config['thuMc'].sh_hi.hide.visible = false;
+					new Tween(config['thuMc'],"x",null,config['thuMc'].x,config['stageWidth'],0.3,true);
+				}
+				new Tween(config['midRoll'], "x",null,config['midRoll'].x,(config['stageWidth']/2)-(config['midRoll'].midbg.width/2), 0.3, true);
+			}
+			if (config['caption_video'][config['vid']] != undefined && config['showTag'] == "true")
+			{
+				new Tween(config['tagline'],"y",null,config['tagline'].y,0,0.3,true);
+				new Tween(config['tagline'],"alpha",null,config['tagline'].alpha,1,0.3,true);
+			}
+			eve.updateAfterEvent();
 		}
 		private function gotovideoTarget(eve:MouseEvent)
 		{

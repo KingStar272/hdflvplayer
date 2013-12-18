@@ -47,8 +47,8 @@
 						config['SocialPanel'].pMc.pageurl.text = String(config['pageURL']);
 					}
 				}
-				if(config['pluginType'] == "")
-				{
+				/*if(config['pluginType'] == "")
+				{*/
 					if (config['SocialPanel'].pMc.pageurl.text.indexOf('?videoID=') > -1)
 					{
 						var arrss:Array = config['SocialPanel'].pMc.pageurl.text.split('?videoID=');
@@ -56,9 +56,14 @@
 					}
 					else
 					{
-						config['SocialPanel'].pMc.pageurl.text = config['SocialPanel'].pMc.pageurl.text + "?videoID=" + config['vid'];
+						if (config['SocialPanel'].pMc.pageurl.text.indexOf('?video_id=') > -1)
+						{
+							var arrssd:Array = config['SocialPanel'].pMc.pageurl.text.split('?video_id=');
+							config['SocialPanel'].pMc.pageurl.text =  arrssd[0] + "?video_id=" + config['vid_id'];
+						}
+						else config['SocialPanel'].pMc.pageurl.text = config['SocialPanel'].pMc.pageurl.text + "?video_id=" + config['vid_id'];
 					}
-				}
+				//}
 			}
 		}
 		function embedcall()

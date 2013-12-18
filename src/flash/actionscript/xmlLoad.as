@@ -219,7 +219,8 @@
 		QTextArr:Array,
 		resi:Boolean,
 		HLSandHDSstream:HLSandHDS,
-		pl:Boolean
+		pl:Boolean,
+		IM_a:Boolean
 		};
 		public static var reference:Sprite;
 		private var obj:Object;
@@ -287,6 +288,7 @@
 			config['relaMc'] = new MovieClip();
 			config['rt'] = true;
 			config['pauseState'] = false;
+			config['IM_a'] = false;
 			config['setnum'] = 0;
 			config['intP'] = true;
 			config['startSec'] = 0;
@@ -318,7 +320,7 @@
 			config['ini'] = true;
 			config['stremPlayed'] = true;
 			config['resi'] = false;
-			config['ran'] = Math.round(Math.random()*10000000)
+			config['ran'] = Math.round(Math.random()*10)
 			config['baseurl'] = reference.root.loaderInfo.url.replace('hdplayer.swf','');
 			config['embedplayer'] = reference.root.loaderInfo.parameters['embedplayer'];
 			config['mtype'] = reference.root.loaderInfo.parameters['mtype'];
@@ -353,7 +355,9 @@
 			buffer_Mc.tabEnabled = false;
 			buffer_Mc.x = wid / 2;
 			buffer_Mc.y = (hei - 25) / 2;
-			if (reference.root.loaderInfo.url.indexOf('file:///') <= -1)
+			config['pluginType'] = getPluginType()
+			configloadXML(generateConfigURI())
+			/*if (reference.root.loaderInfo.url.indexOf('file:///') <= -1)
 			{
 				configloadXML(generateConfigURI())
 			}
@@ -361,7 +365,7 @@
 			{
 				MessageClass = new Message(config,reference);
 				MessageClass.show("There is no videos in this player");
-			}
+			}*/
 		}
 		function generateConfigURI()
 		{
@@ -415,13 +419,13 @@
 			var basearW:String;
 			char_arr = new Array()
 			char_arr = reference.root.loaderInfo.url.split("hdflvplayer/hdplayer.swf")
-			/*if(reference.root.loaderInfo.parameters['baserefW'])
+			if(reference.root.loaderInfo.parameters['baserefW'])
 			{ 
 			    char_arr = new Array()
 				char_arr = reference.root.loaderInfo.url.split("/wp-content")
 				basearW =char_arr[0] + "/wp-admin/admin-ajax.php?action=configXML"
 			}
-			else*/ basearW = char_arr[0] + "configXML.php";
+			else basearW = char_arr[0] + "configXML.php";
 			char_arr = new Array()
 			char_arr = reference.root.loaderInfo.url.split("hdplayer.swf")
 			config['basearW'] = char_arr[0]
@@ -555,6 +559,8 @@
 			config['progressControl'] = (reference.root.loaderInfo.parameters['progressControl']) ? reference.root.loaderInfo.parameters['progressControl'] : config['progressControl'];
 			config['skinVisible'] = (reference.root.loaderInfo.parameters['skinVisible']) ? reference.root.loaderInfo.parameters['skinVisible'] : config['skinVisible'];
 
+
+            config['vid_id'] = (reference.root.loaderInfo.parameters['video_id']) ? reference.root.loaderInfo.parameters['video_id'] : config['video_id'][0];
 			config['file'] = (reference.root.loaderInfo.parameters['file']) ? reference.root.loaderInfo.parameters['file'] : config['video_url'][0];
 			config['preview'] = (reference.root.loaderInfo.parameters['preview']) ? reference.root.loaderInfo.parameters['preview'] : config['preview_image'][0];
 			config['thumb'] = (reference.root.loaderInfo.parameters['thumb']) ? reference.root.loaderInfo.parameters['thumb'] : config['thumb_image'][0];
@@ -782,7 +788,7 @@
 		{
 			if (reference.root.loaderInfo.parameters['pid'])
 			{
-				playlistid = "?pid=" + reference.root.loaderInfo.parameters['pid'];
+				playlistid = "&pid=" + reference.root.loaderInfo.parameters['pid'];
 				if (reference.root.loaderInfo.parameters['vid'])
 				{
 					playlistid +=  "&vid=" + reference.root.loaderInfo.parameters['vid'];
@@ -794,7 +800,7 @@
 			}
 			else if (reference.root.loaderInfo.parameters['vid'])
 			{
-				playlistid = "?vid=" + reference.root.loaderInfo.parameters['vid'];
+				playlistid = "&vid=" + reference.root.loaderInfo.parameters['vid'];
 				if (reference.root.loaderInfo.parameters['tagname'])
 				{
 					playlistid +=  "&tagname=" + reference.root.loaderInfo.parameters['tagname'];
@@ -806,11 +812,11 @@
 			}
 			else if (reference.root.loaderInfo.parameters['tagname'])
 			{
-				playlistid = "?tagname=" + reference.root.loaderInfo.parameters['tagname'];
+				playlistid = "&tagname=" + reference.root.loaderInfo.parameters['tagname'];
 			}
 			else if (reference.root.loaderInfo.parameters['featured'])
 			{
-				playlistid = "?featured=" + reference.root.loaderInfo.parameters['featured'];
+				playlistid = "&featured=" + reference.root.loaderInfo.parameters['featured'];
 			}
 			if (reference.root.loaderInfo.parameters['numberofvideos'])
 			{
@@ -870,7 +876,7 @@
 		{
 			MessageClass = new Message(config,reference);
 			MessageClass.show("There is an Error in loading playlist.xml");
-		}
+		} 
 		private function playlistXmlHandler(evt:Event):void
 		{
 			var plistxml:XML = XML(evt.target.data);

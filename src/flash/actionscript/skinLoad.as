@@ -40,7 +40,7 @@
 				{
 					config['skin'] = config['baseurl'] + "" + config['skin'];
 				}
-				skiLoader.load(new URLRequest(config['skin']));
+				skiLoader.load(new URLRequest(config['skin']+"?skn="+config['ran']));
 				skiLoader.contentLoaderInfo.addEventListener(Event.COMPLETE,skinFunc);
 				skiLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, skinError);
 			}

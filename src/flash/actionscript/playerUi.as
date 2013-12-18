@@ -53,6 +53,7 @@
 		private var buttonS:MovieClip;
 		private var SubMc:subMc;
 		private var yclip:MovieClip;
+		private var yt_logo:ytlogo;
 
 		public function playerUi(Cont,cfg)
 		{
@@ -282,6 +283,11 @@
 				tagline.visible = false;
 				config['tagline'] = tagline;
 			}
+			yt_logo = new ytlogo()
+			cont.addChild(yt_logo);
+			yt_logo.visible = false;
+			config['yt_logo'] = yt_logo;
+			
 
 			thuMc=new thu();
 			cont.addChild(thuMc);

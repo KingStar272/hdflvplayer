@@ -83,7 +83,7 @@
 				config['thuMc'].sh_hi.show.visible = true;
 			}
 			config['thuMc'].thu_container.y = 5;
-			for (var i=config['imageCount']; i<=config['thumb_image'].length-1; i++)
+			for (var i=0; i<=config['thumb_image'].length-1; i++)
 			{
 				galMc2 = new gal2();
 				galMc2.name = "thumb" + i;
@@ -119,7 +119,7 @@
 				{
 					var loadThum = new loadThumbImage(galMc2,config,i);
 				}
-				config['vidarr'].push(galMc2);
+				config['vidarr'][i] = galMc2;
 				galMc2.buttonMode = true;
 				galMc2.addEventListener(MouseEvent.MOUSE_DOWN,updateMovie);
 				if (i==0)

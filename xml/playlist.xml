@@ -1,54 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <playlist autoplay="true" random="false">
 <mainvideo
-         video_url="http://www.youtube.com/watch?v=5nT1fNmILiU"
+         video_url="http://www.youtube.com/watch?v=qCp48L9nDug"
          video_hdpath=""
-         video_id="2"
+         video_id="12"
          thumb_image=""
          preview_image=""
-         allow_preroll="true"
-         allow_midroll="false"
+         allow_preroll="false"
+         allow_midroll="true"
          allow_postroll="false"
          allow_ima="true"
-         preroll_id ="1"
-         postroll_id ="2"
-         allow_download="true"
+         preroll_id ="3"
+         postroll_id =""
+         allow_download="false"
          copylink=""
          streamer_path=""
          subtitle =""
-         video_isLive="false" >
-         <title><![CDATA[Samsung Demo HD]]></title>
-         <!--Optional-->
-         <tagline targeturl=""><![CDATA[<span class='heading'></span>Samsung Demo HD - Blu-Ray Sound 7.1 ch]]></tagline>
-</mainvideo>
-<mainvideo
-         video_url="http://www.youtube.com/watch?v=nV8t10hJ6sU"
-         video_hdpath=""
-         video_id="124"
-         thumb_image=""
-         preview_image=""
-         allow_preroll="true"
-         allow_midroll="false"
-         allow_postroll="false"
-         allow_ima="true"
-         preroll_id ="1"
-         postroll_id ="2"
-         allow_download="true"
-         copylink=""
-         streamer_path=""
-         subtitle =""
-         video_isLive="false" >
-         <title><![CDATA[Pirates of the Caribbean]]></title>
+         video_isLive="" >
+         <title><![CDATA[GI Joe 2 Retaliation : Meet Storm Shadow]]></title>
          <!--Optional-->
          <tagline targeturl=""><![CDATA[]]></tagline>
 </mainvideo>
 <mainvideo
-         video_url="http://www.youtube.com/watch?v=DaYx4XmWEoI"
+         video_url="http://www.youtube.com/watch?v=zIEIvi2MuEk"
          video_hdpath=""
-         video_id="101"
+         video_id="12"
          thumb_image=""
          preview_image=""
-         allow_preroll="true"
+         allow_preroll="false"
          allow_midroll="true"
          allow_postroll="false"
          allow_ima="true"
@@ -62,68 +41,5 @@
          <title><![CDATA[Landscapes: Volume]]></title>
          <!--Optional-->
          <tagline targeturl=""><![CDATA[]]></tagline>
-</mainvideo>
-<mainvideo
-         video_url="http://jqueryvideolightbox.com/data/images/happyfit2.mp4"
-         video_hdpath=""
-         video_id="110"
-         thumb_image="http://www.interativafm.net/media/uploads/images/Happy-Feet-Two-wallpaper-4(1).jpg"
-         preview_image="http://www.interativafm.net/media/uploads/images/Happy-Feet-Two-wallpaper-4(1).jpg"
-         allow_preroll="true"
-         allow_midroll="true"
-         allow_postroll="false"
-         allow_ima="true"
-         preroll_id ="4"
-         postroll_id =""
-         allow_download="true"
-         copylink=""
-         streamer_path=""
-         subtitle =""
-         video_isLive="" >
-         <title><![CDATA[happy feet 2]]></title>
-         <!--Optional-->
-         <tagline targeturl="http://happyfeettwo.warnerbros.com/dvd/"><![CDATA[<span class='heading'></span>Mumble's son, Erik, is struggling to realize his talents in the Emperor Penguin world.]]></tagline>
-</mainvideo>
-<mainvideo
-         video_url="http://www.youtube.com/watch?v=cwTGL0oOtSQ"
-         video_hdpath=""
-         video_id="110"
-         thumb_image=""
-         preview_image=""
-         allow_preroll="true"
-         allow_midroll="true"
-         allow_postroll="false"
-         allow_ima="true"
-         preroll_id ="4"
-         postroll_id =""
-         allow_download="false"
-         copylink=""
-         streamer_path=""
-         subtitle =""
-         video_isLive="" >
-         <title><![CDATA[Endless Summer Journey]]></title>
-         <!--Optional-->
-         <tagline targeturl="http://travelalberta.com/"></tagline>
-</mainvideo>
-<mainvideo
-         video_url="http://www.youtube.com/watch?v=ey0aA3YY0Mo"
-         video_hdpath=""
-         video_id="124"
-         thumb_image=""
-         preview_image=""
-         allow_preroll="true"
-         allow_midroll="false"
-         allow_postroll="false"
-         allow_ima="true"
-         preroll_id ="1"
-         postroll_id ="2"
-         allow_download="true"
-         copylink=""
-         streamer_path=""
-         subtitle =""
-         video_isLive="false" >
-         <title><![CDATA[The Twilight Saga Breaking Dawn]]></title>
-         <!--Optional-->
-         <tagline targeturl="http://trailers.apple.com/trailers/disney/oceans/"><![CDATA[<span class='heading'></span>Twilight Breaking Dawn Part 2 Official Trailer.]]></tagline>
 </mainvideo>
 </playlist>

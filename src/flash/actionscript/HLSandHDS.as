@@ -54,13 +54,11 @@
 		}
 		public function loadHDSHLS()
 		{
-			trace(config['file'])
 			playvideo= new playVideo(config,reference);
 			config['buffer_Mc'].visible = true;
 			config['buffer_Mc'].alpha=1
 			if(config['file'].indexOf('.m3u8') > -1)
 			{
-				ExternalInterface.call('alert',config['file'])
 				var mediaFactory:MediaFactory = new MediaFactory();
 				mediaFactory.loadPlugin(new PluginInfoResource(new HLSPluginInfo()));
 				resource = new URLResource( config['file'] );
@@ -82,7 +80,10 @@
 			mediaPlayer.addEventListener(MediaPlayerStateChangeEvent.MEDIA_PLAYER_STATE_CHANGE, onStateChange);
 			var otherindex = reference.getChildIndex(config['backBg']);
 			reference.setChildIndex(config['myVideo'], otherindex+1);
-			config['shareClip'] = config['myVideo'];
+			config['org_width'] = config['stageWidth'];
+			config['org_height'] = config['stageHeight'];
+			config['vidscale'] = config['stageWidth'] / config['stageHeight'];
+			config['shareClip'] = mediaContainer;
 		}
 		private function onStateChange(event:MediaPlayerStateChangeEvent):void
 		{

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     
-    <stagecolor>0x000000</stagecolor> <!--(stage background color)-->
+    <stagecolor></stagecolor> <!--(stage background color)-->
 
-    <autoplay>false</autoplay>
+    <autoplay>true</autoplay>
 
     <buffer>2</buffer>
 
     <volume>70</volume>
 
-    <normalscale>2</normalscale><!--(Aspect ratio=0 ,Original=1  ,Fit to screen=2)-->
+    <normalscale>0</normalscale><!--(Aspect ratio=0 ,Original=1  ,Fit to screen=2)-->
 
-    <fullscreenscale>2</fullscreenscale><!--(Aspect ratio=0 ,Original=1  ,Fit to screen=2)-->
+    <fullscreenscale>0</fullscreenscale><!--(Aspect ratio=0 ,Original=1  ,Fit to screen=2)-->
 
     <license></license>
 
@@ -92,7 +92,7 @@
 
     <adXML>xml/ads.xml</adXML>
 
-    <preroll_ads>true</preroll_ads>
+    <preroll_ads>false</preroll_ads>
 
     <postroll_ads>false</postroll_ads>
 
@@ -142,6 +142,8 @@
     
     <skin_opacity></skin_opacity>
 
-    <imageDefault>false</imageDefault>
+    <imageDefault>true</imageDefault>
+    
+    <FB_app_id>422645514466422</FB_app_id>
 
 </config>

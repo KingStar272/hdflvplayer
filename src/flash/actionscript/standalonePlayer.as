@@ -61,7 +61,6 @@
 
 		public function standalonePlayer()
 		{
-			
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			Security.allowDomain("*");
@@ -141,6 +140,8 @@
 				config['playeruI'].addUi(config)
 				config['SkinLoad'] = SkinLoad = new skinLoad(this,config);
 				hdflv = new hdflvplayer()
+				//var swfURL:String = loaderInfo.url;
+               // var ldrURL:String = loaderInfo.loaderURL;
 			    config['license_Player'] = hdflv.HDFLVPlayer(config,lc.domain,this)
 				playerUI.addEventListener('onfullscreen', toggleScreen);
 				playerUI.addEventListener('focus', onFocusFun);
@@ -215,6 +216,7 @@
 				setChildIndex(config['logocon'],numChildren-1);
 				setChildIndex(config['midRoll'],numChildren-1);
 				setChildIndex(config['tooltipMc'],numChildren-1);
+				if(config['SocialPanel']){setChildIndex(config['SocialPanel'],numChildren-1);}
 				videooscale.buttonInVis();
 				//=================================== Listener for find mouse idle and mouse go out frm stage ======================;
 				this.addEventListener(Event.ENTER_FRAME, checkMovement);
@@ -740,7 +742,7 @@
 			{
 				config['YTPlayer'].setVolume(Math.round(intVolume*100));
 			}
-			else
+			else if(config['stream'] != null)
 			{
 				config['stream'].soundTransform= sndTransform;
 			}

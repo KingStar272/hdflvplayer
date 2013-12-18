@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.Sprite;
 	import flash.display.*;
@@ -99,8 +99,10 @@ package actionscript
 		function mailcloseFun(eve:MouseEvent)
 		{
 			config['QualityBg'].visible = false;
-			if (config['mailB'] == true)
-			{
+			new Tween(config['mailPanel'],"y",null,config['mailPanel'].y,config['stageHeight'] + config['mailPanel'].height,0.3,true);
+			/*if (config['mailB'] == true)
+			{*/
+				mailclosed();
 				if (config['pauseState'] == true && config['file'] != undefined)
 				{
 					var videoplay = new videoPlay(config);
@@ -109,8 +111,7 @@ package actionscript
 				{
 					config['Playbtn'].alpha = 1;
 				}
-				mailclosed();
-			}
+			//}
 		}
 		public function mailclosed()
 		{

@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.Sprite;
 	import flash.display.*;
@@ -31,11 +31,41 @@ package actionscript
 			}
 			else
 			{
-				if (config['embedplayer'] != "true" && config['pageURL'] != null && ExternalInterface.call("window.location.href.toString") != null && ExternalInterface.call("window.location.href.toString").indexOf('?videoID=') > -1 && config['intP'] == true)
+				if (config['embedplayer'] != "true" && config['pageURL'] != null && ExternalInterface.call("window.location.href.toString") != null && (ExternalInterface.call("window.location.href.toString").indexOf('?videoID=') > -1 || ExternalInterface.call("window.location.href.toString").indexOf('?video_id=') > -1) && config['intP'] == true)
 				{
 					config['intP'] = false;
-					var arrss:Array = ExternalInterface.call("window.location.href.toString").split('?videoID=');
-					config['vid'] = arrss[arrss.length - 1];
+					if(ExternalInterface.call("window.location.href.toString").indexOf('?videoID=') > -1)
+					{
+						var arrss:Array = ExternalInterface.call("window.location.href.toString").split('?videoID=');
+						config['vid'] = arrss[arrss.length - 1];
+					}
+					else
+					{
+						var arrss:Array = new Array()
+						if(ExternalInterface.call("window.location.href.toString").indexOf('&post_id') > -1)
+						{
+							var arrss:Array = ExternalInterface.call("window.location.href.toString").split('&post_id=');
+							var stt:String = arrss[0]
+							arrss = new Array()
+							arrss = stt.split('?video_id=');
+							
+						}
+						else
+						{
+							arrss = ExternalInterface.call("window.location.href.toString").split('?video_id=');
+						}
+						config['vid'] = Number(arrss[1])
+						
+						for (var s:int = 0; s<config['plistlength']; s++)
+						{
+							if(config['vid'] == config['video_id'][s])
+							{
+								config['vid'] = s;
+								break;
+							}
+							else config['vid'] = arrss[arrss.length - 1];
+						}
+					}
 					if(config['vid']>=config['plistlength'])config['vid'] = 0
 				}
 				else
@@ -186,10 +216,24 @@ package actionscript
 		}
 		private function dataget()
 		{
-			if (reference.root.loaderInfo.parameters['videoID'] && config['intP'] == true)
+			if ((reference.root.loaderInfo.parameters['videoID'] || reference.root.loaderInfo.parameters['video_id']) && config['intP'] == true)
 			{
 				config['intP'] = false;
-				config['vid'] = reference.root.loaderInfo.parameters['videoID'];
+				if(reference.root.loaderInfo.parameters['videoID'])config['vid'] = reference.root.loaderInfo.parameters['videoID'];
+				else 
+				{
+					var idd:Number=reference.root.loaderInfo.parameters['video_id'];
+					for (var j:int = 0; j<config['plistlength']; j++)
+					{
+						if(idd == config['video_id'][j])
+						{
+							config['vid'] = j;
+							break;
+						}
+						else config['vid'] = reference.root.loaderInfo.parameters['videoID'];
+					}
+					config['vid'] = reference.root.loaderInfo.parameters['videoID'];
+				}
 				if(config['vid']>=config['plistlength'])config['vid'] = 0
 			}
 			else if (config['plistlength'] !=0)

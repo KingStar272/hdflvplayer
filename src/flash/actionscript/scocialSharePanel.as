@@ -125,8 +125,9 @@
 		function mailcloseFun(eve:MouseEvent)
 		{
 			config['QualityBg'].visible = false;
-			if (config['shareB'] == true)
-			{
+			/*if (config['shareB'] == true)
+			{*/
+			mailclosed()
 				if (config['pauseState'] == true && config['file'] != undefined)
 				{
 					var videoplay = new videoPlay(config);
@@ -135,8 +136,8 @@
 				{
 					config['Playbtn'].alpha = 1;
 				}
-				mailclosed();
-			}
+				;
+			//}
 		}
 		public function mailclosed()
 		{

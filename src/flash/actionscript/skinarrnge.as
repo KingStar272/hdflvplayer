@@ -33,7 +33,7 @@
 				{
 					config['showPlaylistB'] = "false";
 				}
-				if(config['pluginType'] != "")
+				/*if(config['pluginType'] != "")
 				{
 					if (config['timer'] != "false")
 					{
@@ -44,7 +44,7 @@
 					{
 						config['skinMc'].ti.visible = false;
 					}
-				}
+				}*/
 				if (config['fullscreen'] != "false")
 				{
 					yposi = yposi - (config['skinMc'].FullScreen.width-4);
@@ -124,12 +124,12 @@
 					config['skinMc'].ti2.x=yposi-(config['skinMc'].ti2.width+2);
 					yposi = yposi - config['skinMc'].ti2.width;
 					xposi = xposi + 5;
-					if(config['pluginType'] == "")
-					{
+					/*if(config['pluginType'] == "")
+					{*/
 						config['skinMc'].ti.x = yposi-(config['skinMc'].ti.width+1);;
 						yposi = yposi - config['skinMc'].ti.width;
 						xposi = xposi + 5;
-					}
+					//}
 				}
 				else
 				{

@@ -104,7 +104,6 @@
 		}
 		private function adsXmlHandler(evt:Event):void
 		{
-			trace(evt.currentTarget.data)
 			var adslistXml:XML = XML(evt.currentTarget.data);
 			config['adslistlength'] = adslistXml.children().length();
 			config['adrandom'] = adslistXml.. @ random;

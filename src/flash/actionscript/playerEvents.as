@@ -397,7 +397,7 @@
 		private function zoominFun(eve:MouseEvent)
 		{
 			Player.config['QualityBg'].visible = false;
-			if (Player.config['inc'] < 3 && Player.config['shareB'] == false && zb == false)
+			if (Player.config['inc'] < 3 && Player.config['shareB'] == false && zb == false && Player.config['currentTime']>1)
 			{
 				zb = true;
 				var videoscaless = new videoScale(Player.config,reference);
@@ -405,11 +405,23 @@
 				Player.config['zoomOutMc'].mouseEnabled = Player.config['shareMc'].mouseEnabled = Player.config['zoomInMc'].mouseEnabled = false;
 				Player.config['zoomOutMc'].buttonMode = Player.config['shareMc'].buttonMode = Player.config['zoomInMc'].buttonMode = false;
 				Player.config['inc']++;
-				new Tween(Player.config['shareClip'] , "x", null , Player.config['shareClip'].x  ,Player.config['shareClip'].x-((Player.config['stageWidth']/3)/2) , 0.15 , true);
-				new Tween(Player.config['shareClip'] , "y", null , Player.config['shareClip'].y  ,Player.config['shareClip'].y-((Player.config['stageHeight']/3)/2) , 0.15 , true);
-				new Tween(Player.config['shareClip'] , "width", null , Player.config['shareClip'].width  ,Player.config['shareClip'].width+(Player.config['stageWidth']/3) , 0.15, true);
-				new Tween(Player.config['shareClip'] , "height", null , Player.config['shareClip'].height  ,Player.config['shareClip'].height+(Player.config['stageHeight']/3) , 0.15 , true);
-
+				
+				if (Player.config['file'].indexOf('viddler') > -1)
+				{
+					var tw:Number = Player.config['shareClip'].width+(Player.config['stageWidth']/3)
+					var th:Number =  Player.config['shareClip'].height+(Player.config['stageHeight']/3)
+					Player.config['YTPlayer'].setSize(tw,th)
+					new Tween(Player.config['YTPlayer'] , "x", null , Player.config['YTPlayer'].x  ,Player.config['YTPlayer'].x-((Player.config['stageWidth']/3)/2) , 0.15 , true);
+				    new Tween(Player.config['YTPlayer'] , "y", null , Player.config['YTPlayer'].y  ,Player.config['YTPlayer'].y-((Player.config['stageHeight']/3)/2) , 0.15 , true);
+				}
+				else
+				{
+					 new Tween(Player.config['shareClip'] , "x", null , Player.config['shareClip'].x  ,Player.config['shareClip'].x-((Player.config['stageWidth']/3)/2) , 0.15 , true);
+				     new Tween(Player.config['shareClip'] , "y", null , Player.config['shareClip'].y  ,Player.config['shareClip'].y-((Player.config['stageHeight']/3)/2) , 0.15 , true);
+					new Tween(Player.config['shareClip'] , "width", null , Player.config['shareClip'].width  ,Player.config['shareClip'].width+(Player.config['stageWidth']/3) , 0.15, true);
+					new Tween(Player.config['shareClip'] , "height", null , Player.config['shareClip'].height  ,Player.config['shareClip'].height+(Player.config['stageHeight']/3) , 0.15 , true);
+				}
+                
 				Player.config['zoomOutMc'].mouseEnabled = Player.config['shareMc'].mouseEnabled = Player.config['zoomInMc'].mouseEnabled = false;
 				Player.config['zoomOutMc'].buttonMode = Player.config['shareMc'].buttonMode = Player.config['zoomInMc'].buttonMode = false;
 				setTimeout(zoomDelayFun,500);
@@ -429,7 +441,7 @@
 		private function zoomoutFun(eve:MouseEvent)
 		{
 			Player.config['QualityBg'].visible = false;
-			if (Player.config['inc'] > 0 && Player.config['shareB'] == false && zb == false)
+			if (Player.config['inc'] > 0 && Player.config['shareB'] == false && zb == false && Player.config['currentTime']>1)
 			{
 				zb = true;
 				var videoscalesss = new videoScale(Player.config,reference);
@@ -438,11 +450,21 @@
 				Player.config['zoomOutMc'].buttonMode = Player.config['shareMc'].buttonMode = Player.config['zoomInMc'].buttonMode = false;
 				Player.config['inc']--;
 
-				new Tween(Player.config['shareClip'] , "x", null , Player.config['shareClip'].x  ,Player.config['shareClip'].x+((Player.config['stageWidth']/3)/2) , 0.15 , true);
-				new Tween(Player.config['shareClip'] , "y", null , Player.config['shareClip'].y  ,Player.config['shareClip'].y+((Player.config['stageHeight']/3)/2) , 0.15 , true);
-				new Tween(Player.config['shareClip'] , "width", null , Player.config['shareClip'].width  ,Player.config['shareClip'].width-(Player.config['stageWidth']/3) , 0.15 , true);
-				new Tween(Player.config['shareClip'] , "height", null , Player.config['shareClip'].height  ,Player.config['shareClip'].height-(Player.config['stageHeight']/3) , 0.15 , true);
-
+				
+				if (Player.config['file'].indexOf('viddler') > -1)
+				{
+					Player.config['YTPlayer'].setSize(Player.config['YTPlayer'].width-(Player.config['stageWidth']/3), Player.config['YTPlayer'].height-(Player.config['stageHeight']/3))
+					new Tween(Player.config['YTPlayer'] , "x", null , Player.config['YTPlayer'].x  ,Player.config['YTPlayer'].x+((Player.config['stageWidth']/3)/2) , 0.15 , true);
+				    new Tween(Player.config['YTPlayer'] , "y", null , Player.config['YTPlayer'].y  ,Player.config['YTPlayer'].y+((Player.config['stageHeight']/3)/2) , 0.15 , true);
+				}
+				else
+				{
+					new Tween(Player.config['shareClip'] , "x", null , Player.config['shareClip'].x  ,Player.config['shareClip'].x+((Player.config['stageWidth']/3)/2) , 0.15 , true);
+				    new Tween(Player.config['shareClip'] , "y", null , Player.config['shareClip'].y  ,Player.config['shareClip'].y+((Player.config['stageHeight']/3)/2) , 0.15 , true);
+					new Tween(Player.config['shareClip'] , "width", null , Player.config['shareClip'].width  ,Player.config['shareClip'].width-(Player.config['stageWidth']/3) , 0.15 , true);
+					new Tween(Player.config['shareClip'] , "height", null , Player.config['shareClip'].height  ,Player.config['shareClip'].height-(Player.config['stageHeight']/3) , 0.15 , true);
+				}
+               
 				Player.config['zoomOutMc'].mouseEnabled = Player.config['shareMc'].mouseEnabled = Player.config['zoomInMc'].mouseEnabled = false;
 				Player.config['zoomOutMc'].buttonMode = Player.config['shareMc'].buttonMode = Player.config['zoomInMc'].buttonMode = false;
 				setTimeout(zoomDelayFun,500);

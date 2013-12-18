@@ -15,6 +15,7 @@
 	import flash.utils.*;
 	import flash.net.*;
 	import flash.geom.Rectangle;
+	import flash.net.URLVariables;
 
 	public class socialShare extends Sprite
 	{
@@ -457,8 +458,30 @@
 			{
 				video_src +=  "&streamer=" + config['streamer'];
 			}
-			bookmark = "http://www.facebook.com/sharer.php?s=100&p[title]=" + escape(utftextFun(config['title'])) + "&p[summary]=" + escape(utftextFun(video_des)) + "&p[medium]=" + escape('103') + "&p[video][src]=" + escape(utftextFun(video_src)) + "&p[url]=" + escape(utftextFun(config['SocialPanel'].pMc.pageurl.text)) + "&p[images][0]=" + escape(thuimage);
-			navigateToURL(new URLRequest(bookmark) , "_blank");
+			bookmark  = 'http://www.facebook.com/sharer.php?s=100';
+			bookmark += '&p[title]='     + encodeURIComponent(config['title']);
+			bookmark += '&p[summary]='   + encodeURIComponent(video_des);
+			bookmark += '&p[url]='       + encodeURIComponent(config['SocialPanel'].pMc.pageurl.text);
+			bookmark += '&p[images][0]=' + encodeURIComponent(thuimage);
+			//
+			//bookmark = "http://www.facebook.com/sharer.php?s=100&p[title]=" + escape(utftextFun(config['title'])) + "&p[summary]=" + escape(utftextFun(video_des)) + "&p[medium]=" + escape('103') + "&p[video][src]=" + escape(utftextFun(video_src)) + "&p[url]=" + escape(utftextFun(config['SocialPanel'].pMc.pageurl.text)) + "&p[images][0]=" + escape(thuimage);
+			//navigateToURL(new URLRequest(bookmark) , "_blank");
+			
+			
+			var req:URLRequest = new URLRequest();
+			req.url = "http://www.facebook.com/dialog/feed";
+			var vars:URLVariables = new URLVariables();
+			vars.app_id = String(config['FB_app_id'])// your application's id)
+			vars.link = config['SocialPanel'].pMc.pageurl.text;
+			vars.picture = thuimage;
+			vars.name = config['title'];
+			//vars.caption = video_des;
+			vars.description = video_des;
+			//vars.message = "message message message message message";
+			vars.redirect_uri = "http://www.facebook.com/";
+			req.data = vars;
+			req.method = URLRequestMethod.POST;
+			navigateToURL(req, "_blank");
 		}
 		private function getyoutube_ID(url:String):String
 		{
