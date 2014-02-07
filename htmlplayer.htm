@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+        <script src="js/hdflvplayer.js"></script>    
+    </head>
+    <body>
+        <div class="hd-flv-player"></div>
+    </body>
+    <script type="text/javascript">
+       jQuery(function($){
+            $('.hd-flv-player').hdflv({
+                file: "./videos/madagascar3.mp4",
+                hdfile: "./videos/test.mp4",
+                poster: "./videos/madagascar3.jpg",
+                width: 585,
+                height: 330,
+                autoplay : "true",
+                fullscreen : "true",
+                volume : "true",
+                volume_level : 50,
+                hd : "false",
+                timer : "true",
+                progress : "true"
+            });
+         });
+    </script>
+    
+</html>
+
+
