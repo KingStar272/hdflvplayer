@@ -3,17 +3,17 @@
     
     <stagecolor></stagecolor> <!--(stage background color)-->
 
-    <autoplay>true</autoplay>
+    <autoplay>false</autoplay>
 
     <buffer>2</buffer>
 
     <volume>70</volume>
 
-    <normalscale>0</normalscale><!--(Aspect ratio=0 ,Original=1  ,Fit to screen=2)-->
+    <normalscale>2</normalscale><!--(Aspect ratio=0 ,Original=1  ,Fit to screen=2)-->
 
-    <fullscreenscale>0</fullscreenscale><!--(Aspect ratio=0 ,Original=1  ,Fit to screen=2)-->
+    <fullscreenscale>2</fullscreenscale><!--(Aspect ratio=0 ,Original=1  ,Fit to screen=2)-->
 
-    <license></license>
+    <license>RAWEWJH0I9F8LY6-PYAEL0KO0CONTUS</license>
 
     <logopath>images/logo.png</logopath>
 
@@ -43,7 +43,7 @@
     
     <subTitleFontFamily></subTitleFontFamily>
     
-    <subTitleFontSize>18</subTitleFontSize>
+    <subTitleFontSize></subTitleFontSize>
 
     <!--(Text color)-->
     <textColor></textColor>
@@ -144,6 +144,6 @@
 
     <imageDefault>true</imageDefault>
     
-    <FB_app_id>422645514466422</FB_app_id>
+    <FB_app_id>523442271083831</FB_app_id>
 
 </config>

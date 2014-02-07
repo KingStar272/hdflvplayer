@@ -83,7 +83,10 @@
 				config['thuMc'].sh_hi.show.visible = true;
 			}
 			config['thuMc'].thu_container.y = 5;
-			for (var i=0; i<=config['thumb_image'].length-1; i++)
+			var totalv:Number;
+			if(config['thumb_image'].length>50){totalv = 50}
+			else {totalv = config['thumb_image'].length}
+			for (var i=0; i<=totalv-1; i++)
 			{
 				galMc2 = new gal2();
 				galMc2.name = "thumb" + i;
@@ -186,7 +189,9 @@
 		}
 		function hideButtonClicked(eve:MouseEvent)
 		{
+			config['reclick'] = true;
 			hideRelatedVideo();
+			setTimeout(reclicked,3000);
 		}
 		function hideRelatedVideo()
 		{

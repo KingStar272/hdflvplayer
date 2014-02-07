@@ -101,7 +101,7 @@
 			cfg['logocon'] = logocon;
 
 			Playbtn.x  = wid / 2;
-			Playbtn.y  = (hei - 25) / 2;
+			Playbtn.y  = hei / 2;
 
 			adIndicator = new adindicator();
 			adIndicator.visible = false;

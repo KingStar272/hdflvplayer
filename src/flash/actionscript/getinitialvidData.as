@@ -186,6 +186,20 @@
 				if (config['local'] != 'true' && config['embedplayer'] != "true")
 				{
 					ExternalInterface.call('currentVideo',config['vid_id'],config['video_id']);
+					
+					if(reference.root.loaderInfo.parameters['baserefWP'] || reference.root.loaderInfo.parameters['baserefW'])
+					{
+						if(reference.root.loaderInfo.parameters['videodata'])ExternalInterface.call(reference.root.loaderInfo.parameters['videodata'],config['vid_id'], config['title'])
+			            else ExternalInterface.call('current_video',config['vid_id'], config['title'])
+					}
+					else
+					{
+						if(reference.root.loaderInfo.parameters['mid'])ExternalInterface.call('currentvideom',config['vid_id'], config['title'], config['caption_video'][config['vid']],config['video_views'][config['vid']]);
+						else{
+							 
+							 ExternalInterface.call('getvideoData',config['vid_id'],config['title'], config['caption_video'][config['vid']]);
+						}
+					}
 				}
 				preview = new Preview(reference,config);
 				preview.loadPreview();
@@ -202,6 +216,20 @@
 					if (config['local'] != 'true' && config['embedplayer'] != "true")
 					{
 						ExternalInterface.call('currentVideo',config['vid_id'],config['video_id']);
+						if(reference.root.loaderInfo.parameters['baserefWP'] || reference.root.loaderInfo.parameters['baserefW'])
+						{
+							if(reference.root.loaderInfo.parameters['videodata'])ExternalInterface.call(reference.root.loaderInfo.parameters['videodata'],config['vid_id'], config['title'])
+							else ExternalInterface.call('current_video',config['vid_id'], config['title'])
+						}
+						else
+						{
+							if(reference.root.loaderInfo.parameters['mid'])ExternalInterface.call('currentvideom',config['vid_id'], config['title'], config['caption_video'][config['vid']],config['video_views'][config['vid']]);
+							else
+							{
+								 
+								 ExternalInterface.call('getvideoData',config['vid_id'],config['title'], config['caption_video'][config['vid']]);
+							}
+						}
 					}
 					var getvideo = new findVideoType(reference,config);
 				}

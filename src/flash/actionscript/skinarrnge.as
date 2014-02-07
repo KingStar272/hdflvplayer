@@ -182,16 +182,8 @@
 			}
 			else 
 			{
-				config['skinMc'].ti.visible = false;
-				config['skinMc'].ti2.visible = false;
-				config['skinMc'].pro.visible = false;
-				config['skinMc'].PlayListView.visible = false;
-				config['skinMc'].autoPlayButton.visible = false;
-				config['skinMc'].hd.visible = false;
-				config['skinMc'].Volume.visible = false;
-				config['skinMc'].FullScreen.visible = false;
-				config['skinMc'].pp.visible = false;
-				config['skinMc'].skin_bg.visible = false;
+				config['skinMc'].Volume.visible = config['skinMc'].FullScreen.visible = config['skinMc'].pp.visible = config['skinMc'].skin_bg.visible = config['skinMc'].cc.visible = config['skinMc'].ti.visible = false;
+				config['skinMc'].pro.visible = config['skinMc'].PlayListView.visible = config['skinMc'].autoPlayButton.visible = config['skinMc'].hd.visible = config['skinMc'].ti2.visible = false;
 			}
 		}
 	}

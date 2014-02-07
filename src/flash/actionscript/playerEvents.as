@@ -204,31 +204,34 @@
 		// =========================================== play video at any point of buffered area ======================================================
 		private function progscrubberClicked(e:MouseEvent):void
 		{
-			Player.config['QualityBg'].visible = false;
-			Player.config['bolProgressScrub'] = true;
-			Player.config['stremPlayed'] = true;
-			if (Player.config['streamer'] != null && Player.config['streamer'].indexOf("pseudostreaming") > -1 && Player.config['mp4'] == false && Player.config['keyframes'] != undefined)
+			if(Player.config['IM_a'] != true)
 			{
-				Player.config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, Player.config['skinMc'].pro.progress_bg.width, 0));
-				lighttPd = new lighttpd(Player.config);
-				lighttPd.scrubit();
-			}
-			if (Player.config['dailyBG'])
-			{
-				Player.config['dailyBG'].addEventListener(MouseEvent.MOUSE_MOVE,dragclip);
-			}
-			Player.addEventListener(MouseEvent.MOUSE_MOVE,dragclip);
-			if (Player.config['shareClip'])
-			{
-				Player.config['shareClip'].addEventListener(MouseEvent.MOUSE_MOVE,dragclip);
-			}
-			Player.config['playeruI'].addEventListener(MouseEvent.MOUSE_MOVE,dragclip);
-			Player.config['skinMc'].addEventListener(MouseEvent.MOUSE_MOVE,dragclip);
-			Player.config['skinMc'].pro.seek_bar.width = Player.config['skinMc'].pro.mouseX;
-			Player.config['skinMc'].pro.pointer.x = Player.config['skinMc'].pro.mouseX;
-			if (Player.config['streamer'] != undefined && Player.config['streamer'] != "")
-			{
-				Player.config['buffer_Mc'].visible = true;
+				Player.config['QualityBg'].visible = false;
+				Player.config['bolProgressScrub'] = true;
+				Player.config['stremPlayed'] = true;
+				if (Player.config['streamer'] != null && Player.config['streamer'].indexOf("pseudostreaming") > -1 && Player.config['mp4'] == false && Player.config['keyframes'] != undefined)
+				{
+					Player.config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, Player.config['skinMc'].pro.progress_bg.width+7, 0));
+					lighttPd = new lighttpd(Player.config);
+					lighttPd.scrubit();
+				}
+				if (Player.config['dailyBG'])
+				{
+					Player.config['dailyBG'].addEventListener(MouseEvent.MOUSE_MOVE,dragclip);
+				}
+				Player.addEventListener(MouseEvent.MOUSE_MOVE,dragclip);
+				if (Player.config['shareClip'])
+				{
+					Player.config['shareClip'].addEventListener(MouseEvent.MOUSE_MOVE,dragclip);
+				}
+				Player.config['playeruI'].addEventListener(MouseEvent.MOUSE_MOVE,dragclip);
+				Player.config['skinMc'].addEventListener(MouseEvent.MOUSE_MOVE,dragclip);
+				Player.config['skinMc'].pro.seek_bar.width = Player.config['skinMc'].pro.mouseX;
+				Player.config['skinMc'].pro.pointer.x = Player.config['skinMc'].pro.mouseX;
+				if (Player.config['streamer'] != undefined && Player.config['streamer'] != "")
+				{
+					Player.config['buffer_Mc'].visible = true;
+				}
 			}
 		}
 		function dragclip(eve:MouseEvent)
@@ -237,11 +240,11 @@
 			{
 				if (Player.config['video'] == "youtube")
 				{
-					Player.config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, Player.config['skinMc'].pro.progress_bg.width, 0));
+					Player.config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, Player.config['skinMc'].pro.progress_bg.width+7, 0));
 				}
 				else if (Player.config['streamer'].indexOf("pseudostreaming") > -1 && Player.config['mp4'] == false && Player.config['keyframes'] != undefined)
 				{
-					Player.config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, Player.config['skinMc'].pro.progress_bg.width, 0));
+					Player.config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, Player.config['skinMc'].pro.progress_bg.width+7, 0));
 				}
 				else
 				{
@@ -608,7 +611,6 @@
 				return "0:00";
 			}
 		}
-
 		// ===================================== show related video for type 1 method ================================================================
 		function relatedvideosbuttonclicked(eve:MouseEvent)
 		{

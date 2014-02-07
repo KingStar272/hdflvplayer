@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.external.*;
 	public class getColor

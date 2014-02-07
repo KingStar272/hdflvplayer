@@ -38,7 +38,7 @@
 				else
 				{
 					if(config['fbpath'] != "" && config['fbpath'] != undefined)config['SocialPanel'].pMc.pageurl.text = config['fbpath']
-					else if (ExternalInterface.call("window.location.href.toString") != null)
+					else if (config['embedplayer'] != "true")
 					{
 						config['SocialPanel'].pMc.pageurl.text = ExternalInterface.call("window.location.href.toString");
 					}

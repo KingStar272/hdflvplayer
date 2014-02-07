@@ -1,45 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<playlist autoplay="true" random="false">
-<mainvideo
-         video_url="http://www.youtube.com/watch?v=qCp48L9nDug"
-         video_hdpath=""
-         video_id="12"
-         thumb_image=""
-         preview_image=""
-         allow_preroll="false"
-         allow_midroll="true"
-         allow_postroll="false"
-         allow_ima="true"
-         preroll_id ="3"
-         postroll_id =""
-         allow_download="false"
-         copylink=""
-         streamer_path=""
-         subtitle =""
-         video_isLive="" >
-         <title><![CDATA[GI Joe 2 Retaliation : Meet Storm Shadow]]></title>
-         <!--Optional-->
-         <tagline targeturl=""><![CDATA[]]></tagline>
+<playlist autoplay="false" random="false">
+
+<mainvideo 
+    video_url="http://www.youtube.com/watch?v=gQxQ9K4gnn0" 
+    video_hdpath="" 
+    video_id="2" 
+    thumb_image="" 
+    preview_image="" 
+    allow_preroll="false" 
+    allow_midroll="false" 
+    allow_postroll="false" 
+    allow_ima="false" 
+    preroll_id="1" 
+    postroll_id="2" 
+    allow_download="false" 
+    copylink="" 
+    streamer_path="" 
+    subtitle="" 
+    video_isLive="false">
+    <title><![CDATA[ Youtube Video ]]></title>
+    <!-- Optional -->
+    <tagline targeturl=""><![CDATA[<span class='heading'></span>Samsung Demo HD - Blu-Ray Sound 7.1 ch]]></tagline>
 </mainvideo>
-<mainvideo
-         video_url="http://www.youtube.com/watch?v=zIEIvi2MuEk"
-         video_hdpath=""
-         video_id="12"
-         thumb_image=""
-         preview_image=""
-         allow_preroll="false"
-         allow_midroll="true"
-         allow_postroll="false"
-         allow_ima="true"
-         preroll_id ="3"
-         postroll_id =""
-         allow_download="false"
-         copylink=""
-         streamer_path=""
-         subtitle =""
-         video_isLive="" >
-         <title><![CDATA[Landscapes: Volume]]></title>
-         <!--Optional-->
-         <tagline targeturl=""><![CDATA[]]></tagline>
-</mainvideo>
+
 </playlist>

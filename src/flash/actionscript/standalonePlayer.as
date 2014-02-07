@@ -81,7 +81,7 @@
 		{
 			config = event.target.config;
 			config['initWidth'] = stage.stageWidth;
-			if (this.root.loaderInfo.url.indexOf('file:///') > -1)
+			if(this.root.loaderInfo.url.indexOf('file:///') > -1)
 			{
 				config['local'] = "true";
 				if (config['fullscreen'] == undefined)
@@ -424,9 +424,13 @@
 		// ====================================== find mouse in Idle ========================================== 
 		function checkMovement(e:Event):void
 		{
+			setChildIndex(config['buffer_Mc'],numChildren-1);
+			setChildIndex(config['logocon'],numChildren-1);
+			setChildIndex(config['midRoll'],numChildren-1);
+			setChildIndex(config['tooltipMc'],numChildren-1)
 			if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
 			{
-				if (config['thuMc'].x<(stage.stageWidth-config['thuMc'].width))
+				if (config['thuMc'].x<(stage.stageWidth-config['thuMc'].width) && config['reclick'] == false)
 				{
 					if (config['thuMc'].sh_hi.show.visible == true)
 					{
@@ -457,6 +461,10 @@
 				else if(config['mov'] == 2)
 				{
 					config['thuMc'].visible = true;
+				}
+				else if(config['preval'] == false)
+				{
+					config['thuMc'].visible = false;
 				}
 			}
 			if (config['skinMc'].y < config['stageHeight'] - 50)
@@ -558,7 +566,7 @@
 		}
 		function thuvisFun()
 		{
-			config['thuMc'].visible = true;
+			if(config['mov'] == 2 || config['preval'] == true)config['thuMc'].visible = true;
 		}
 		function skinvisFun()
 		{

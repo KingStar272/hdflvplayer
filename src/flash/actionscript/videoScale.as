@@ -33,6 +33,7 @@
 				config['skinMc'].FullScreen.icon.i2.gotoAndStop(1)
 				config['skinMc'].FullScreen.icon.i3.gotoAndStop(1)
 				config['skinMc'].FullScreen.icon.i4.gotoAndStop(1)
+				config['SubMc'].scaleX = config['SubMc'].scaleY =1
 			}
 			if (config["displayState"] == "fullScreen")
 			{
@@ -41,6 +42,7 @@
 				config['skinMc'].FullScreen.icon.i2.gotoAndStop(2)
 				config['skinMc'].FullScreen.icon.i3.gotoAndStop(2)
 				config['skinMc'].FullScreen.icon.i4.gotoAndStop(2)
+				config['SubMc'].scaleX = config['SubMc'].scaleY =1.6
 			}
 			var vidscal = config['videoscale'];
 			if (config['video'] == "youtube" || config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
@@ -87,8 +89,20 @@
 				case "1" :
 					config['shareClip'].width = config['org_width'];
 					config['shareClip'].height = config['org_height'];
-					config['shareClip'].x = (wid/2)-(config['org_width']/2);
-					config['shareClip'].y = (hei/2)-(config['org_height']/2);
+					if(config['org_width']>wid)
+					{
+						config['shareClip'].scaleX=1;config['shareClip'].scaleY =1
+						config['shareClip'].width = wid;
+						config['shareClip'].height = hei;
+						config['shareClip'].x = 0;
+						config['shareClip'].y = 0;
+					}
+					else
+					{
+						config['shareClip'].x = (wid/2)-(config['org_width']/2);
+						config['shareClip'].y = (hei/2)-(config['org_height']/2);
+					}
+					
 					break;
 					//Fit to window
 				case "2" :
@@ -244,6 +258,7 @@
 		//========================================== set position for share zoom and downloads button ==============================================================================
 		function buttonVis()
 		{
+			
 			if (config['Download'] == 'true')
 			{
 				if(config['playeruI'].root.loaderInfo.parameters['allow_download'] == 'true')config['PDownload'] = 'true'
@@ -278,33 +293,38 @@
 				{
 					config['mailIcon'].visible = false;
 				}
-				if (config['zoomIcon'] == "true" && config['shareB'] == false && config['mailB'] == false && config['preval'] != true && config['file'].indexOf('viddler') <= -1 )
+				if(config['file'] != undefined)
 				{
-					if (config['inc'] < 3)
+					if (config['zoomIcon'] == "true" && config['shareB'] == false && config['mailB'] == false && config['preval'] != true && config['file'].indexOf('viddler') <= -1 )
 					{
-						config['zoomInMc'].visible = true;
-						config['zoomInMc'].y = yyposi;
-						yyposi = yyposi + 43;
+						
+						if (config['inc'] < 3)
+						{
+							config['zoomInMc'].visible = true;
+							config['zoomInMc'].y = yyposi;
+							yyposi = yyposi + 43;
+						}
+						else
+						{
+							config['zoomInMc'].visible = false;
+						}
+						if (config['inc'] > 0)
+						{
+							config['zoomOutMc'].visible = true;
+							config['zoomOutMc'].y = yyposi;
+							yyposi = yyposi + 43;
+						}
+						else
+						{
+							config['zoomOutMc'].visible = false;
+						}
 					}
 					else
 					{
-						config['zoomInMc'].visible = false;
-					}
-					if (config['inc'] > 0)
-					{
-						config['zoomOutMc'].visible = true;
-						config['zoomOutMc'].y = yyposi;
-						yyposi = yyposi + 43;
-					}
-					else
-					{
-						config['zoomOutMc'].visible = false;
+						config['zoomOutMc'].visible = config['zoomInMc'].visible = false;
 					}
 				}
-				else
-				{
-					config['zoomOutMc'].visible = config['zoomInMc'].visible = false;
-				}
+				
 				if (config['file'] != undefined && config['PDownload'] == "true" && config['file'].indexOf('youtube') <= -1 && config['file'].indexOf('dailymotion') <= -1 && config['file'].indexOf('viddler') <= -1)
 				{
 					if (config['streamer'] != null && config['streamer'].indexOf("rtmp") <= -1)
@@ -322,7 +342,7 @@
 					config['downloadMc'].visible = false;
 				}
 				config['mailIcon'].x = config['zoomOutMc'].x = config['zoomInMc'].x = config['shareMc'].x = config['downloadMc'].x = 8;
-
+                
 				if (config['showTag'] == "true" && config['preval'] != true)
 				{
 					if (config['mov'] == 2 && config['caption_video'][config['vid']] != undefined)

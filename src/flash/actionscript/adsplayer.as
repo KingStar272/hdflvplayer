@@ -139,6 +139,7 @@
 	function contentPauseRequestedHandler(event:AdEvent):void 
 	{
 		 config['IM_a'] = true;
+		 config['skinMc'].y = config['stageHeight']-(config['skinMc'].skin_bg.height);
 		 var videopause = new videoPause(config)
 	}
 	function contentResumeRequestedHandler(event:AdEvent):void 
@@ -152,10 +153,12 @@
 	}
 	private function destroyAdsManager()
 	{
+	  config['IM_a'] = false
       if (config['adsManager']) 
 	  {
         reference.removeChild(config['adsManager'].adsContainer)
         config['adsManager'].destroy();
+		config['adsManager'] = null
       }
     }
 	public function displayAdsInformation()

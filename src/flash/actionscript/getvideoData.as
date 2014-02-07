@@ -100,17 +100,64 @@
 					config['allowmidroll'] = 'false';
 
 				}
-				if (config['playeruI'].root.loaderInfo.parameters['ima_ads'] && config['imaAds'] == 'true')
+				if (config['playeruI'].root.loaderInfo.parameters['allow_imaAds'] && config['imaAds'] == 'true')
 				{
-					config['allow_imaAds'] = config['playeruI'].root.loaderInfo.parameters['ima_ads'];
+					config['allow_imaAds'] = config['playeruI'].root.loaderInfo.parameters['allow_imaAds'];
 				}
 				else
 				{
 					config['allow_imaAds'] = 'false';
 				}
 			}
-			if(config['autoplay'] == 'false' && config['mov'] == 1)ExternalInterface.call('videoData',config['vid_id'],config['title']);
-			else if(config['mov'] == 1)ExternalInterface.call('videoData',config['vid_id'],config['title']);
+			if(config['embedplayer'] != "true")
+			{
+				var thumb:String;
+				if (config['ref'].root.loaderInfo.parameters['thumb'])
+				{
+					thumb = config['ref'].root.loaderInfo.parameters['thumb'];
+				}
+				else if (config['plistlength'] != 0)
+				{
+					thumb = config['thumb_image'][config['vid']];
+				}
+				if (thumb == "")
+				{
+					thumb = "images/default_thumb.jpg";
+				}
+				if (thumb != null && (thumb.indexOf('http') > -1 || thumb.indexOf('https') > -1))
+				{
+					thumb = thumb;
+				}
+				else
+				{
+					thumb = config['baseurl'] + "" + thumb;
+				}
+				thumb = decodeURI(thumb);
+				var video_des:String;
+				if (config['caption_video'][config['vid']] == undefined)
+				{
+					video_des = config['SocialPanel'].pMc.pageurl.text;
+				}
+				else
+				{
+					var removeHtmlRegExp2:RegExp = new RegExp("<[^<]+?>","gi");
+					config['caption_video'][config['vid']] = String(config['caption_video'][config['vid']]).replace(removeHtmlRegExp2,"");
+					video_des = config['caption_video'][config['vid']];
+				}
+				if(config['local'] != 'true')
+				{
+					if(config['autoplay'] == 'false' && config['mov'] == 1)
+					{
+						ExternalInterface.call('videoDetails',config['title'],thumb,video_des);
+						ExternalInterface.call('videoData',config['vid_id'],config['title']);
+					}
+					else if(config['mov'] == 1)
+					{
+						ExternalInterface.call('videoDetails',config['title'],thumb,video_des);
+						ExternalInterface.call('videoData',config['vid_id'],config['title']);
+					}
+				}
+			}
 		}
 		private function shuffle(a,b):int
 		{

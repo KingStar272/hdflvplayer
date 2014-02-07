@@ -48,7 +48,7 @@
 			else txt.background=false;;
 			txt.mouseEnabled = false
 			config['SubMc'].mouseEnabled = false
-			loadSub(pth)
+			loadSub(pth+"?coid="+config['ran'])
 			
 		}
 		private function loadSub(url)

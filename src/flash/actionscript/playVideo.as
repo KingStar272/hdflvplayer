@@ -88,16 +88,8 @@
 			cfg['ld'] = '240p';
 			//========================================== Initialize button visible ==============================================================================
 			cfg['Playbtn'].scaleX = cfg['Playbtn'].scaleY = 1;
-			/*if (cfg['skinMc'].y > cfg['stageHeight'])
-			{
-				cfg['Playbtn'].x = cfg['buffer_Mc'].x = cfg['stageWidth'] / 2;
-				cfg['Playbtn'].y = cfg['buffer_Mc'].y = cfg['stageHeight'] / 2;
-			}
-			else
-			{*/
-				cfg['Playbtn'].x = cfg['buffer_Mc'].x = cfg['stageWidth'] / 2;
-				cfg['Playbtn'].y = cfg['buffer_Mc'].y = (cfg['stageHeight']-25)/2;
-			//}
+			cfg['Playbtn'].x = cfg['buffer_Mc'].x = cfg['stageWidth'] / 2;
+			cfg['Playbtn'].y = cfg['buffer_Mc'].y = (cfg['stageHeight']-25)/2;
 			timeEnd = 1;
 			pas = true;
 			reference = ref;
@@ -131,6 +123,10 @@
 			config['playeruI'].removeEventListener(Event.ENTER_FRAME, updateStremDisplay);
 			config['autopL'].visible = false;
 			config['tooltipMc'].visible = false;
+			if(config['mov'] == 2 && config['local'] != 'true' && config['embedplayer'] != "true")
+			{
+				ExternalInterface.call('currentVideoP',config['vid_id'],config['video_id']);
+			}
 			//========================================== play preroll or postroll ads ==============================================================================
 			if (config['mov'] == 1 || config['mov'] == 3)
 			{
@@ -181,6 +177,13 @@
 				}
 				buttonInVis();
 				var skinArrnge3 = new skinarrnge(config);
+				if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
+				{
+					if (config['thuMc'] != undefined)
+					{
+						config['thuMc'].visible = false;
+					}
+				}
 			}
 			else
 			{
@@ -209,23 +212,6 @@
 				{
 					config['cc'] = "false" 
 					var skinArrngea = new skinarrnge(config);
-				}
-				if (config['local'] != 'true' && config['embedplayer'] != "true")
-				{
-					if(reference.root.loaderInfo.parameters['baserefWP'] || reference.root.loaderInfo.parameters['baserefW'])
-					{
-						if(reference.root.loaderInfo.parameters['videodata'])ExternalInterface.call(reference.root.loaderInfo.parameters['videodata'],config['vid_id'], config['title'])
-			            else ExternalInterface.call('current_video',config['vid_id'], config['title'])
-					}
-					else
-					{
-						if(reference.root.loaderInfo.parameters['mid'])ExternalInterface.call('currentvideom',config['vid_id'], config['title'], config['caption_video'][config['vid']],config['video_views'][config['vid']]);
-						else{
-							 
-							 ExternalInterface.call('getvideoData',config['vid_id'],config['title'], config['caption_video'][config['vid']]);
-						}
-					}
-					
 				}
 				Tracker = new tracker(config,config['ref']);
 				Tracker.eventTracker("Video_Start","Start","Play_btn",0);
@@ -483,7 +469,7 @@
 			config['YTPlayer'] = config['YoutubeLoader'].content;
 			config['shareClip'] = config['YoutubeLoader'].content;
 			config['shareClip'].tabEnabled = false;
-			config['YTPlayer'].alpha = 0
+			//config['YTPlayer'].alpha = 0
 			loadVideoByIdFun();
 		}
 		private function loadVideoByIdFun()
@@ -500,7 +486,7 @@
 				}
 				else if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 				{
-					config['YTPlayer'].alpha = 0
+					//config['YTPlayer'].alpha = 0
 					config['dailyBG'].visible = false;
 					if(config['mov']!= 2)config['YTPlayer'].loadVideoById(getyoutube_ID(config['file']), 0, "default");
 					else if (config['videoType'] == 'hd')
@@ -536,6 +522,8 @@
 				if (config['file'].indexOf('dailymotion') > -1)
 				{
 					otherindex = reference.getChildIndex(config['backBg']);
+					config['dailyBG'].height =config['stageHeight'] ;
+			        config['dailyBG'].width = config['stageWidth'];
 				}
 				else
 				{
@@ -951,7 +939,7 @@
 		    config['stream']  = new NetStream(nc);
 			objClient= new Object();
 			config['stream'].client = objClient;
-			config['stream'].checkPolicyFile = true;
+			//config['stream'].checkPolicyFile = true;
 			objClient.onMetaData = flvOnMetaData;
 			if (config['file'].indexOf('.mp3') > -1 )
 			{
@@ -1080,6 +1068,7 @@
 		{
 			if (config['video'] != "")
 			{
+				trace(event.info.code)
 				config['buffer_Mc'].alpha = 1;
 				switch (event.info.code)
 				{
@@ -1106,7 +1095,7 @@
 					case "NetStream.Play.Stop" :
 						config['buffer_Mc'].visible = false;
 						cls = setInterval(stopvideofun,500)
-						
+						config['stream'].removeEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
 						break;
 					case "NetStream.Play.StreamNotFound" :
 						if (config['mov'] != 2)
@@ -1133,7 +1122,7 @@
 		}
 		function stopvideofun()
 		{
-			if (config['isLive'] != "true" && config['currentTime']+1 >= config['nDuration'])
+			if (config['isLive'] != "true" && config['bolProgressScrub'] == false && config['currentTime']>=config['nDuration']-1 )
 			{
 				clearInterval(cls)
 				config['stream'].removeEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
@@ -1144,7 +1133,8 @@
 		//========================================== video controls in enterframe ==============================================================================
 		private function updateStremDisplay(eve:Event)
 		{
-			if(config['file'].indexOf('viddler') > -1 || config['file'].indexOf('.m3u8') > -1){config['backBg'].alpha = 0;config['dailyBG'].width = config['stageWidth'];config['dailyBG'].height=config['stageHeight']}
+			if(config['precontainer'])config['precontainer'].visible=false
+			if(config['file'].indexOf('viddler') > -1 || config['file'].indexOf('.m3u8') > -1 || config['file'].indexOf('.f4m') > -1){config['backBg'].alpha = 0;config['dailyBG'].width = config['stageWidth'];config['dailyBG'].height=config['stageHeight']}
 			else config['backBg'].alpha = 1
 			if(config['skinMc'].pro.seek_bar.width >  config['ProgbarWidth'])config['skinMc'].pro.seek_bar.width = config['ProgbarWidth']-30
 			if (config['video'] != "")
@@ -1162,6 +1152,10 @@
 				{
 					config['currentTime'] = config['YTPlayer'].getCurrentTime();
 					config['nDuration'] = config['YTPlayer'].getDuration();
+					if(config['currentTime']<2)
+					{
+						config['YTPlayer'].setPlaybackQuality('hq');
+					}
 				}
 				else if(config['file'].indexOf('.f4m') <= -1 && config['file'].indexOf('.m3u8') <= -1)
 				{
@@ -1217,7 +1211,7 @@
 							config['currentTime'] = config['off'] + config['stream'].time;
 						}
 					}
-					if (config['bolProgressScrub'])
+					if (config['bolProgressScrub'] && config['IM_a'] != true)
 					{
 						if (config['file'].indexOf('.mp3') > -1)
 						{
@@ -1319,7 +1313,7 @@
 								}
 								if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 								{
-									if ((config['YTPlayer'].getVideoLoadedFraction() == 0 && config['YTPlayer'].getPlayerState() == 1) || config['YTPlayer'].getPlayerState() == 3)
+									if (((config['YTPlayer'].getVideoLoadedFraction() == 0 && config['YTPlayer'].getPlayerState() == 1) || config['YTPlayer'].getPlayerState() == 3) && config['currentTime']>0.5)
 									{
 										config['buffer_Mc'].visible = true;
 										config['buffer_Mc'].alpha = 1;
@@ -1366,7 +1360,7 @@
 						}
 						if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 						{
-							if(config['YTPlayer'].getPlayerState() == -1){config['YTPlayer'].alpha =0;config['buffer_Mc'].alpha=1;config['buffer_Mc'].visible=true}
+							if(config['YTPlayer'].getPlayerState() == -1 && config['currentTime']>=1){config['YTPlayer'].alpha =1;config['buffer_Mc'].alpha=1;config['buffer_Mc'].visible=true}
 							else if(config['imaAds'] == "true")
 							{
 								if(config['currentTime']>=1)config['YTPlayer'] .alpha = 1
@@ -1422,10 +1416,14 @@
 							stopVideoPlay()
 						}
 					}
-					if (config['nDuration'] > 2 && config['imaAds'] == "true" && config['imA'] == false && config['allow_imaAds'] == "true" && ImAlaoded == false)
+					var ttime:Number;
+					if(config['isLive'] != "true")ttime = config['nDuration']
+					else ttime = 12
+					if (ttime > 2 && config['imaAds'] == "true" && config['imA'] == false && config['allow_imaAds'] == "true" && ImAlaoded == false)
 					{
-						if (config['nDuration'] > 10)
+						if (ttime > 10 )
 						{
+							
 							if (Math.round(config['currentTime']) >= 10)
 							{
 								config['imA'] = true;
@@ -1532,59 +1530,59 @@
 			var skinArrngea = new skinarrnge(config);
 			config['QualityBg'].visible = false;
 			config['subTiltleBg'].visible = false;
-				config['playeruI'].removeEventListener(Event.ENTER_FRAME, updateStremDisplay);
-				if (config['mov'] == 2 && config['currentTime']>(config['nDuration']-3) && config['embedplayer'] != "true")
-				{
-					Tracker = new tracker(config,config['ref']);
-					Tracker.eventTracker("Video_End","Video_complete","END",0);
-				}
-				config['setnum'] = 0;
-				config['skinMc'].indication.visible = false;
-				config['skinMc'].pro.buffer_end.visible = config['skinMc'].pro.seek_end.visible = config['skinMc'].pro.seekS.visible = config['skinMc'].pro.bufferS.visible = false;
-				if (config['imaAds'] == "true" && config['allow_imaAds'] == "true")
-				{
-					var imaAdsload = new adsplayer(config,reference);
-					imaAdsload.unloadAd();
-					config['imA'] = false;
-				}
-				config['buffer_Mc'].alpha = 0;
-				config['currentTime'] = config['nDuration'] = 0;
-	
-				config['skinMc'].ti.timetex.autoSize = TextFieldAutoSize.LEFT;
-				config['skinMc'].ti2.timetex.autoSize = TextFieldAutoSize.LEFT;
-				config['skinMc'].pro.seek_bar.width = config['skinMc'].pro.buffer_bar.width = config['skinMc'].pro.pointer.x = 0;
-				config['skinMc'].ti.timetex.htmlText= "00:00";
-				/*if(config['pluginType'] == "")*/config['skinMc'].ti2.timetex.htmlText= "/ 00:00";
-				//else config['skinMc'].ti2.timetex.htmlText= "00:00";
-				config['skinMc'].ti2.x = config['skinMc'].ti2.bg = 0;
-				clearInterval(config['midinterval']);
-				var midRollAds12 = new midrollAds(config,reference);
-				midRollAds12.midInvisi();
-				config['adIndicator'].y = config['labelBt'].y = config['stageHeight'] + 50;
-				config['adIndicator'].visible = config['labelBt'].visible = false;
-				removeYoutubevidlervideos();
+			config['playeruI'].removeEventListener(Event.ENTER_FRAME, updateStremDisplay);
+			if (config['mov'] == 2 && config['currentTime']>(config['nDuration']-3) && config['embedplayer'] != "true")
+			{
+				Tracker = new tracker(config,config['ref']);
+				Tracker.eventTracker("Video_End","Video_complete","END",0);
+			}
+			config['setnum'] = 0;
+			config['skinMc'].indication.visible = false;
+			config['skinMc'].pro.buffer_end.visible = config['skinMc'].pro.seek_end.visible = config['skinMc'].pro.seekS.visible = config['skinMc'].pro.bufferS.visible = false;
+			if (config['imaAds'] == "true" && config['allow_imaAds'] == "true")
+			{
+				var imaAdsload = new adsplayer(config,reference);
+				imaAdsload.unloadAd();
+				config['imA'] = false;
+			}
+			config['buffer_Mc'].alpha = 0;
+			config['currentTime'] = config['nDuration'] = 0;
+
+			config['skinMc'].ti.timetex.autoSize = TextFieldAutoSize.LEFT;
+			config['skinMc'].ti2.timetex.autoSize = TextFieldAutoSize.LEFT;
+			config['skinMc'].pro.seek_bar.width = config['skinMc'].pro.buffer_bar.width = config['skinMc'].pro.pointer.x = 0;
+			config['skinMc'].ti.timetex.htmlText= "00:00";
+			/*if(config['pluginType'] == "")*/config['skinMc'].ti2.timetex.htmlText= "/ 00:00";
+			//else config['skinMc'].ti2.timetex.htmlText= "00:00";
+			config['skinMc'].ti2.x = config['skinMc'].ti2.bg = 0;
+			clearInterval(config['midinterval']);
+			var midRollAds12 = new midrollAds(config,reference);
+			midRollAds12.midInvisi();
+			config['adIndicator'].y = config['labelBt'].y = config['stageHeight'] + 50;
+			config['adIndicator'].visible = config['labelBt'].visible = false;
+			removeYoutubevidlervideos();
+			if (config['preval'] == true)
+			{
+				preview = new Preview(config['ref'],config);
+				preview.removePreview();
+			}
+			if (config['update'])
+			{
 				if (config['preval'] == true)
 				{
 					preview = new Preview(config['ref'],config);
 					preview.removePreview();
 				}
-				if (config['update'])
-				{
-					if (config['preval'] == true)
-					{
-						preview = new Preview(config['ref'],config);
-						preview.removePreview();
-					}
-					config['Playbtn'].visible = false;
-					config['buffer_Mc'].visible = false;
-					config['mov'] = 1;
-					var getVidDataee = new getinitialvidData(reference,config);
-					hdEnabledFun();
-				}
-				else
-				{
-					goNextFun();
-				}
+				config['Playbtn'].visible = false;
+				config['buffer_Mc'].visible = false;
+				config['mov'] = 1;
+				var getVidDataee = new getinitialvidData(reference,config);
+				hdEnabledFun();
+			}
+			else
+			{
+				goNextFun();
+			}
 		}
 		private function removeYoutubevidlervideos()
 		{
@@ -1886,29 +1884,32 @@
 		//========================================== play vieo at any point ==============================================================================
 		private function progressbgClicked(eve:MouseEvent)
 		{
-			config['QualityBg'].visible = false;
-			config['subTiltleBg'].visible = false;
-			if (config['video'] == "youtube")
+			if(config['IM_a'] != true)
 			{
-				config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, config['skinMc'].pro.progress_bg.width, 0));
-				config['stremPlayed'] = true;
-				config['bolProgressScrub'] = true;
-				config['skinMc'].pro.seek_bar.width = config['skinMc'].pro.mouseX - config['skinMc'].pro.x;
-				config['skinMc'].pro.buffer_bar.width = config['skinMc'].pro.mouseX - config['skinMc'].pro.x;
-				config['skinMc'].pro.pointer.x = config['skinMc'].pro.mouseX - config['skinMc'].pro.x;
-				var sec=config['nDuration'] *  (config['skinMc'].pro.mouseX/ config['skinMc'].pro.progress_bg.width);
-				config['YTPlayer'].seekTo(sec,true);
-			}
-			else if (config['streamer'] != undefined && config['streamer'].indexOf("pseudostreaming") > -1 && config['mp4'] == false && config['keyframes'] != undefined)
-			{
-				config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, config['skinMc'].pro.progress_bg.width, 0));
-				config['stremPlayed'] = true;
-				lighttPd.scrubit();
-			}
-			else if(config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
-			{
-				config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, config['skinMc'].pro.progress_bg.width, 0));
-				config['stremPlayed'] = true;
+				config['QualityBg'].visible = false;
+				config['subTiltleBg'].visible = false;
+				if (config['video'] == "youtube")
+				{
+					config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, config['skinMc'].pro.progress_bg.width+7, 0));
+					config['stremPlayed'] = true;
+					config['bolProgressScrub'] = true;
+					config['skinMc'].pro.seek_bar.width = config['skinMc'].pro.mouseX - config['skinMc'].pro.x;
+					config['skinMc'].pro.buffer_bar.width = config['skinMc'].pro.mouseX - config['skinMc'].pro.x;
+					config['skinMc'].pro.pointer.x = config['skinMc'].pro.mouseX - config['skinMc'].pro.x;
+					var sec=config['nDuration'] *  (config['skinMc'].pro.mouseX/ config['skinMc'].pro.progress_bg.width);
+					config['YTPlayer'].seekTo(sec,true);
+				}
+				else if (config['streamer'] != undefined && config['streamer'].indexOf("pseudostreaming") > -1 && config['mp4'] == false && config['keyframes'] != undefined)
+				{
+					config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, config['skinMc'].pro.progress_bg.width, 0));
+					config['stremPlayed'] = true;
+					lighttPd.scrubit();
+				}
+				else if(config['file'].indexOf('.f4m') > -1 || config['file'].indexOf('.m3u8') > -1)
+				{
+					config['skinMc'].pro.pointer.startDrag(true, new Rectangle(0, 2, config['skinMc'].pro.progress_bg.width, 0));
+					config['stremPlayed'] = true;
+				}
 			}
 		}
 		//========================================== ads money make function  ==============================================================================
@@ -2014,7 +2015,7 @@
 			config['setnum'] = 0;
 			config['QualityBg'].visible = false;
 			config['subTiltleBg'].visible = false;
-			if (config['skin_autohide'] == "true" && config['mov'] == 2 && config['stageover'] != true)
+			if (config['skin_autohide'] == "true" && config['mov'] == 2 && config['stageover'] != true && config['IM_a'] == false)
 			{
 				config['skinout'] = true;
 				new Tween(config['skinMc'],"y",null,config['skinMc'].y,config['stageHeight'] + 5,0.3,true);
@@ -2163,6 +2164,13 @@
 		}
 		private function adsControl()
 		{
+			if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
+			{
+				if (config['thuMc'] != undefined)
+				{
+					config['thuMc'].visible = false;
+				}
+			}
 			timeEnd = Math.round(config['nDuration'] - config['currentTime']);
 			if (config['adsSkip'] == "true")
 			{
@@ -2262,7 +2270,7 @@
 			}
 			if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 			{
-				if(config['YTPlayer'].getPlayerState() == -1){config['YTPlayer'].alpha =0;config['buffer_Mc'].alpha=1;config['buffer_Mc'].visible=true}
+				if(config['YTPlayer'].getPlayerState() == -1){config['YTPlayer'].alpha =1;config['buffer_Mc'].alpha=1;config['buffer_Mc'].visible=true}
 				else {config['YTPlayer'] .alpha = 1;config['buffer_Mc'].alpha=0;config['buffer_Mc'].visible=false}
 			}
 		}

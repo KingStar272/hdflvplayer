@@ -383,7 +383,10 @@
 			{
 				thuimage = config['baseurl'] + "" + thuimage;
 			}
-			if(thuimage.indexOf('i3.ytimg.com/vi') > -1)thuimage = "http://i3.ytimg.com/vi/" + getyoutube_ID(config['file']) + "/hqdefault.jpg";
+			if(thuimage.indexOf('i3.ytimg.com/vi') > -1 || thuimage.indexOf('img.youtube.com') > -1)thuimage = "http://i3.ytimg.com/vi/" + getyoutube_ID(config['file']) + "/hqdefault.jpg";
+			
+			//if(thuimage.indexOf('i3.ytimg.com/vi') > -1 || thuimage.indexOf('img.youtube.com') > -1)thuimage=primage
+			
 			thuimage = decodeURI(thuimage);
 			if (config['streamer'] != undefined && config['streamer'].indexOf("rtmp") > -1 && config['file'].indexOf(":") > -1)
 			{
@@ -392,7 +395,7 @@
 			}
 			var video_src:String = "";
 			video_src = config['baseurl'] + 'hdplayer.swf?file=' + config['file'];
-			video_src +=  '&embedplayer=true&HD_default=true&showPlaylit=false&zoomIcon=false&email=false&playlist_auto=false';
+			video_src +=  '&embedplayer=true&HD_default=true&showPlaylit=false&zoomIcon=false&email=false&playlist_auto=false&shareIcon=false';
 			video_src +=  '&skin_autohide=' + config['skin_autohide'];
 			video_src +=  '&preview=' + primage;
 			video_src +=  '&thumb=' + thuimage;
@@ -458,20 +461,23 @@
 			{
 				video_src +=  "&streamer=" + config['streamer'];
 			}
-			bookmark  = 'http://www.facebook.com/sharer.php?s=100';
+			/*bookmark  = 'http://www.facebook.com/sharer.php?s=100';
 			bookmark += '&p[title]='     + encodeURIComponent(config['title']);
 			bookmark += '&p[summary]='   + encodeURIComponent(video_des);
 			bookmark += '&p[url]='       + encodeURIComponent(config['SocialPanel'].pMc.pageurl.text);
-			bookmark += '&p[images][0]=' + encodeURIComponent(thuimage);
-			//
-			//bookmark = "http://www.facebook.com/sharer.php?s=100&p[title]=" + escape(utftextFun(config['title'])) + "&p[summary]=" + escape(utftextFun(video_des)) + "&p[medium]=" + escape('103') + "&p[video][src]=" + escape(utftextFun(video_src)) + "&p[url]=" + escape(utftextFun(config['SocialPanel'].pMc.pageurl.text)) + "&p[images][0]=" + escape(thuimage);
-			//navigateToURL(new URLRequest(bookmark) , "_blank");
+			bookmark += '&p[images][0]=' + encodeURIComponent(thuimage);*/
+			//+"&swfurl="+escape(utftextFun(video_src))
+		   // bookmark = "http://api.addthis.com/oexchange/0.8/forward/facebook/offer?url="+ escape(utftextFun(config['SocialPanel'].pMc.pageurl.text)) +"&title="+utftextFun(config['title'])+"&screenshot="+escape(thuimage)+"&height=350&width=400&description="+utftextFun(video_des)+"pubid=ra-52b8287f2d76101a";
+		    bookmark = "http://www.facebook.com/sharer.php?s=100&p[title]="+escape(utftextFun(config['title']))+"&p[summary]="+escape(utftextFun(video_des))+"&p[medium]="+escape('103')+"&p[url]="+escape(utftextFun(config['SocialPanel'].pMc.pageurl.text))+"&p[images][0]="+escape(thuimage);
+		    //bookmark = "https://www.facebook.com/sharer/sharer.php?u=100&p[title]=" + escape(utftextFun(config['title'])) + "&p[summary]=" + escape(utftextFun(video_des)) + "&p[medium]=" + escape('103') + "&p[video][src]=" + escape(utftextFun(video_src)) + "&p[url]=" + escape(utftextFun(config['SocialPanel'].pMc.pageurl.text)) + "&p[images][0]=" + escape(thuimage);
+			navigateToURL(new URLRequest(bookmark) , "_blank");
 			
 			
-			var req:URLRequest = new URLRequest();
+			/*var req:URLRequest = new URLRequest();
 			req.url = "http://www.facebook.com/dialog/feed";
 			var vars:URLVariables = new URLVariables();
 			vars.app_id = String(config['FB_app_id'])// your application's id)
+			//vars.app_id = "422645514466422"
 			vars.link = config['SocialPanel'].pMc.pageurl.text;
 			vars.picture = thuimage;
 			vars.name = config['title'];
@@ -481,7 +487,7 @@
 			vars.redirect_uri = "http://www.facebook.com/";
 			req.data = vars;
 			req.method = URLRequestMethod.POST;
-			navigateToURL(req, "_blank");
+			navigateToURL(req, "_blank");*/
 		}
 		private function getyoutube_ID(url:String):String
 		{

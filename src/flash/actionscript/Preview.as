@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.*;
 	import flash.text.*;
@@ -201,7 +201,7 @@ package actionscript
 		{
 			config['skinMc'].y = config['stageHeight'] - config['skinMc'].pp.height;
 			config['precontainer'].visible = false;
-			if (config['precontainer'])
+			if (config['precontainer']!= "" && config['precontainer'] != undefined)
 			{
 				reference.removeChild(config['precontainer']);
 			}

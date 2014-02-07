@@ -355,9 +355,8 @@
 			buffer_Mc.tabEnabled = false;
 			buffer_Mc.x = wid / 2;
 			buffer_Mc.y = (hei - 25) / 2;
-			config['pluginType'] = getPluginType()
-			configloadXML(generateConfigURI())
-			/*if (reference.root.loaderInfo.url.indexOf('file:///') <= -1)
+			//configloadXML(generateConfigURI())
+			if (reference.root.loaderInfo.url.indexOf('file:///') <= -1)
 			{
 				configloadXML(generateConfigURI())
 			}
@@ -365,7 +364,7 @@
 			{
 				MessageClass = new Message(config,reference);
 				MessageClass.show("There is no videos in this player");
-			}*/
+			}
 		}
 		function generateConfigURI()
 		{
@@ -422,7 +421,7 @@
 			if(reference.root.loaderInfo.parameters['baserefW'])
 			{ 
 			    char_arr = new Array()
-				char_arr = reference.root.loaderInfo.url.split("/wp-content")
+				char_arr = reference.root.loaderInfo.url.split("/wp-content/plugins/")
 				basearW =char_arr[0] + "/wp-admin/admin-ajax.php?action=configXML"
 			}
 			else basearW = char_arr[0] + "configXML.php";
@@ -960,7 +959,8 @@
 					config['disply_copylink'][i] = plistxml.mainvideo[i]. @ copylink;
 					config['subTitleArr'][i] =  plistxml.mainvideo[i]. @ subtitle;
 					config['video_title'][i] = plistDoc.firstChild.childNodes[i].childNodes[0].childNodes[0].nodeValue;
-					config['fbpath_arr'][i] = plistxml.mainvideo[i]. @ fbpath;
+					if(reference.root.loaderInfo.parameters['plugin'] != "true")config['fbpath_arr'][i] = plistxml.mainvideo[i]. @ fbpath;
+					else config['fbpath_arr'][i] = "";
 					if (plistDoc.firstChild.childNodes[i].childNodes[1] != undefined)
 					{
 						for (var jk=0; jk<plistDoc.firstChild.childNodes[i].childNodes[1].childNodes.length; jk++)
