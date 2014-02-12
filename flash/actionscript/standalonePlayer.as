@@ -34,8 +34,7 @@
 		{
 			hdflv_option['nDuration'] = 0;
 			hdflv_option['currentTime'] = 0;
-			
-			ExternalInterface.addCallback('play',playvideo)
+			ExternalInterface.addCallback('playfun',playvideo)
 			ExternalInterface.addCallback('getDuration',getDuration)
 			ExternalInterface.addCallback('getCurrentTime',getCurrentTime)
 			ExternalInterface.addCallback('getbytesLoaded',getbytesLoaded)
@@ -51,7 +50,7 @@
 			PlayVideo = new playVideo(hdflv_option)
 			stage.addEventListener('onfullscreen', toggleScreen);
 		}
-		public function playvideo():void
+		public function playvideo()
 		{
 			PlayVideo.playpause();
 		}

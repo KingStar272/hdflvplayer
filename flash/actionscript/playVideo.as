@@ -68,6 +68,7 @@
 		}
 		public function playpause():void
 		{
+			config['file'] = "http://localhost/html5player/videos/madagascar3.mp4"
 			if(config['played'] == "initial"){
 				config['stream'].play(config['file']);
 				config['played'] = "true";
