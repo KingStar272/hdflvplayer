@@ -1,5 +1,4 @@
-﻿package actionscript
-{
+﻿package actionscript{
 	import flash.display.*;
 	import flash.events.*;
 	import flash.external.*;
@@ -23,15 +22,12 @@
     import flash.geom.*;
 	import flash.geom.ColorTransform;
 		
-	public class standalonePlayer extends MovieClip
-	{
+	public class standalonePlayer extends MovieClip{
 		private var PlayVideo:playVideo;
-		public var hdflv_option:Object = 
-		{
+		public var hdflv_option:Object ={
 			played:String
 		}
-		public function standalonePlayer()
-		{
+		public function standalonePlayer(){
 			hdflv_option['nDuration'] = 0;
 			hdflv_option['currentTime'] = 0;
 			ExternalInterface.addCallback('playfun',playvideo)
@@ -41,60 +37,40 @@
 			ExternalInterface.addCallback('getbytesTotal',getbytesTotal)
 			ExternalInterface.addCallback('seekVideo',seekVideo)
 			ExternalInterface.addCallback('setVolume',setVolume)
-			ExternalInterface.addCallback('fullScreenFun',fullScreenFun)
 			hdflv_option['played'] = 'initial';
 			hdflv_option['file'] = this.root.loaderInfo.parameters['file']
 			hdflv_option['ref'] = this;
 			hdflv_option['width'] = stage.stageWidth;
 			hdflv_option['height'] = stage.stageHeight;
-			PlayVideo = new playVideo(hdflv_option)
-			stage.addEventListener('onfullscreen', toggleScreen);
+			hdflv_option['ref'] = this;
+			PlayVideo = new playVideo(hdflv_option,this)
+			stage.addEventListener(Event.RESIZE, resizeFun);
 		}
-		public function playvideo()
-		{
+		public function playvideo(){
 			PlayVideo.playpause();
 		}
-		private function getDuration()
-		{
+		private function getDuration(){
 			return hdflv_option['nDuration'];
 		}
-		private function getCurrentTime()
-		{
+		private function getCurrentTime(){
 			return hdflv_option['currentTime'];
 		}
-		private function getbytesLoaded()
-		{
+		private function getbytesLoaded(){
 			return hdflv_option['bytesLoaded'];
 		}
-		private function getbytesTotal()
-		{
+		private function getbytesTotal(){
 			return hdflv_option['bytesTotal'];
 		}
-		private function seekVideo(sec)
-		{
+		private function seekVideo(sec){
 			hdflv_option['stream'].seek(sec);
 		}
-		private function setVolume(Volume)
-		{
+		private function setVolume(Volume){
 			var sndTransform= new SoundTransform(Volume);
 			hdflv_option['stream'].soundTransform= sndTransform;
 		}
-		private function fullScreenFun()
-		{
-			stage.dispatchEvent(new Event('onfullscreen'));
-		}
-		private function toggleScreen(evt:Event)
-		{
-			if (stage.displayState == StageDisplayState.NORMAL)
-			{
-				stage.displayState = StageDisplayState.FULL_SCREEN;
-			}
-			else
-			{
-				stage.displayState = StageDisplayState.NORMAL;
-			}
-			hdflv_option['width'] = stage.stageWidth;
-			hdflv_option['height'] = stage.stageHeight;
+		private function resizeFun(evt:Event=null):void{
+			
+			PlayVideo.setDim(stage.stageWidth,stage.stageHeight);
 		}
 	}
 }

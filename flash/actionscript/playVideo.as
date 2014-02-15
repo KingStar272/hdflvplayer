@@ -1,5 +1,4 @@
-﻿package actionscript
-{
+﻿package actionscript{
 	import flash.display.Sprite;
 	import flash.events.*;
 	import flash.net.URLRequest;
@@ -27,22 +26,20 @@
 	import flash.system.SecurityDomain;
 	import flash.net.*;
 
-	public class playVideo
-	{
+	public class playVideo{
 		private var config:Object;
 		private var nc:NetConnection;
 		private var objClient:Object;
 		private var myVideo:Video;
 		private var nDuration:Number;
+		private var ref:Sprite;
 		
-		
-		public function playVideo(obj)
-		{
+		public function playVideo(obj,re){
 			config = obj;
+			ref = re;
 			playStreamVideo();
 		}
-		private function playStreamVideo()
-		{
+		private function playStreamVideo(){
 			config['myVideo'] = new MovieClip();
 			config['ref'].addChild(config['myVideo']);
 			nc = new NetConnection();
@@ -55,20 +52,19 @@
 			myVideo = new Video(config['stageWidth'],config['stageHeight']);
 			config['myVideo'].addChild(myVideo);
 			myVideo.attachNetStream(config['stream']);
-			myVideo.width = config['width'];
-			myVideo.height = config['height'];
 			myVideo.smoothing = true;
 			myVideo.deblocking = 1;
+			config['bytesLoaded'] = config['currentTime'] = config['bytesTotal'] = 0
+			setDim(config['width'],config['height']);
+			config['myVideo'].buttonMode = true
+			config['stream'].addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
 		}
-		private function flvOnMetaData(obj:Object):void
-		{
+		private function flvOnMetaData(obj:Object):void{
 			config['nDuration'] = obj.duration;
 			config['currentTime'] = 0;
 			myVideo.addEventListener(Event.ENTER_FRAME, updateStremDisplay);
 		}
-		public function playpause():void
-		{
-			config['file'] = "http://localhost/html5player/videos/madagascar3.mp4"
+		public function playpause():void{
 			if(config['played'] == "initial"){
 				config['stream'].play(config['file']);
 				config['played'] = "true";
@@ -84,6 +80,33 @@
 			config['currentTime'] = config['stream'].time;
 			config['bytesLoaded'] = config['stream'].bytesLoaded;
 			config['bytesTotal'] = config['stream'].bytesTotal;
+		}
+		public function setDim(wid,hei):void{
+			myVideo.width = wid;
+			myVideo.height = hei;
+		}
+		private function netStatusHandler(event:NetStatusEvent)
+		{
+			switch (event.info.code){
+				case "NetStream.Seek.Notify" :
+					break;
+				case "NetStream.Buffer.Empty" :
+					break;
+				case "NetStream.Buffer.Full" :
+					break;
+				case "NetStream.Buffer.Start" :
+					break;
+				case "NetStream.Play.Stop" :
+				    //ExternalInterface.call('jscall()')
+				    config['played'] = 'initial';
+					break;
+				case "NetStream.Play.StreamNotFound" :
+					break;
+				case "NetStream.Play.FileStructureInvalid" :
+					break;
+				case "NetStream.Play.NoSupportedTrackFound" :
+					break;
+			}
 		}
 	}
 }
