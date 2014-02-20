@@ -30,6 +30,7 @@
 		public function standalonePlayer(){
 			hdflv_option['nDuration'] = 0;
 			hdflv_option['currentTime'] = 0;
+			hdflv_option['played'] = 'false';
 			ExternalInterface.addCallback('playfun',playvideo)
 			ExternalInterface.addCallback('getDuration',getDuration)
 			ExternalInterface.addCallback('getCurrentTime',getCurrentTime)
@@ -37,6 +38,8 @@
 			ExternalInterface.addCallback('getbytesTotal',getbytesTotal)
 			ExternalInterface.addCallback('seekVideo',seekVideo)
 			ExternalInterface.addCallback('setVolume',setVolume)
+			ExternalInterface.addCallback('getplayerstate',getplayerstate)
+			
 			hdflv_option['played'] = 'initial';
 			hdflv_option['file'] = this.root.loaderInfo.parameters['file']
 			hdflv_option['ref'] = this;
@@ -69,8 +72,10 @@
 			hdflv_option['stream'].soundTransform= sndTransform;
 		}
 		private function resizeFun(evt:Event=null):void{
-			
 			PlayVideo.setDim(stage.stageWidth,stage.stageHeight);
+		}
+		private function getplayerstate(){
+			return hdflv_option['played'];
 		}
 	}
 }

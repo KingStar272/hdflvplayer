@@ -58,6 +58,11 @@
 			setDim(config['width'],config['height']);
 			config['myVideo'].buttonMode = true
 			config['stream'].addEventListener(NetStatusEvent.NET_STATUS, netStatusHandler);
+			config['myVideo'].addEventListener(MouseEvent.CLICK,playpausecontainer)
+		}
+		private function playpausecontainer(eve:MouseEvent)
+		{
+			playpause();
 		}
 		private function flvOnMetaData(obj:Object):void{
 			config['nDuration'] = obj.duration;
@@ -97,7 +102,6 @@
 				case "NetStream.Buffer.Start" :
 					break;
 				case "NetStream.Play.Stop" :
-				    //ExternalInterface.call('jscall()')
 				    config['played'] = 'initial';
 					break;
 				case "NetStream.Play.StreamNotFound" :
