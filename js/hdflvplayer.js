@@ -4,11 +4,11 @@ jQuery(document).ready(function($) {
         return this.each(function() 
         {
             var $hdflv = $(this);
-            var palyerType,currentTime,duration,totalWidth=0,drg=true,myVar,parentOffset,relX,relY,seekto,skinOver=true,over=true,playing=false,player,totalBytes,bytesLoaded,myVar2,src_error=false;
+            var palyerType,currentTime,duration,totalWidth=0,drg=true,myVar,parentOffset,relX,relY,seekto,speedOver=true,skinOver=true,over=true,playing=false,player,totalBytes,bytesLoaded,myVar2,src_error=false,speedBg=false,playbackrate = 1;
             var $video_wrap = $('<div></div>').addClass('hdflv-video-player');
             palyerType = 'html';
-            hflv_option.videotag = '<video width="'+hflv_option.width+'" height="'+hflv_option.height+'" class="hdflvplayer"  poster="'+hflv_option.poster+'" style="cursor: pointer">\n\
-                                        //<source class="playersource" src="'+hflv_option.file+'"></source>';
+            hflv_option.videotag = '<video width="'+hflv_option.width+'" height="'+hflv_option.height+'" class="hdflvplayer"  style="cursor: pointer">\n\
+                                        <source class="playersource" src="'+hflv_option.file+'"></source>';
             if($.browser.msie && $.browser.version<9.0){
                 palyerType = 'flash';
                 hflv_option.videotag += '<div class="hdflvFLASH" id="hdflvFLASH"></div>';
@@ -26,13 +26,31 @@ jQuery(document).ready(function($) {
                                                   <span class="hdlflv-mute"></span>\n\
                                               </div>\n\
                                         </span>\n\
-                                        <span class="hdflv-hd-swipe sprite-image"></span>\n\
+                                        <span class="hdflv-hd-swipe sprite-image">\n\
+                                             <div class="setting_bg">\n\
+                                                  <span class="speed_button">\n\
+                                                     <span class="current_speed">Normal</span>\n\
+                                                     <span class="speed_downn_arraow"></span>\n\
+                                                     <div class="speed_bg">\n\
+                                                         <span class="2xSp">2x</span>\n\
+                                                         <span class="1_5xSp">1.5x</span>\n\
+                                                         <span class="normalSp">Normal</span>\n\
+                                                         <span class="0_5xSp">0.5x</span>\n\
+                                                         <span class="0_25xSp">0.25x</span>\n\
+                                                         <span class="speed_select">.</span>\n\
+                                                     </div>\n\
+                                                  </span>\n\
+                                                  <span class="speed_text">speed</span>\n\
+                                              </div>\n\
+                                        </span>\n\
                                         <span class="hdflv-duration">/ 00:00</span>\n\
                                         <span class="hdflv-currentTime">00:00</span>\n\
                                         <span class="hdlflv-skin-progress-bg"></span>\n\
                                         <span class="hdlflv-skin-buffer"></span>\n\
                                         <span class="hdlflv-skin-seek"></span>\n\
-                                    </div>');
+                                    </div>\n\
+                                    <canvas id="imageView" style="display:none; left: 0; top: 0; z-index: 0;border:none" width="100" height="50"></canvas>\n\
+                                    <div id="imgs"><div>');
             $hdflv.wrap($video_wrap);
 	    $hdflv.after($hdflv_player);  
             $('.hdflv-video-player').css({'top': '0','left': '0'});
@@ -90,8 +108,21 @@ jQuery(document).ready(function($) {
             }else{
                 $('.hdflv-volume').remove();
             }
+            
             if(hflv_option.hd != 'false'){
                 $('.hdflv-hd-swipe').css({'background-position': '-41px -4px','position': 'absolute', 'height': '30px', 'width': '30px', 'top': '100%', 'margin-top': '-30px', 'left': '100%', 'margin-left': -rightpo+'px', 'cursor': 'pointer'});
+                $('.setting_bg').css({'display':'none','position': 'absolute','width': '120px','height': '24px', 'bottom': '32px', 'left': '-88px','background': 'rgb(54, 49, 49)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
+                $('.speed_button').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute','width': '70px','height': '20px', 'bottom': '1px', 'left': '47px','display': 'block','background': 'rgb(255, 255, 255)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
+                $('.speed_bg').css({'position': 'absolute','width': '70px','height': '102px', 'bottom': '22px', 'left': '-1px', 'display': 'none','background': 'rgb(255, 255, 255)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
+                $('.speed_text').css({'font-family': 'arial', 'font-size': '12px', 'color': '#fff', 'position': 'absolute', 'top': '3px', 'left': '4px'});
+                $('.current_speed').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '2px', 'left': '4px'});
+                $('.speed_downn_arraow').css({'position': 'absolute','left':'54px','bottom':'7px','width': '0px', 'height': '0px','border-left': '5px solid transparent','border-right': '5px solid transparent','border-bottom': '5px solid black'});
+                $('.2xSp').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '4px', 'left': '20px'});
+                $('.1_5xSp').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '24px', 'left': '20px'});
+                $('.normalSp').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '44px', 'left': '20px'});
+                $('.0_5xSp').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '64px', 'left': '20px'});
+                $('.0_25xSp').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '84px', 'left': '20px'});
+                $('.speed_select').css({'font-family': 'arial', 'font-size': '44px', 'color': '#000', 'position': 'absolute', 'top': '14px', 'left': '2px'});
                 rightpo = rightpo+30;
             }else{
                 $('.hdflv-hd-swipe').remove();
@@ -116,7 +147,6 @@ jQuery(document).ready(function($) {
                 $('.hdlflv-skin-seek').remove();
             }
             var playerstatus=function(){
-                
             if(palyerType == 'html'){
                 $hdflv_player.bind('play', function(){
                    $hdflv_player[0].volume = volume_level/volume_deault;
@@ -161,10 +191,18 @@ jQuery(document).ready(function($) {
                     }
                     
                 });
-            }
-             var playpausevideo = function() {
+            };
+             var errorMessage = function(msg) {
+                $('.hdflv-video-play-button').hide();
+                $('.error_message').text( msg );
+             };
+            var playpausevideo = function() {
                  $('#posterimage').hide();
-                 if(palyerType == 'flash'){
+                 var n=hflv_option.file.indexOf(".avi");
+                 if(n>-1){
+                     $('.error_board').show();
+                     errorMessage('AVI is not supported by Flash or HTML5')
+                 }else if(palyerType == 'flash'){
                      if(playing == false){
                         playing = true;
                         $('.hdflv-video-play-button').hide();
@@ -175,6 +213,7 @@ jQuery(document).ready(function($) {
                         $('.hdflv-play-pause').css({'background-position': '-1px -5px','position': 'absolute', 'height': '30px', 'width': '30px', 'top': '100%', 'margin-top': '-30px', 'cursor': 'pointer'});
                      }
                      $('#hflvplayerflash').externalInterface({method:'playfun'});
+                     playerstatus();
                  }else{
                     if($hdflv_player[0].paused == false) {
                         $hdflv_player[0].pause();
@@ -183,19 +222,25 @@ jQuery(document).ready(function($) {
                         $hdflv_player[0].play();
                         $('.hdflv-video-play-button').hide();
                     } 
+                    playerstatus();
                  }
-                 playerstatus()
-             }
-            if(hflv_option.autoplay == 'true')
-            {
-                playpausevideo()
+                 
+             };
+             $('.hdflv-video-player').prepend('<div class="error_board" id="error_board">\n\
+                                                       <span class="error_message"></span>\n\
+                                                  </div>')
+             $('.error_board').css({'position': 'absolute','width': '310px','height': '50px', 'top': '50%', 'margin-top': '-20px', 'left': '50%', 'margin-left': '-155px', 'display': 'none','background': 'rgb(255, 255, 255)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
+             $('.error_message').css({'font-family': 'arial', 'font-size': '16px', 'color': '#000', 'position': 'absolute', 'top': '17px', 'left': '13px'});
+            if(hflv_option.autoplay == 'true'){
+                playpausevideo();
             }else{
-                $('.hdflv-video-player').prepend('<img id="posterimage" src="'+hflv_option.poster+'" width="'+hflv_option.width+'" height="'+hflv_option.height+'"/>')
+                $('.hdflv-video-player').prepend('<img id="posterimage" src="'+hflv_option.poster+'" width="'+hflv_option.width+'" height="'+hflv_option.height+'"/>');
                 $('#posterimage').css({'float': 'left', 'position':'absolute','cursor': 'pointer'});
             }
             
             $('.hdflv-video-play-button,.hdflv-play-pause,.hdflvplayer,#posterimage,#hflvplayerflash').click(playpausevideo);
             $(".playersource").error(function (e) {
+               
                 if(src_error == false){
                     initFlash();
                 }
@@ -210,7 +255,6 @@ jQuery(document).ready(function($) {
                     initFlash();
                 }
             });
-            
             function onTrackedVideoFrame2(){
                 $('#hflvplayerflash').externalInterface({method:'getCurrentTime',success: function(response){currentTime= response;}});
                 $('#hflvplayerflash').externalInterface({method:'getDuration',success: function(response){duration= response;}});
@@ -242,12 +286,12 @@ jQuery(document).ready(function($) {
                     if(drg == true){
                         $('.hdlflv-skin-seek').width((nt * totalWidth)/100);
                     }
+                    $('.hdlflv-skin-buffer').width(0)
                     if(palyerType == 'html'){
                         if(!isNaN($hdflv_player.get(0).duration)){
                             $('.hdlflv-skin-buffer').width(($hdflv_player.get(0).buffered.end(0) / $hdflv_player.get(0).duration)*totalWidth);
                         }
                     }else if(!isNaN(totalBytes) && $('.hdlflv-skin-buffer').width()<=totalWidth && bytesLoaded >2 && totalBytes >2){
-                        console.log(bytesLoaded * totalWidth / totalBytes)
                         $('.hdlflv-skin-buffer').width(bytesLoaded * totalWidth / totalBytes);
                     }else{
                             $('.hdlflv-skin-buffer').width(totalWidth);
@@ -287,6 +331,7 @@ jQuery(document).ready(function($) {
                         $('.hdlflv-skin-seek').width(totalWidth);
                     }
                 });
+                //capture();
             });
             var fullscreeEvent=function(){
                     if ($video_container[0].requestFullscreen) {
@@ -332,7 +377,7 @@ jQuery(document).ready(function($) {
                 }else{
                     jQuery.event.trigger({ type : 'keyup', which : 27 });
                     $that.removeClass('isFullScreenMode');
-                    exitfullscreeEvent()
+                    exitfullscreeEvent();
                     $('.hdflv-fullscreen').css({'background-position': '-115px -3px'});
                 }
             });
@@ -405,6 +450,8 @@ jQuery(document).ready(function($) {
             });
             $('.hdlflv-mute,.hdflv-volume').hover(function(e){
                $(".hdflv-volume-bg").fadeIn(800);
+               $(".setting_bg").fadeOut();
+               speedBg = false;
                over = true;
                $('.hdflv-volume').on('mouseout',function(et){
                    setTimeout(function () {if(over == false){$(".hdflv-volume-bg").fadeOut();}}, 1000);
@@ -438,12 +485,92 @@ jQuery(document).ready(function($) {
                    /// return false;
             });
             $(document).on("mousedown", function (e) {
-                $('.contextmenu').remove()
+                $('.contextmenu').remove();
             });
             $('.hdflv-video-player').bind("contextmenu", function(event) {
                 event.preventDefault();
-                $('.contextmenu').remove()
+                $('.contextmenu').remove();
                 $("<div class='contextmenu'><ul><li class='copyright'>HD FLV Player</li></ul></div>").appendTo("body").css({top: event.pageY + "px", left: event.pageX + "px",'z-index':'1000', 'position': 'absolute', 'background-color':'#FFFFFF' ,'border': '1px solid black','width': '150px'});
+            });
+            var getURIformcanvas=function() {
+                var ImageURItoShow = "";
+                var canvasFromVideo = document.getElementById("imageView");
+                if (canvasFromVideo.getContext) {
+                    var ctx = canvasFromVideo.getContext("2d"); // Get the context for the canvas.canvasFromVideo.
+                    var ImageURItoShow = canvasFromVideo.toDataURL("image/png");
+                }
+                var imgs = document.getElementById("imgs");
+                imgs.appendChild(Canvas2Image.convertToImage(canvasFromVideo,100, 50, 'png'));
+            };
+            var capture=function(){
+                var video = $('.hdflvplayer');
+                var canvasDraw = document.getElementById('imageView');
+                var w = canvasDraw.width;
+                var h = canvasDraw.height;
+                var ctxDraw = canvasDraw.getContext('2d');
+                ctxDraw.clearRect(0, 0, w, h);
+                ctxDraw.drawImage($hdflv_player[0], 0, 0, w, h);
+                ctxDraw.save();
+                getURIformcanvas();
+            };
+            $('.hdflv-hd-swipe,.setting_bg').hover(function(e){
+               $('.setting_bg').fadeIn(500);
+               $(".hdflv-volume-bg").fadeOut();
+               $('.setting_bg,.hdflv-hd-swipe').on('mouseout',function(et){
+                   setTimeout(function () {if(speedOver == false){
+                           $(".setting_bg").fadeOut();
+                           $('.speed_bg').fadeOut();
+                           speedBg = false;
+                       }}, 1000);
+                   speedOver = false;
+               });
+               $('.setting_bg').on('mousemove',function(et){
+                   $('.setting_bg').stop("mouseout");
+                   speedOver = true;
+               });
+            });
+            $('.speed_button').on('mousedown',function(){
+               if(speedBg == false){
+                   $('.speed_bg').fadeIn(500);
+                   speedBg = true;
+               }else{
+                   speedBg = false;
+                   $('.speed_bg').fadeOut();
+               }
+            });
+            $('.2xSp,.1_5xSp,.normalSp,.0_5xSp,.0_25xSp').on('mousedown',function(e){
+                switch (e.target.className){
+                  case ('2xSp'):
+                        playbackrate = 2;
+                        $('.current_speed')[0].innerHTML = '2x';
+                        $('.speed_select').css({'top': '-24px'});
+                        break;
+                  case ('1_5xSp'):
+                        playbackrate = 1.5;
+                        $('.current_speed')[0].innerHTML = '1.5x';
+                        $('.speed_select').css({'top': '-4px'});
+                        break;
+                  case ('normalSp'):
+                        playbackrate = 1;
+                        $('.current_speed')[0].innerHTML = 'Normal';
+                        $('.speed_select').css({'top': '14px'});
+                        break;
+                  case ('0_5xSp'):
+                        playbackrate = 0.5;
+                        $('.current_speed')[0].innerHTML = '0.5x';
+                        $('.speed_select').css({'top': '34px'});
+                        break;
+                  case ('0_25xSp'):
+                        playbackrate = 0.25;
+                        $('.current_speed')[0].innerHTML = '0.25x';
+                        $('.speed_select').css({'top': '54px'});
+                        break;
+                  default:
+                        playbackrate = 1;
+                        $('.current_speed')[0].innerHTML = 'Normal';
+                        $('.speed_select').css({'top': '14px'});
+                }
+                $hdflv_player[0].playbackRate = playbackrate;
             });
         });
     };
