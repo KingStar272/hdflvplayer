@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
                                         </span>\n\
                                         <span class="hdflv-hd-swipe sprite-image">\n\
                                              <div class="setting_bg">\n\
-                                                  <span class="speed_button">\n\
+                                                 <span class="speed_button">\n\
                                                      <span class="current_speed">Normal</span>\n\
                                                      <span class="speed_downn_arraow"></span>\n\
                                                      <div class="speed_bg">\n\
@@ -41,6 +41,19 @@ jQuery(document).ready(function($) {
                                                      </div>\n\
                                                   </span>\n\
                                                   <span class="speed_text">speed</span>\n\
+                                                  <span class="quality_button">\n\
+                                                     <span class="current_quality">HD</span>\n\
+                                                     <span class="quality_downn_arraow"></span>\n\
+                                                     <div class="quality_bg">\n\
+                                                         <span class="2xSp">2x</span>\n\
+                                                         <span class="1_5xSp">1.5x</span>\n\
+                                                         <span class="normalSp">Normal</span>\n\
+                                                         <span class="0_5xSp">0.5x</span>\n\
+                                                         <span class="0_25xSp">0.25x</span>\n\
+                                                         <span class="speed_select">.</span>\n\
+                                                     </div>\n\
+                                                  </span>\n\
+                                                  <span class="quality_text">quality</span>\n\
                                               </div>\n\
                                         </span>\n\
                                         <span class="hdflv-duration">/ 00:00</span>\n\
@@ -111,10 +124,10 @@ jQuery(document).ready(function($) {
             
             if(hflv_option.hd != 'false'){
                 $('.hdflv-hd-swipe').css({'background-position': '-41px -4px','position': 'absolute', 'height': '30px', 'width': '30px', 'top': '100%', 'margin-top': '-30px', 'left': '100%', 'margin-left': -rightpo+'px', 'cursor': 'pointer'});
-                $('.setting_bg').css({'display':'none','position': 'absolute','width': '120px','height': '24px', 'bottom': '32px', 'left': '-88px','background': 'rgb(54, 49, 49)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
+                $('.setting_bg').css({'display':'none','position': 'absolute','width': '120px','height': '48px', 'bottom': '32px', 'left': '-88px','background': 'rgb(54, 49, 49)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
                 $('.speed_button').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute','width': '70px','height': '20px', 'bottom': '1px', 'left': '47px','display': 'block','background': 'rgb(255, 255, 255)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
                 $('.speed_bg').css({'position': 'absolute','width': '70px','height': '102px', 'bottom': '22px', 'left': '-1px', 'display': 'none','background': 'rgb(255, 255, 255)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
-                $('.speed_text').css({'font-family': 'arial', 'font-size': '12px', 'color': '#fff', 'position': 'absolute', 'top': '3px', 'left': '4px'});
+                $('.speed_text').css({'font-family': 'arial', 'font-size': '12px', 'color': '#fff', 'position': 'absolute', 'top': '5px', 'left': '4px'});
                 $('.current_speed').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '2px', 'left': '4px'});
                 $('.speed_downn_arraow').css({'position': 'absolute','left':'54px','bottom':'7px','width': '0px', 'height': '0px','border-left': '5px solid transparent','border-right': '5px solid transparent','border-bottom': '5px solid black'});
                 $('.2xSp').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '4px', 'left': '20px'});
@@ -123,6 +136,13 @@ jQuery(document).ready(function($) {
                 $('.0_5xSp').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '64px', 'left': '20px'});
                 $('.0_25xSp').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '84px', 'left': '20px'});
                 $('.speed_select').css({'font-family': 'arial', 'font-size': '44px', 'color': '#000', 'position': 'absolute', 'top': '14px', 'left': '2px'});
+                
+                $('.quality_button').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute','width': '70px','height': '20px', 'bottom': '25px', 'left': '47px','display': 'block','background': 'rgb(255, 255, 255)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
+                $('.quality_bg').css({'position': 'absolute','width': '70px','height': '102px', 'bottom': '22px', 'left': '-1px', 'display': 'none','background': 'rgb(255, 255, 255)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
+                $('.quality_text').css({'font-family': 'arial', 'font-size': '12px', 'color': '#fff', 'position': 'absolute', 'top': '28px', 'left': '4px'});
+                $('.current_quality').css({'font-family': 'arial', 'font-size': '12px', 'color': '#000', 'position': 'absolute', 'top': '2px', 'left': '4px'});
+                $('.quality_downn_arraow').css({'position': 'absolute','left':'54px','bottom':'7px','width': '0px', 'height': '0px','border-left': '5px solid transparent','border-right': '5px solid transparent','border-bottom': '5px solid black'});
+                
                 rightpo = rightpo+30;
             }else{
                 $('.hdflv-hd-swipe').remove();
@@ -227,10 +247,11 @@ jQuery(document).ready(function($) {
                  
              };
              $('.hdflv-video-player').prepend('<div class="error_board" id="error_board">\n\
-                                                       <span class="error_message"></span>\n\
+                                                       <i class="error_board_icon"></i><span class="error_message"></span>\n\
                                                   </div>')
-             $('.error_board').css({'position': 'absolute','width': '310px','height': '50px', 'top': '50%', 'margin-top': '-20px', 'left': '50%', 'margin-left': '-155px', 'display': 'none','background': 'rgb(255, 255, 255)','opacity': '1', 'border': '1px solid rgb(27, 27, 27)'});
-             $('.error_message').css({'font-family': 'arial', 'font-size': '16px', 'color': '#000', 'position': 'absolute', 'top': '17px', 'left': '13px'});
+             $('.error_board').css({'position': 'absolute','width': '320px','height': '50px', 'top': '50%', 'margin-top': '-20px', 'left': '50%', 'margin-left': '-155px', 'display': 'none','background': '#FFFEDB','border-radius':'5px', 'moz-border-radius':'5px', 'webkit-border-radius':'5px', 'opacity': '1', 'border': '2px solid #F1C85F'});
+             $('.error_board_icon').css({'background': 'url(./skin/error_board_icon.png) no-repeat','width': '34px','height': '31px','float': 'left', 'margin': '8px 10px'});             
+             $('.error_message').css({'font-family': 'arial', 'font-size': '15px', 'color': '#000', 'line-height': '48px'});
             if(hflv_option.autoplay == 'true'){
                 playpausevideo();
             }else{
@@ -240,7 +261,6 @@ jQuery(document).ready(function($) {
             
             $('.hdflv-video-play-button,.hdflv-play-pause,.hdflvplayer,#posterimage,#hflvplayerflash').click(playpausevideo);
             $(".playersource").error(function (e) {
-               
                 if(src_error == false){
                     initFlash();
                 }
@@ -258,8 +278,8 @@ jQuery(document).ready(function($) {
             function onTrackedVideoFrame2(){
                 $('#hflvplayerflash').externalInterface({method:'getCurrentTime',success: function(response){currentTime= response;}});
                 $('#hflvplayerflash').externalInterface({method:'getDuration',success: function(response){duration= response;}});
-                $('#hflvplayerflash').externalInterface({method:'getbytesLoaded',success: function(response){totalBytes= response;}});
-                $('#hflvplayerflash').externalInterface({method:'getbytesTotal',success: function(response){bytesLoaded= response;}});
+                $('#hflvplayerflash').externalInterface({method:'getbytesLoaded',success: function(response){bytesLoaded= response;}});
+                $('#hflvplayerflash').externalInterface({method:'getbytesTotal',success: function(response){totalBytes= response;}});
                 $('#hflvplayerflash').externalInterface({method:'getplayerstate',success: function(response){
                         if(response == 'false'){
                           $('.hdflv-play-pause').css({'background-position': '-1px -5px','position': 'absolute', 'height': '30px', 'width': '30px', 'top': '100%', 'margin-top': '-30px', 'cursor': 'pointer'});
@@ -286,12 +306,11 @@ jQuery(document).ready(function($) {
                     if(drg == true){
                         $('.hdlflv-skin-seek').width((nt * totalWidth)/100);
                     }
-                    $('.hdlflv-skin-buffer').width(0)
                     if(palyerType == 'html'){
                         if(!isNaN($hdflv_player.get(0).duration)){
                             $('.hdlflv-skin-buffer').width(($hdflv_player.get(0).buffered.end(0) / $hdflv_player.get(0).duration)*totalWidth);
                         }
-                    }else if(!isNaN(totalBytes) && $('.hdlflv-skin-buffer').width()<=totalWidth && bytesLoaded >2 && totalBytes >2){
+                    }else if(!isNaN(totalBytes) && $('.hdlflv-skin-buffer').width()<=totalWidth ){
                         $('.hdlflv-skin-buffer').width(bytesLoaded * totalWidth / totalBytes);
                     }else{
                             $('.hdlflv-skin-buffer').width(totalWidth);
@@ -482,15 +501,15 @@ jQuery(document).ready(function($) {
                   evt.preventDefault();
             });
             $(document).bind("contextmenu",function(e){
-                   /// return false;
+                    return false;
             });
             $(document).on("mousedown", function (e) {
                 $('.contextmenu').remove();
             });
             $('.hdflv-video-player').bind("contextmenu", function(event) {
                 event.preventDefault();
-                $('.contextmenu').remove();
-                $("<div class='contextmenu'><ul><li class='copyright'>HD FLV Player</li></ul></div>").appendTo("body").css({top: event.pageY + "px", left: event.pageX + "px",'z-index':'1000', 'position': 'absolute', 'background-color':'#FFFFFF' ,'border': '1px solid black','width': '150px'});
+               $('.contextmenu').remove();
+                $("<div class='contextmenu'><ul><li class='copyright'>HD FLV Player</li></ul></div>").appendTo("body").css({top: event.pageY + "px", left: event.pageX + "px",'z-index':'1000', 'position': 'absolute','background': '#FFFEDB','border-radius':'5px', 'moz-border-radius':'5px', 'webkit-border-radius':'5px', 'opacity': '1', 'border': '2px solid #F1C85F','width': '150px'});
             });
             var getURIformcanvas=function() {
                 var ImageURItoShow = "";
