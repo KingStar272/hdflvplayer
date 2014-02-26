@@ -4,10 +4,10 @@ jQuery(document).ready(function($) {
         return this.each(function() 
         {
             var $hdflv = $(this);
-            var palyerType,currentTime,duration,totalWidth=0,drg=true,myVar,parentOffset,relX,relY,seekto,speedOver=true,skinOver=true,over=true,playing=false,player,totalBytes,bytesLoaded,myVar2,src_error=false,speedBg=false,playbackrate = 1;
+            var palyerType,currentTime,duration,totalWidth=0,drg=true,myVar,parentOffset,relX,relY,seekto,speedOver=true,skinOver=true,over=true,playing=false,player,totalBytes,bytesLoaded,myVar2,src_error=false,speedBg=false,playbackrate = 1,viewmode='normal';
             var $video_wrap = $('<div></div>').addClass('hdflv-video-player');
             palyerType = 'html';
-            hflv_option.videotag = '<video width="'+hflv_option.width+'" height="'+hflv_option.height+'" class="hdflvplayer"  style="cursor: pointer">\n\
+            hflv_option.videotag = '<video width="'+hflv_option.width+'" height="'+hflv_option.height+'" poster="'+hflv_option.poster+'" class="hdflvplayer"  style="cursor: pointer">\n\
                                         <source class="playersource" src="'+hflv_option.file+'"></source>';
             if($.browser.msie && $.browser.version<9.0){
                 palyerType = 'flash';
@@ -367,15 +367,22 @@ jQuery(document).ready(function($) {
                     $('.hdflvplayer').css({'position': 'absolute','width': '100%','height': '100%'});
                     $('.hdflv-video-player').css({'width': '100%','height': '100%','top': '0','left': '0'});
                     $('.hdlflv-skin-progress-bg').css({'position': 'absolute','width': ($(window).width()-(rightpo+15))+'px','height': '10px'});
+                    $('.hdflv-fullscreen').addClass('isFullScreenMode');
+                    $('.hdflv-fullscreen').css({'background-position': '-115px -38px'});
+            };
+            var getoriginalSize=function(){
+                $('#posterimage').css({'width': hflv_option.width,'height': hflv_option.height});
+                $('.hdlflv-skin-seek').css({'position': 'absolute','width':0+'px','height': '8px','bottom': '10.5px', 'left': '33px', '-moz-border-radius': '10px', '-ms-border-radius': '10px', '-webkit-border-radius': '10px', 'border-radius':'10px', 'display': 'block','background': 'rgb(255, 253, 253)', 'background-image': '-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(255, 252, 252)), to(rgb(255, 255, 255)))', 'box-shadow': 'rgb(216, 216, 216) 0px 1px 2px inset', 'cursor': 'pointer'});
+                $('.hdlflv-skin-buffer').css({'position': 'absolute','width': 0+'px','height': '8px','bottom': '10px', 'left': '33px', '-moz-border-radius': '10px', '-ms-border-radius': '10px', '-webkit-border-radius': '10px', 'border-radius':'10px', 'display': 'block','background': 'rgb(138, 135, 135)', 'background-image': '-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(179, 179, 179)), to(rgb(61, 59, 59)))', 'box-shadow': 'rgb(134, 133, 133) 0px 1px 2px inset', 'cursor': 'pointer'});
+                $('#hflvplayerflash').attr({'width': hflv_option.width,'height': hflv_option.height});
+                $('.hdflv-video-player').css({'position': 'absolute','width': hflv_option.width+'px','height': hflv_option.height+'px'});
+                $('.hdflvplayer').css({'width': hflv_option.width+'px','height': hflv_option.height+'px'});
+                $('.hdlflv-skin-progress-bg').css({'position': 'absolute','width': (hflv_option.width-(rightpo+15))+'px','height': '10px'});
+                $('.hdflv-fullscreen').removeClass('isFullScreenMode');
+                $('.hdflv-fullscreen').css({'background-position': '-115px -3px'});
             };
             var exitfullscreeEvent=function(){
-                    $('#posterimage').css({'width': hflv_option.width,'height': hflv_option.height});
-                    $('.hdlflv-skin-seek').css({'position': 'absolute','width':0+'px','height': '8px','bottom': '10.5px', 'left': '33px', '-moz-border-radius': '10px', '-ms-border-radius': '10px', '-webkit-border-radius': '10px', 'border-radius':'10px', 'display': 'block','background': 'rgb(255, 253, 253)', 'background-image': '-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(255, 252, 252)), to(rgb(255, 255, 255)))', 'box-shadow': 'rgb(216, 216, 216) 0px 1px 2px inset', 'cursor': 'pointer'});
-                    $('.hdlflv-skin-buffer').css({'position': 'absolute','width': 0+'px','height': '8px','bottom': '10px', 'left': '33px', '-moz-border-radius': '10px', '-ms-border-radius': '10px', '-webkit-border-radius': '10px', 'border-radius':'10px', 'display': 'block','background': 'rgb(138, 135, 135)', 'background-image': '-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(179, 179, 179)), to(rgb(61, 59, 59)))', 'box-shadow': 'rgb(134, 133, 133) 0px 1px 2px inset', 'cursor': 'pointer'});
-                    $('#hflvplayerflash').attr({'width': hflv_option.width,'height': hflv_option.height});
-                    $('.hdflv-video-player').css({'position': 'absolute','width': hflv_option.width+'px','height': hflv_option.height+'px'});
-                    $('.hdflvplayer').css({'width': hflv_option.width+'px','height': hflv_option.height+'px'});
-                    $('.hdlflv-skin-progress-bg').css({'position': 'absolute','width': (hflv_option.width-(rightpo+15))+'px','height': '10px'});
+                    getoriginalSize();
                     if (document.cancelFullScreen) {
                         document.cancelFullScreen();
                     } else if (document.mozCancelFullScreen) {
@@ -391,13 +398,9 @@ jQuery(document).ready(function($) {
                 }
                 if(!$that.hasClass('isFullScreenMode')){
                     fullscreeEvent();
-                    $that.addClass('isFullScreenMode');
-                    $('.hdflv-fullscreen').css({'background-position': '-115px -38px'});
                 }else{
                     jQuery.event.trigger({ type : 'keyup', which : 27 });
-                    $that.removeClass('isFullScreenMode');
                     exitfullscreeEvent();
-                    $('.hdflv-fullscreen').css({'background-position': '-115px -3px'});
                 }
             });
             $(window).keyup(function(e){
@@ -424,6 +427,12 @@ jQuery(document).ready(function($) {
                 }
                 if(drg == true){
                     $('.hdlflv-volume-progress').height(seekto);
+                }
+                if(seekto/volume_deault>=0.5){
+                $('.hdflv-volume').css({'background-position': '-240px -4px'});
+                }else{
+                     if(seekto/volume_deault<=0){$('.hdflv-volume').css({'background-position': '-239px -123px'});}
+                     else {$('.hdflv-volume').css({'background-position': '-239px -94px'});}
                 }
                 $(document).on('mousemove',function(et){
                     relX = et.pageX - parentOffset.left;
@@ -495,7 +504,7 @@ jQuery(document).ready(function($) {
             });
             $(document).on('mouseup', function(evt) {
                     $(document).unbind("mousemove");
-                    drg = true;
+                     setTimeout(function () {drg = true;}, 50);
             });
             $('.hdlfv-skin-container').on('mousedown', function(evt) {
                   evt.preventDefault();
@@ -590,6 +599,11 @@ jQuery(document).ready(function($) {
                         $('.speed_select').css({'top': '14px'});
                 }
                 $hdflv_player[0].playbackRate = playbackrate;
+            });
+            $(window).resize(function () {
+                if (document.fullScreen == false || document.mozFullScreen == false || document.webkitIsFullScreen == false) {
+                     getoriginalSize();
+                } 
             });
         });
     };
