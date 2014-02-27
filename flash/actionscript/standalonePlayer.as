@@ -48,6 +48,7 @@
 			hdflv_option['ref'] = this;
 			PlayVideo = new playVideo(hdflv_option,this)
 			stage.addEventListener(Event.RESIZE, resizeFun);
+			this.buttonMode= true
 		}
 		public function playvideo(){
 			PlayVideo.playpause();

@@ -89,6 +89,7 @@
 		public function setDim(wid,hei):void{
 			myVideo.width = wid;
 			myVideo.height = hei;
+			myVideo.x=myVideo.y =0
 		}
 		private function netStatusHandler(event:NetStatusEvent)
 		{

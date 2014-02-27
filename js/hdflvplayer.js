@@ -258,7 +258,6 @@ jQuery(document).ready(function($) {
                 $('.hdflv-video-player').prepend('<img id="posterimage" src="'+hflv_option.poster+'" width="'+hflv_option.width+'" height="'+hflv_option.height+'"/>');
                 $('#posterimage').css({'float': 'left', 'position':'absolute','cursor': 'pointer'});
             }
-            
             $('.hdflv-video-play-button,.hdflv-play-pause,.hdflvplayer,#posterimage,#hflvplayerflash').click(playpausevideo);
             $(".playersource").error(function (e) {
                 if(src_error == false){
@@ -369,6 +368,7 @@ jQuery(document).ready(function($) {
                     $('.hdlflv-skin-progress-bg').css({'position': 'absolute','width': ($(window).width()-(rightpo+15))+'px','height': '10px'});
                     $('.hdflv-fullscreen').addClass('isFullScreenMode');
                     $('.hdflv-fullscreen').css({'background-position': '-115px -38px'});
+                    
             };
             var getoriginalSize=function(){
                 $('#posterimage').css({'width': hflv_option.width,'height': hflv_option.height});
@@ -393,11 +393,10 @@ jQuery(document).ready(function($) {
             };
             $('.hdflv-fullscreen').click(function(){
                 var $that = $(this);
-                if(palyerType == 'flash'){
-                    $('#hflvplayerflash').externalInterface({method:'fullScreenFun'});
-                }
                 if(!$that.hasClass('isFullScreenMode')){
                     fullscreeEvent();
+                    setTimeout(function () {if(palyerType == 'flash'){fullscreeEvent();}}, 50);
+                    setTimeout(function () {if(palyerType == 'flash'){fullscreeEvent();}}, 100);
                 }else{
                     jQuery.event.trigger({ type : 'keyup', which : 27 });
                     exitfullscreeEvent();
@@ -434,6 +433,7 @@ jQuery(document).ready(function($) {
                      if(seekto/volume_deault<=0){$('.hdflv-volume').css({'background-position': '-239px -123px'});}
                      else {$('.hdflv-volume').css({'background-position': '-239px -94px'});}
                 }
+                volume_level = seekto;
                 $(document).on('mousemove',function(et){
                     relX = et.pageX - parentOffset.left;
                     relY = et.pageY - parentOffset.top;
@@ -454,7 +454,7 @@ jQuery(document).ready(function($) {
                          if(seekto/volume_deault<=0){$('.hdflv-volume').css({'background-position': '-239px -123px'});}
                          else {$('.hdflv-volume').css({'background-position': '-239px -94px'});}
                     }
-                    volume_level = (seekto/volume_deault) *100;
+                    volume_level = seekto;
                 });
             });
             $('.hdlflv-mute').mousedown(function(e){
