@@ -395,8 +395,8 @@ jQuery(document).ready(function($) {
                 var $that = $(this);
                 if(!$that.hasClass('isFullScreenMode')){
                     fullscreeEvent();
-                    setTimeout(function () {if(palyerType == 'flash'){fullscreeEvent();}}, 50);
-                    setTimeout(function () {if(palyerType == 'flash'){fullscreeEvent();}}, 100);
+                    //setTimeout(function () {if(palyerType == 'flash'){fullscreeEvent();}}, 50);
+                    setTimeout(function () {if(palyerType == 'flash'){fullscreeEvent();}}, 150);
                 }else{
                     jQuery.event.trigger({ type : 'keyup', which : 27 });
                     exitfullscreeEvent();
@@ -490,7 +490,7 @@ jQuery(document).ready(function($) {
                    over = true;
                });
             });
-            $('.hdflv-video-player').hover(function(e){
+            $('.hdflv-video-player,.hdflvFLASH,.hdflvplayer').hover(function(e){
                $(".hdlfv-skin-container").fadeIn(600);
                skinOver = true;
                $('.hdflv-video-player').on('mouseout',function(et){
