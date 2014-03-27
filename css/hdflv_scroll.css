@@ -1,0 +1,18 @@
+#dhflv_playlist::-webkit-scrollbar {
+    width: 8px;
+    cursor: pointer;
+}
+
+#dhflv_playlist::-webkit-scrollbar-track {
+    background-color: #000000;
+    width: 8px;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+#dhflv_playlist::-webkit-scrollbar-thumb {
+    background-color: rgb(255, 252, 252);
+    border-radius: 9px;
+    cursor: pointer;
+}
+
