@@ -15,8 +15,13 @@ jQuery(document).ready(function($) {
             var ads_id;
             var palyerType,currentTime,duration,totalWidth=0,drg=true,myVar,parentOffset,relX,relY,seekto,speedOver=true,skinOver=true,over=true,playing='initial',player,totalBytes,bytesLoaded,myVar2,src_error=false,qualityBg=false,speedBg=false,playbackrate = 1,viewmode='normal',file,qy,qtxt,i=0,toalads=0,toalvideo=0,playlist,poster,autoplay,tagvalue,streamer="",video_id=0,ads_playing=false;
             if(hflv_option.playlist){
-                playlist = 'enable'
+                
                 toalvideo = hflv_option.playlist.length;
+                if(toalvideo>1){
+                    playlist = 'enable'
+                }else{
+                    playlist = 'disable'
+                }
                 if(hflv_option.hd_default == 'true'){
                     file = hflv_option.playlist[video_id].hd_file;
                     qy = -5;
