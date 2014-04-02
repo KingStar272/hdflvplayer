@@ -135,16 +135,16 @@
 			config['x'] = config['shareClip'].x;
 			config['y'] = config['shareClip'].y;
 			config['Playbtn'].scaleX = config['Playbtn'].scaleY = 1;
-			if (config['skinMc'].y > config['stageHeight'])
-			{
+			//if (config['skinMc'].y > config['stageHeight'])
+			//{
 				config['Playbtn'].x = config['buffer_Mc'].x = config['stageWidth'] / 2;
 				config['Playbtn'].y = config['buffer_Mc'].y = config['stageHeight'] / 2;
-			}
-			else
+			//}
+			/*else
 			{
 				config['Playbtn'].x = config['buffer_Mc'].x = config['stageWidth'] / 2;
 				config['Playbtn'].y = config['buffer_Mc'].y = (config['stageHeight']-25)/2;
-			}
+			}*/
 			config['inc'] = 0;
 			//========================================== set related video panel size ==============================================================================
 			if (config['relatedview'] == true)
@@ -238,7 +238,6 @@
 				config['errorMc'].y = config['stageHeight'] / 2;
 			}
 			config['skinMc'].y = config['stageHeight']-(config['skinMc'].skin_bg.height);
-
 			if (config['mailB'] == true)
 			{
 				config['mailPanel'].scaleX = config['stageHeight'] / 310;

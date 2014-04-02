@@ -89,7 +89,7 @@
 			//========================================== Initialize button visible ==============================================================================
 			cfg['Playbtn'].scaleX = cfg['Playbtn'].scaleY = 1;
 			cfg['Playbtn'].x = cfg['buffer_Mc'].x = cfg['stageWidth'] / 2;
-			cfg['Playbtn'].y = cfg['buffer_Mc'].y = (cfg['stageHeight']-25)/2;
+			cfg['Playbtn'].y = cfg['buffer_Mc'].y = (cfg['stageHeight'])/2;
 			timeEnd = 1;
 			pas = true;
 			reference = ref;
@@ -386,15 +386,20 @@
 			{
 				format.size = config['stageWidth'] / 76;
 			}
-			config['skinMc'].indication.setTextFormat(format);
-			if (config['showPlaylistB'] == "true")
+			//config['skinMc'].indication.setTextFormat(format);
+			if (config['timer'] == "false"){
+				config['skinMc'].indication.x = config['xposi'];
+			}else{
+				config['skinMc'].indication.x = config['skinMc'].ti.x + config['skinMc'].ti.width+5
+			}
+			/*if (config['showPlaylistB'] == "true")
 			{
 				config['skinMc'].indication.x = config['skinMc'].PlayListView.x - (config['skinMc'].indication.width+10);
 			}
 			else
 			{
 				config['skinMc'].indication.x = (config['yposi']-30) - (config['skinMc'].indication.width+10);
-			}
+			}*/
 			listeneradd()
 		}//========================================== load Image for ads preview ==============================================================================
 		function imgLoaded(evt:Event)
@@ -878,11 +883,15 @@
 			reference.addChild(config['myVideo']);
 			config['myVideo'].tabEnabled = false;
 			Security.allowDomain("*");
-			if (config['streamer'] == "")
+			if (config['streamer'] == "" || config['mov'] !=2)
 			{
 				if (config['file'].indexOf('http') > -1)
 				{
 					config['file'] = config['file'];
+				}
+				else if (config['file'].indexOf('www') > -1)
+				{
+					config['file'] = 'http://'+config['file'];
 				}
 				else
 				{
@@ -1068,7 +1077,6 @@
 		{
 			if (config['video'] != "")
 			{
-				trace(event.info.code)
 				config['buffer_Mc'].alpha = 1;
 				switch (event.info.code)
 				{
@@ -1152,9 +1160,9 @@
 				{
 					config['currentTime'] = config['YTPlayer'].getCurrentTime();
 					config['nDuration'] = config['YTPlayer'].getDuration();
-					if(config['currentTime']<2)
+					if(config['currentTime']>0 && config['currentTime']<2 && config['file'].indexOf('dailymotion') > -1)
 					{
-						config['YTPlayer'].setPlaybackQuality('hq');
+						config['YTPlayer'].setPlaybackQuality('ld');
 					}
 				}
 				else if(config['file'].indexOf('.f4m') <= -1 && config['file'].indexOf('.m3u8') <= -1)
@@ -1278,29 +1286,34 @@
 								{
 									config['buffer_Mc'].visible = false;
 								}
-								if (config['YTPlayer'].getPlayerState() == -1)
+								if (config['YTPlayer'].getPlayerState() == -1 || config['YTPlayer'].getPlayerState() == 2)
 								{
+									if(config['Playbtn'].visible == false)config['skinMc'].visible = false;
+									else config['skinMc'].visible = true;
 									config['dailyBG'].visible = false;
 								}
 								else
 								{
+									config['skinMc'].visible = true;
 									config['dailyBG'].visible = true;
 								}
 								if (config['Playbtn'].visible == true)
 								{
 									config['buffer_Mc'].alpha = 0;
 								}
-								if (config['YTPlayer'].getPlayerState() == 1 && config['Playbtn'].visible == true)
+								if(config['YTPlayer'].getPlayerState() == 1)config['Playbtn'].visible = false
+								/*if (config['YTPlayer'].getPlayerState() == 1 && config['Playbtn'].visible == true)
 								{
 									var videoplay22 = new videoPlay(config);
 								}
 								else if (config['YTPlayer'].getPlayerState() == 2 && config['Playbtn'].visible != true)
 								{
 									var videopause22 = new videoPause(config);
-								}
+								}*/
 							}
 							if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('viddler') > -1 || config['file'].indexOf('youtu.be') > -1)
 							{
+								
 								if (config['YTPlayer'].getPlaybackQuality() == "hd720" || config['YTPlayer'].getPlaybackQuality() == "hd1080" || config['YTPlayer'].getPlaybackQuality() == "highres")
 								{
 									config['skinMc'].hd.hdOffmode.visible = false;
@@ -1313,7 +1326,15 @@
 								}
 								if (config['file'].indexOf('youtube.com') > -1 || config['file'].indexOf('youtu.be') > -1)
 								{
-									if (((config['YTPlayer'].getVideoLoadedFraction() == 0 && config['YTPlayer'].getPlayerState() == 1) || config['YTPlayer'].getPlayerState() == 3) && config['currentTime']>0.5)
+									if((config['YTPlayer'].getPlayerState() == -1 || config['YTPlayer'].getPlayerState() == 3) )
+									{
+										config['YTPlayer'].alpha = 0
+									}
+									else if(config['currentTime']>0.5)
+									{
+										config['YTPlayer'].alpha = 1
+									}
+									if (((config['YTPlayer'].getVideoLoadedFraction() == 0 && config['YTPlayer'].getPlayerState() == 1) || config['YTPlayer'].getPlayerState() == 3) && config['currentTime']>0.5 && config['YTPlayer'].alpha == 1)
 									{
 										config['buffer_Mc'].visible = true;
 										config['buffer_Mc'].alpha = 1;
@@ -1365,7 +1386,8 @@
 							{
 								if(config['currentTime']>=1)config['YTPlayer'] .alpha = 1
 							}
-							else config['YTPlayer'] .alpha = 1
+							else if(config['currentTime']>=0.5) config['YTPlayer'] .alpha = 1
+							else config['buffer_Mc'].alpha=1
 						}
 					}
 					else
@@ -1418,7 +1440,15 @@
 					}
 					var ttime:Number;
 					if(config['isLive'] != "true")ttime = config['nDuration']
-					else ttime = 12
+					else {
+						if (config['timer'] == "false"){
+							config['skinMc'].indication.x = config['xposi'];
+						}else{
+							config['skinMc'].indication.x = config['skinMc'].ti.x + config['skinMc'].ti.width+5
+						}
+						
+						ttime = 12
+					}
 					if (ttime > 2 && config['imaAds'] == "true" && config['imA'] == false && config['allow_imaAds'] == "true" && ImAlaoded == false)
 					{
 						if (ttime > 10 )
@@ -1957,13 +1987,16 @@
 			{
 				config['playeruI'].dispatchEvent(new Event('onfullscreen'));
 			}
-			if (config['downloadUrl'].indexOf('http') > -1)
+			if(String(config['downloadUrl']) !="" && String(config['downloadUrl']))
 			{
-				config['downloadUrl'] = config['downloadUrl'];
-			}
-			else
-			{
-				config['downloadUrl'] = config['baseurl'] + "" + config['downloadUrl'];
+				if (config['downloadUrl'].indexOf('http') > -1)
+				{
+					config['downloadUrl'] = config['downloadUrl'];
+				}
+				else
+				{
+					config['downloadUrl'] = config['baseurl'] + "" + config['downloadUrl'];
+				}
 			}
 			if (String(config['downloadUrl']) !="" && String(config['downloadUrl']) !=null && config['file'] !=null)
 			{

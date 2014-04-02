@@ -51,10 +51,12 @@
     }
     public function loadAd()
 	{
+		
 		 var videoscale2 = new videoScale(config,reference)
 		 //==================== create ads loader request and variables ======================================================
 		 adsLoader= new AdsLoader(); 
 		 adsLoader.loadSdk();
+		 //ExternalInterface.call('alert','url:'+config['adTagUrl'])
 		 config['adsLoader'] = adsLoader
 		 requestAds()
 		 
@@ -144,7 +146,7 @@
 	}
 	function contentResumeRequestedHandler(event:AdEvent):void 
 	{
-		 config['IM_a'] = false
+		 config['IM_a'] = false;
 		 var videoplay = new videoPlay(config)
 	}
 	public function unloadAd()
@@ -153,7 +155,7 @@
 	}
 	private function destroyAdsManager()
 	{
-	  config['IM_a'] = false
+	  config['IM_a'] = false;
       if (config['adsManager']) 
 	  {
         reference.removeChild(config['adsManager'].adsContainer)

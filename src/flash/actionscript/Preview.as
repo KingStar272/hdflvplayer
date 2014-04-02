@@ -211,7 +211,6 @@
 		}
 		private function removePreviewAndplay(eve:MouseEvent)
 		{
-			trace("cc")
 			if (config['relatedview'])
 			{
 				var relatedvideo = new relatedVideo(config,reference);

@@ -58,6 +58,7 @@
 		private var iconclip:MovieClip;
 		private var iconclipBg:MovieClip;
 		private var hdflv:hdflvplayer;
+		private var webaddr:Array;
 
 		public function standalonePlayer()
 		{
@@ -362,7 +363,6 @@
 			{
 				config['shareClip'].scaleX = config['shareClip'].scaleY = 1;
 			}
-
 			if (stage["displayState"] == "normal")
 			{
 				videoscale = config['normalscale'];

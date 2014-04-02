@@ -441,13 +441,15 @@
 			else
 			{
 				basearJ = reference.root.loaderInfo.parameters['baserefJ']
-				basearJ +=  "/index.php?option=com_hdflvplayer&taskconfig=configxml"
+				basearJ += "/index.php"
+				if(reference.root.loaderInfo.parameters['slang']) basearJ += "/"+ reference.root.loaderInfo.parameters['slang']
+				basearJ +=  "?option=com_hdflvplayer&taskconfig=configxml"
 			}
 			if(reference.root.loaderInfo.parameters['playid']) basearJ += "&playid=" + reference.root.loaderInfo.parameters['playid']
 			if(reference.root.loaderInfo.parameters['id']) basearJ += "&id=" + reference.root.loaderInfo.parameters['id']
 			if(reference.root.loaderInfo.parameters['mid']) basearJ += "&mid=" + reference.root.loaderInfo.parameters['mid']
 			if(reference.root.loaderInfo.parameters['compid']) basearJ += "&compid=" + reference.root.loaderInfo.parameters['compid']
-			if(reference.root.loaderInfo.parameters['jlang']) basearJ += "&lang="+ reference.root.loaderInfo.parameters['jlang']
+			if(reference.root.loaderInfo.parameters['slang']) basearJ += "&slang="+ reference.root.loaderInfo.parameters['slang']
 			return basearJ;
 		}
 		private function joomlaHDVUri()
@@ -460,14 +462,16 @@
 			else
 			{
 				basearJHDVH = reference.root.loaderInfo.parameters['baserefJHDV']
-				basearJHDVH += "/index.php?option=com_contushdvideoshare&view=configxml";
+				basearJHDVH += "/index.php"
+				if(reference.root.loaderInfo.parameters['slang']) basearJHDVH += "/"+ reference.root.loaderInfo.parameters['slang']
+				basearJHDVH += "?option=com_contushdvideoshare&view=configxml";
 			}
 			if(reference.root.loaderInfo.parameters['playid']) basearJHDVH += "&playid=" + reference.root.loaderInfo.parameters['playid']
 			if(reference.root.loaderInfo.parameters['id']) basearJHDVH += "&id=" + reference.root.loaderInfo.parameters['id']
 			if(reference.root.loaderInfo.parameters['mid']) basearJHDVH += "&mid=" + reference.root.loaderInfo.parameters['mid']
 			if(reference.root.loaderInfo.parameters['featured']) basearJHDVH += "&featured=true"
 			if(reference.root.loaderInfo.parameters['catid']) basearJHDVH += "&catid=" + reference.root.loaderInfo.parameters['catid']
-			if(reference.root.loaderInfo.parameters['jlang']) basearJHDVH += "&lang="+ reference.root.loaderInfo.parameters['jlang']
+			if(reference.root.loaderInfo.parameters['slang']) basearJHDVH += "&slang="+ reference.root.loaderInfo.parameters['slang']
 			if(reference.root.loaderInfo.parameters['adminview']) basearJHDVH += "&adminview="+ reference.root.loaderInfo.parameters['adminview']
 			return basearJHDVH;
 		}
@@ -521,6 +525,7 @@
 			config['autoplay'] = (reference.root.loaderInfo.parameters['autoplay']) ? reference.root.loaderInfo.parameters['autoplay'] : config['autoplay'];
 			config['buffer'] = (reference.root.loaderInfo.parameters['buffer']) ? reference.root.loaderInfo.parameters['buffer'] : config['buffer'];
 			config['volume'] = (reference.root.loaderInfo.parameters['volume']) ? reference.root.loaderInfo.parameters['volume'] : config['volume'];
+			if(config['volume']>100)config['volume'] = 100;
 			config['normalscale'] = (reference.root.loaderInfo.parameters['normalscale']) ? reference.root.loaderInfo.parameters['normalscale'] : config['normalscale'];
 			config['fullscreenscale'] = (reference.root.loaderInfo.parameters['fullscreenscale']) ? reference.root.loaderInfo.parameters['fullscreenscale'] : config['fullscreenscale'];
 			config['logopath'] = (reference.root.loaderInfo.parameters['logopath']) ? reference.root.loaderInfo.parameters['logopath'] : config['logopath'];
@@ -924,7 +929,7 @@
 						config['thumb_image'][i] = "http://cdn-thumbs.viddler.com/thumbnail_2_" + get_viddler__ID(config['video_url'][i]) + "_v1.jpg";
 					}
 					config['preview_image'][i] = plistxml.mainvideo[i].@preview_image
-					if (config['preview_image'][i] == "" && config['video_url'][i].indexOf('youtube.com') > -1 || config['video_url'][i].indexOf('youtu.be') > -1)
+					if (config['video_url'][i].indexOf('youtube.com') > -1 || config['video_url'][i].indexOf('youtu.be') > -1)
 					{
 						config['preview_image'][i] = "http://i3.ytimg.com/vi/" + getyoutube_ID(config['video_url'][i]) + "/maxresdefault.jpg";
 					}

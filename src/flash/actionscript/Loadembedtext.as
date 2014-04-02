@@ -49,7 +49,7 @@
 				}
 				/*if(config['pluginType'] == "")
 				{*/
-					if (config['SocialPanel'].pMc.pageurl.text.indexOf('?videoID=') > -1)
+					/*if (config['SocialPanel'].pMc.pageurl.text.indexOf('?videoID=') > -1)
 					{
 						var arrss:Array = config['SocialPanel'].pMc.pageurl.text.split('?videoID=');
 						config['SocialPanel'].pMc.pageurl.text = arrss[0] + "?videoID=" + config['vid'];
@@ -62,7 +62,7 @@
 							config['SocialPanel'].pMc.pageurl.text =  arrssd[0] + "?video_id=" + config['vid_id'];
 						}
 						else config['SocialPanel'].pMc.pageurl.text = config['SocialPanel'].pMc.pageurl.text + "?video_id=" + config['vid_id'];
-					}
+					}*/
 				//}
 			}
 		}
@@ -174,6 +174,11 @@
 			irameText +=  ' src="' + reference.root.loaderInfo.parameters['baserefJ'] + '/components/com_hdflvplayer/hdflvplayer/hdplayer.swf';
 			irameText +=  '?baserefJ='+ reference.root.loaderInfo.parameters['baserefJ'] + '&playlist_auto=false';
 			}
+			else if(reference.root.loaderInfo.parameters['baserefW'])
+			{
+				irameText +=  ' src="' + reference.root.loaderInfo.parameters['baserefW'] + '/hdflvplayer/hdplayer.swf';
+			    irameText +=  '?baserefW='+ reference.root.loaderInfo.parameters['baserefW'] + '&playlist_auto=false';
+			}
 			else
 			{
 				irameText +=  ' src="' + config['baseurl'] + 'hdplayer.swf?playlist_auto=false';
@@ -187,6 +192,7 @@
 			irameText +=  "&showPlaylist=false&shareIcon=false&email=false&zoomIcon=false&playlist_autoplay=false";
 			irameText +=  "&videoID=" + config['vid'];
 			irameText += "&embedplayer=true"
+			irameText += "&file="+config['file'];
 			irameText += '"></iframe>'
 			config['SocialPanel'].ifra.embedurl.text = String(irameText);
 		}

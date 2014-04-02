@@ -316,7 +316,6 @@
 						Player.config['Playbtn'].visible = true;
 						Player.config['Playbtn'].alpha = 1;
 					}
-					trace(Player.config['video'])
 					var videopause = new videoPause(Player.config);
 					Tracker = new tracker(Player.config,Player.config['ref']);
 					Tracker.eventTracker("Pause_video","Pause","Pause_btn",0);

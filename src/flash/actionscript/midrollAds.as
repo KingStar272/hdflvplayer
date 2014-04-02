@@ -1,4 +1,4 @@
-package actionscript
+﻿package actionscript
 {
 	import flash.display.Sprite;
 	import flash.display.*;
@@ -36,7 +36,8 @@ package actionscript
 			config['adv'].tex.autoSize = TextFieldAutoSize.RIGHT;
 			config['adv'].tex.text = String(config["ads"]);
 			config['adv'].tex.textColor = config['textColor'];
-			config['adv'].clip.width = config['adv'].tex.width + 6;
+			config['adv'].midprev.x = -(config['adv'].tex.width + 15)
+			config['adv'].clip.width = config['adv'].tex.width + 22;
 			config['midRoll'].midnxt.addEventListener(MouseEvent.MOUSE_DOWN,calmidnxt);
 			config['midRoll'].midprev.addEventListener(MouseEvent.MOUSE_DOWN,midprev);
 			config['midRoll'].lnk.addEventListener(MouseEvent.MOUSE_DOWN,midlinkcall);
@@ -75,7 +76,7 @@ package actionscript
 			config['midRoll'].visible = true;
 			config['adv'].visible = false;
 			config['adv'].y = config['skinMc'].y + 200;
-			config['adv'].x = config['stageWidth'];
+			config['adv'].x = config['stageWidth']/2;
 			if (config['showPlaylist'] == "true" && config['relatedVideoView'] == "side" && config['plistlength'] != 0)
 			{
 				config['midRoll'].x = (config['stageWidth']/2)-(config['midRoll'].midbg.width/2);
@@ -95,14 +96,14 @@ package actionscript
 			midInvisi();
 			config['adv'].visible = true;
 			config['adv'].y = config['skinMc'].y - 8;
-			config['adv'].x = config['stageWidth'];
+			config['adv'].x = config['stageWidth']/2;
 		}
 		//============================= midroll Invisible and set position =====================================================================
 		public function midInvisi()
 		{
 			config['adv'].visible = false;
 			config['adv'].y = config['stageHeight'] + 100;
-			config['adv'].x = config['stageWidth'];
+			config['adv'].x = config['stageWidth']/2;
 			config['midvis'] = false;
 			config['midRoll'].y =config['stageHeight'] + (config['midRoll'].midbg.height+8);
 			config['midRoll'].alpha = 0;

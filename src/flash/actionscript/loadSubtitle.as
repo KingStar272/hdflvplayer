@@ -31,6 +31,7 @@
 			txt = new TextField();
 			txt.autoSize = TextFieldAutoSize.LEFT;
 			config['SubMc'].addChild(txt);
+			config['subTitleFontSize'] = 20;
 			if (String(config['subTitleFontFamily']) != "" && config['subTitleFontFamily'] != undefined)config['subTitleFontFamily'] = config['subTitleFontFamily'];
 			else config['subTitleFontFamily'] = "Arial";
 			
@@ -102,14 +103,14 @@
 		{
 			if (_curSub != null && _curSub != undefined )
 			{
-				txt.text = String(_curSub.text);
+				txt.htmlText = String('<b>'+_curSub.text+'</b>');
 				config['SubMc'].x = (config['stageWidth']/2)-(txt.width/2);
 			        config['SubMc'].y = (config['stageHeight']-25) - (config['SubMc'].height+8);
 				show();
 			}
 			else
 			{
-                                txt.text = ""
+                txt.text = ""
 				hide();
 			}
 		}

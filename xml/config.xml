@@ -7,7 +7,7 @@
 
     <buffer>2</buffer>
 
-    <volume>70</volume>
+    <volume>20</volume>
 
     <normalscale>2</normalscale><!--(Aspect ratio=0 ,Original=1  ,Fit to screen=2)-->
 
@@ -92,13 +92,13 @@
 
     <adXML>xml/ads.xml</adXML>
 
-    <preroll_ads>false</preroll_ads>
+    <preroll_ads>true</preroll_ads>
 
     <postroll_ads>false</postroll_ads>
 
     <midrollXML>xml/midroll.xml</midrollXML>
 
-    <midroll_ads>false</midroll_ads>
+    <midroll_ads>true</midroll_ads>
 
     <shareURL>script/email.php</shareURL>
 
@@ -106,7 +106,7 @@
 
     <Download>true</Download>
 
-    <downloadUrl>script/download.php</downloadUrl>
+    <downloadUrl></downloadUrl>
 
     <adsSkip>true</adsSkip>
 
@@ -143,7 +143,5 @@
     <skin_opacity></skin_opacity>
 
     <imageDefault>true</imageDefault>
-    
-    <FB_app_id>523442271083831</FB_app_id>
 
 </config>

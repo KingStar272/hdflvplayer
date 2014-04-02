@@ -150,6 +150,7 @@
 				if (config['shareURL'] != "")
 				{
 					if(config['email_wait'] != undefined)config['mailPanel'].result.text = config['email_wait'];
+					else config['mailPanel'].result.text = "Wait...";
 					variables = new URLVariables();
 					variables.to = config['mailPanel'].form.to.text;
 					variables.from = config['mailPanel'].form.from.text;
@@ -179,11 +180,11 @@
 		{
 			if (String(config['mailPanel'].form.output.text) == "sent")
 			{
-				config['mailPanel'].result.text = "Thank you! Video has been sent.";
+				config['mailPanel'].result.text = config['email_sent'];
 			}
 			else
 			{
-				config['mailPanel'].result.text = config['email_sent'];
+				config['mailPanel'].result.text = "Failure sending mail.";
 			}
 		}
 		function isValidEmail(email:String):Boolean

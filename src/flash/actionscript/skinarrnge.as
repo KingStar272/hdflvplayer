@@ -140,7 +140,7 @@
 				{
 					if (config['timer'] != "false")
 					{
-						config['skinMc'].ti.x = xposi;
+						config['skinMc'].ti.x = xposi-8;
 						xposi = xposi + config['skinMc'].ti.width + 8;
 					}
 					else
@@ -185,6 +185,7 @@
 				config['skinMc'].Volume.visible = config['skinMc'].FullScreen.visible = config['skinMc'].pp.visible = config['skinMc'].skin_bg.visible = config['skinMc'].cc.visible = config['skinMc'].ti.visible = false;
 				config['skinMc'].pro.visible = config['skinMc'].PlayListView.visible = config['skinMc'].autoPlayButton.visible = config['skinMc'].hd.visible = config['skinMc'].ti2.visible = false;
 			}
+			config['xposi'] = xposi;
 		}
 	}
 }
